@@ -160,10 +160,10 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white font-medium">Phone Number *</FormLabel>
+                <FormLabel className="text-white font-medium">WhatsApp Phone Number (with country code) *</FormLabel>
                 <FormControl>
                   <Input 
-                    placeholder="e.g. +212600000000" 
+                    placeholder="e.g. +212600000000 or +33612345678" 
                     {...field} 
                     className="bg-white/70 border-white text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta" 
                   />
@@ -178,14 +178,19 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             name="activity"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white font-medium">Select Activity *</FormLabel>
+                <FormLabel className="text-white font-medium">
+                  {selectedActivityId ? "Selected Activity" : "Select Activity *"}
+                </FormLabel>
                 <Select 
                   defaultValue={field.value}
                   onValueChange={field.onChange}
+                  disabled={!!selectedActivityId}
                 >
                   <FormControl>
-                    <SelectTrigger className="bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta">
-                      <SelectValue placeholder="Choose an activity" />
+                    <SelectTrigger 
+                      className={`bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta ${selectedActivityId ? 'cursor-not-allowed opacity-80' : ''}`}
+                    >
+                      <SelectValue placeholder={selectedActivityId ? selectedActivity?.title : "Choose an activity"} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>

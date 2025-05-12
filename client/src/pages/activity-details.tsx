@@ -14,7 +14,7 @@ import { OurikaThumbnailGallery } from "@/components/ourika-gallery";
 import BookingForm from "@/components/booking-form";
 import BookingConfirmation from "@/components/booking-confirmation";
 import { BookingFormData } from "@shared/schema";
-import { CalendarDays, Clock, Users, MapPin, ArrowRight } from "lucide-react";
+import { CalendarDays, Clock, Users, MapPin, ArrowRight, Globe, Wallet } from "lucide-react";
 import { Helmet } from "react-helmet";
 
 export default function ActivityDetailsPage() {
@@ -215,25 +215,37 @@ export default function ActivityDetailsPage() {
             {/* Right column - Booking panel */}
             <div className="lg:w-1/3">
               <div className="bg-gray-50 shadow-lg rounded-lg p-6 sticky top-24 border-2 border-terracotta">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">Book This Tour</h2>
+                <h2 className="text-3xl font-bold text-terracotta mb-5 text-center border-b-2 border-terracotta pb-2">Book This Tour</h2>
                 
                 {!showBookingForm ? (
                   <>
-                    <div className="mb-6 bg-white p-4 rounded-md shadow-sm">
-                      <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                        <span className="text-gray-700 font-medium">Price per person</span>
-                        <span className="font-bold text-xl text-terracotta">{formatPrice(activity.price)}</span>
+                    <div className="mb-6 bg-white p-5 rounded-md shadow-sm">
+                      <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                        <span className="text-gray-700 font-medium flex items-center">
+                          <Users className="mr-2 h-5 w-5 text-terracotta" /> 
+                          Price per person
+                        </span>
+                        <span className="font-bold text-2xl text-terracotta">{formatPrice(activity.price)}</span>
                       </div>
-                      <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                        <span className="text-gray-700 font-medium">Duration</span>
+                      <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                        <span className="text-gray-700 font-medium flex items-center">
+                          <Clock className="mr-2 h-5 w-5 text-terracotta" /> 
+                          Duration
+                        </span>
                         <span className="font-bold">Full day</span>
                       </div>
-                      <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                        <span className="text-gray-700 font-medium">Languages</span>
+                      <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                        <span className="text-gray-700 font-medium flex items-center">
+                          <Globe className="mr-2 h-5 w-5 text-terracotta" /> 
+                          Languages
+                        </span>
                         <span className="font-bold">English, French, Arabic</span>
                       </div>
                       <div className="flex justify-between items-center py-3">
-                        <span className="text-gray-700 font-medium">Payment</span>
+                        <span className="text-gray-700 font-medium flex items-center">
+                          <Wallet className="mr-2 h-5 w-5 text-terracotta" /> 
+                          Payment
+                        </span>
                         <span className="font-bold">Cash on arrival</span>
                       </div>
                     </div>
