@@ -4,6 +4,7 @@ import { queryClient } from "./lib/queryClient";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/home";
+import ActivityDetailsPage from "@/pages/activity-details";
 import AdminLogin from "@/pages/admin/login";
 import AdminDashboard from "@/pages/admin/dashboard";
 import AdminActivities from "@/pages/admin/activities";
@@ -14,6 +15,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={HomePage} />
+      <Route path="/activity/:id" component={ActivityDetailsPage} />
       
       {/* Admin routes */}
       <Route path="/admin" component={AdminIndex} />
