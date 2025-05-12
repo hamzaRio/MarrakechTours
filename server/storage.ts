@@ -78,9 +78,9 @@ export class MemStorage implements IStorage {
       },
       {
         title: "Essaouira Day Trip",
-        description: "Visit the charming coastal town of Essaouira with its blue-painted seaside buildings and historic medina.",
+        description: "Visit the charming coastal town of Essaouira with its blue-painted seaside buildings, historic medina, and beautiful beaches. Experience the unique atmosphere of this UNESCO World Heritage site.",
         price: 200,
-        imageUrl: "https://images.unsplash.com/photo-1548774795-d7e0d4e97f32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500",
+        imageUrl: "/attached_assets/Essaouira day trip 4.jpg",
         featured: true,
       },
       {

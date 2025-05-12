@@ -7,6 +7,7 @@ import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
 import { AgafayThumbnailGallery } from "@/components/agafay-gallery";
+import { EssaouiraThumbnailGallery } from "@/components/essaouira-gallery";
 import BookingForm from "@/components/booking-form";
 import BookingConfirmation from "@/components/booking-confirmation";
 import { BookingFormData } from "@shared/schema";
@@ -33,8 +34,9 @@ export default function ActivityDetailsPage() {
     setShowConfirmation(true);
   };
 
-  // Special handling for Agafay Combo
+  // Special handling for specific activities
   const isAgafayCombo = activity?.title.includes("Agafay");
+  const isEssaouira = activity?.title.includes("Essaouira");
 
   if (!activity) {
     return (
@@ -122,6 +124,24 @@ export default function ActivityDetailsPage() {
                     
                     {/* Agafay Gallery */}
                     <AgafayThumbnailGallery />
+                  </>
+                )}
+                
+                {isEssaouira && (
+                  <>
+                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">What's Included</h2>
+                    <ul className="list-disc pl-5 text-gray-600 space-y-1">
+                      <li>Full-day guided tour of Essaouira</li>
+                      <li>Explore the historic port and UNESCO World Heritage medina</li>
+                      <li>Visit to the vibrant fish market and Skala du Port</li>
+                      <li>Free time to wander through the charming blue and white streets</li>
+                      <li>Optional seafood lunch at a local restaurant (additional fee)</li>
+                      <li>Hotel pickup and drop-off in air-conditioned vehicle</li>
+                      <li>Professional guide and bottled water throughout the tour</li>
+                    </ul>
+                    
+                    {/* Essaouira Gallery */}
+                    <EssaouiraThumbnailGallery />
                   </>
                 )}
               </div>
