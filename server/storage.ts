@@ -92,9 +92,9 @@ export class MemStorage implements IStorage {
       },
       {
         title: "Ourika Valley Day Trip",
-        description: "Journey to the beautiful Ourika Valley with its waterfalls, mountain views, and authentic Berber villages.",
+        description: "Journey to the beautiful Ourika Valley with its crystal-clear streams, snow-capped Atlas Mountains, and authentic Berber villages. Experience the local culture, enjoy scenic views, and connect with nature in this verdant paradise.",
         price: 150,
-        imageUrl: "https://images.unsplash.com/photo-1565689478170-6a026eccad8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500",
+        imageUrl: "/attached_assets/ourika-valley-marrakech.jpg",
         featured: true,
       }
     ];

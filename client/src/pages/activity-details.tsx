@@ -10,6 +10,7 @@ import { AgafayThumbnailGallery } from "@/components/agafay-gallery";
 import { EssaouiraThumbnailGallery } from "@/components/essaouira-gallery";
 import { BalloonThumbnailGallery } from "@/components/balloon-gallery";
 import { OuzoudThumbnailGallery } from "@/components/ouzoud-gallery";
+import { OurikaThumbnailGallery } from "@/components/ourika-gallery";
 import BookingForm from "@/components/booking-form";
 import BookingConfirmation from "@/components/booking-confirmation";
 import { BookingFormData } from "@shared/schema";
@@ -41,6 +42,7 @@ export default function ActivityDetailsPage() {
   const isEssaouira = activity?.title.includes("Essaouira");
   const isBalloonRide = activity?.title.includes("Montgolfière") || activity?.title.includes("Hot Air Balloon");
   const isOuzoud = activity?.title.includes("Ouzoud");
+  const isOurika = activity?.title.includes("Ourika");
 
   if (!activity) {
     return (
@@ -182,6 +184,24 @@ export default function ActivityDetailsPage() {
                     
                     {/* Ouzoud Waterfalls Gallery */}
                     <OuzoudThumbnailGallery />
+                  </>
+                )}
+                
+                {isOurika && (
+                  <>
+                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">What's Included</h2>
+                    <ul className="list-disc pl-5 text-gray-600 space-y-1">
+                      <li>Full-day guided tour of the beautiful Ourika Valley</li>
+                      <li>Visit to traditional Berber villages with local crafts and cultural insights</li>
+                      <li>Guided walk to refreshing mountain streams and small waterfalls</li>
+                      <li>Opportunity to visit a traditional Berber home and learn about local life</li>
+                      <li>Optional aromatic garden visit with herbs and spices (seasonal)</li>
+                      <li>Hotel pickup and drop-off in air-conditioned vehicle</li>
+                      <li>Professional guide and bottled water throughout the tour</li>
+                    </ul>
+                    
+                    {/* Ourika Valley Gallery */}
+                    <OurikaThumbnailGallery />
                   </>
                 )}
               </div>
