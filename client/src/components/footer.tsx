@@ -31,9 +31,6 @@ export default function Footer() {
               <a href="https://www.instagram.com/medina_expeditions" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-terracotta transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-terracotta transition-colors">
-                <Send className="h-5 w-5" />
-              </a>
             </div>
           </div>
           
@@ -88,6 +85,10 @@ export default function Footer() {
               <li className="flex items-center">
                 <Mail className="h-5 w-5 mr-3 text-terracotta" />
                 <span className="text-gray-400">info@marrakechdeserts.com</span>
+              </li>
+              <li className="flex items-center">
+                <span className="h-5 w-5 mr-3 text-terracotta">⏰</span>
+                <span className="text-gray-400">9h00 à 22h00 (7j/7j)</span>
               </li>
             </ul>
           </div>
