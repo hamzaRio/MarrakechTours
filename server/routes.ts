@@ -1,4 +1,4 @@
-import type { Express, Request, Response, NextFunction } from "express";
+import express, { type Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
@@ -9,6 +9,7 @@ import {
 import jwt from "jsonwebtoken";
 import session from "express-session";
 import MemoryStore from "memorystore";
+import path from "path";
 
 // JWT secret - in production, use environment variable
 const JWT_SECRET = process.env.JWT_SECRET || "marrakech-deserts-secret-key";
@@ -29,6 +30,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       secret: JWT_SECRET
     })
   );
+  
+  // Set up static files serving
+  const staticPath = path.join(process.cwd(), 'public');
+  console.log(`Serving static files from: ${staticPath}`);
+  app.use('/static', express.static(staticPath));
 
   // Middleware to check authentication
   const requireAuth = (req: Request, res: Response, next: NextFunction) => {
