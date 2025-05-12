@@ -1,5 +1,6 @@
 import React from "react";
-import { MapPin, Phone, Mail, Instagram, Send } from "lucide-react";
+import { Link } from "wouter";
+import { MapPin, Phone, Mail, Instagram, Send, Image } from "lucide-react";
 
 const quickLinks = [
   { name: "Home", href: "#home" },
@@ -53,6 +54,14 @@ export default function Footer() {
                   </a>
                 </li>
               ))}
+              <li>
+                <Link 
+                  href="/photos"
+                  className="text-gray-400 hover:text-terracotta transition-colors flex items-center"
+                >
+                  <Image className="h-4 w-4 mr-1" /> Photo Gallery
+                </Link>
+              </li>
               <li>
                 <a 
                   href="/admin/login"

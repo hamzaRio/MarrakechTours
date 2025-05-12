@@ -17,6 +17,7 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/activity/:id" component={ActivityDetailsPage} />
+      <Route path="/photos" component={PhotoGalleryPage} />
       
       {/* Admin routes */}
       <Route path="/admin" component={AdminIndex} />

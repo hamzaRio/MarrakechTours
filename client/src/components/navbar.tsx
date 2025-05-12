@@ -8,7 +8,8 @@ const navLinks = [
   { name: "Home", href: "#home" },
   { name: "Activities", href: "#activities" },
   { name: "About", href: "#about" },
-  { name: "Contact", href: "#contact" }
+  { name: "Contact", href: "#contact" },
+  { name: "Photos", href: "/photos", isPage: true }
 ];
 
 export default function Navbar() {
@@ -56,17 +57,27 @@ export default function Navbar() {
         
         <div className="hidden md:flex space-x-8">
           {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection(link.href);
-              }}
-              className="font-medium text-gray-700 hover:text-terracotta transition-colors"
-            >
-              {link.name}
-            </a>
+            link.isPage ? (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="font-medium text-gray-700 hover:text-terracotta transition-colors"
+              >
+                {link.name}
+              </Link>
+            ) : (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection(link.href);
+                }}
+                className="font-medium text-gray-700 hover:text-terracotta transition-colors"
+              >
+                {link.name}
+              </a>
+            )
           ))}
         </div>
         
@@ -88,17 +99,28 @@ export default function Navbar() {
         mobileMenuOpen ? "block" : "hidden"
       )}>
         {navLinks.map((link) => (
-          <a
-            key={link.name}
-            href={link.href}
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection(link.href);
-            }}
-            className="block py-2 text-gray-700 hover:text-terracotta"
-          >
-            {link.name}
-          </a>
+          link.isPage ? (
+            <Link
+              key={link.name}
+              href={link.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-gray-700 hover:text-terracotta"
+            >
+              {link.name}
+            </Link>
+          ) : (
+            <a
+              key={link.name}
+              href={link.href}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(link.href);
+              }}
+              className="block py-2 text-gray-700 hover:text-terracotta"
+            >
+              {link.name}
+            </a>
+          )
         ))}
       </div>
     </header>
