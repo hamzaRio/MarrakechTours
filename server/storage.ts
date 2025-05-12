@@ -181,8 +181,9 @@ export class MemStorage implements IStorage {
     const newBooking: Booking = { 
       ...booking, 
       id, 
-      status: "pending", 
-      createdAt: now 
+      status: "pending", // Default status for new bookings
+      createdAt: now,
+      notes: booking.notes ?? null
     };
     this.bookings.set(id, newBooking);
     return newBooking;
@@ -228,7 +229,12 @@ export class MemStorage implements IStorage {
   async createAuditLog(log: InsertAuditLog): Promise<AuditLog> {
     const id = this.auditLogCurrentId++;
     const now = new Date();
-    const newLog: AuditLog = { ...log, id, timestamp: now };
+    const newLog: AuditLog = { 
+      ...log, 
+      id, 
+      timestamp: now,
+      details: log.details ?? null
+    };
     this.auditLogs.set(id, newLog);
     return newLog;
   }
