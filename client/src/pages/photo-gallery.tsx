@@ -6,6 +6,10 @@ import ImageGalleryGrid from "@/components/image-gallery-grid";
 
 export default function PhotoGalleryPage() {
   // Example categorized image collections
+  const websiteImages = [
+    "marrakech_screenshot.png"
+  ];
+  
   const agafayImages = [
     "agafaypack.jpeg",
     "agafaypack1.jpeg",
@@ -65,6 +69,13 @@ export default function PhotoGalleryPage() {
         <h1 className="text-4xl font-bold text-gray-800 mb-10">Explore Morocco Through Photos</h1>
         
         <div className="space-y-16">
+          <ImageGalleryGrid 
+            title="MarrakechDeserts Website" 
+            images={websiteImages} 
+            columns={2}
+            className="mb-8 border-b border-gray-200 pb-8"
+          />
+          
           <ImageGalleryGrid 
             title="Agafay Desert Experience" 
             images={agafayImages} 
