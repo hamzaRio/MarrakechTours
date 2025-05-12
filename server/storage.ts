@@ -64,9 +64,9 @@ export class MemStorage implements IStorage {
     const defaultActivities: InsertActivity[] = [
       {
         title: "Montgolfière (Hot Air Balloon)",
-        description: "Experience the breathtaking views of Marrakech and the Atlas Mountains from a hot air balloon at sunrise.",
+        description: "Experience the breathtaking views of Marrakech and the Atlas Mountains from a hot air balloon at sunrise. Float peacefully above the stunning Moroccan landscape as the sun begins to illuminate the desert and mountains.",
         price: 1100,
-        imageUrl: "https://images.unsplash.com/photo-1462651567147-aa679fd1cfaf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500",
+        imageUrl: "/attached_assets/montgolfiere-marrakech.jpg",
         featured: true,
       },
       {

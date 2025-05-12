@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
 import { AgafayThumbnailGallery } from "@/components/agafay-gallery";
 import { EssaouiraThumbnailGallery } from "@/components/essaouira-gallery";
+import { BalloonThumbnailGallery } from "@/components/balloon-gallery";
 import BookingForm from "@/components/booking-form";
 import BookingConfirmation from "@/components/booking-confirmation";
 import { BookingFormData } from "@shared/schema";
@@ -37,6 +38,7 @@ export default function ActivityDetailsPage() {
   // Special handling for specific activities
   const isAgafayCombo = activity?.title.includes("Agafay");
   const isEssaouira = activity?.title.includes("Essaouira");
+  const isBalloonRide = activity?.title.includes("Montgolfière") || activity?.title.includes("Hot Air Balloon");
 
   if (!activity) {
     return (
@@ -142,6 +144,24 @@ export default function ActivityDetailsPage() {
                     
                     {/* Essaouira Gallery */}
                     <EssaouiraThumbnailGallery />
+                  </>
+                )}
+                
+                {isBalloonRide && (
+                  <>
+                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">What's Included</h2>
+                    <ul className="list-disc pl-5 text-gray-600 space-y-1">
+                      <li>Sunrise hot air balloon flight over Marrakech</li>
+                      <li>Spectacular aerial views of the Atlas Mountains and desert landscape</li>
+                      <li>Traditional Berber breakfast after landing</li>
+                      <li>Commemorative flight certificate</li>
+                      <li>Round-trip transportation from your hotel in Marrakech</li>
+                      <li>Professional, experienced pilot and ground crew</li>
+                      <li>Safety briefing and equipment</li>
+                    </ul>
+                    
+                    {/* Hot Air Balloon Gallery */}
+                    <BalloonThumbnailGallery />
                   </>
                 )}
               </div>
