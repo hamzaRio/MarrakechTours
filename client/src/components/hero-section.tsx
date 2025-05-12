@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 export default function HeroSection() {
   const scrollToBooking = () => {
@@ -12,17 +13,18 @@ export default function HeroSection() {
   return (
     <section id="home" className="relative h-[85vh] pattern-overlay flex items-center justify-center">
       <div className="container mx-auto px-4 text-center">
-        <h1 className="text-5xl md:text-7xl font-arabic font-bold text-white mb-6">
+        <h1 className="text-4xl md:text-6xl font-medium text-white mb-6">
           Discover the Magic of Morocco
         </h1>
-        <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">
-          Authentic desert experiences and tours from Marrakech
+        <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          Authentic desert experiences and tours from Marrakech at affordable prices
         </p>
         <Button 
           onClick={scrollToBooking}
-          className="bg-moroccan-gold hover:bg-amber-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition hover:-translate-y-1"
+          size="lg"
+          className="bg-terracotta hover:bg-terracotta/90 text-white font-medium py-6 px-8 rounded-md"
         >
-          Book Your Adventure
+          Book Your Adventure <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
       </div>
       <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/50 to-transparent"></div>

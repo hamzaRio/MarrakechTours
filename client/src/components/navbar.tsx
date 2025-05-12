@@ -28,17 +28,17 @@ export default function Navbar() {
   // If we're on an admin page, show a different navbar
   if (isAdminPage) {
     return (
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm shadow-md">
-        <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
+      <header className="sticky top-0 z-50 bg-white shadow-sm">
+        <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/">
-            <a className="text-3xl font-arabic font-bold text-moroccan-red">
-              <span className="text-moroccan-gold">Marrakech</span>Deserts
-            </a>
+            <span className="text-2xl font-medium text-terracotta">
+              <span className="text-moroccan-brown">Marrakech</span>Deserts
+            </span>
           </Link>
           <Link href="/">
-            <a className="text-moroccan-brown hover:text-moroccan-gold transition">
+            <span className="text-gray-600 hover:text-terracotta transition-colors">
               Back to Site
-            </a>
+            </span>
           </Link>
         </nav>
       </header>
@@ -46,11 +46,11 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm shadow-md">
-      <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
+    <header className="sticky top-0 z-50 bg-white shadow-sm">
+      <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center">
-          <h1 className="text-3xl font-arabic font-bold text-moroccan-red">
-            <span className="text-moroccan-gold">Marrakech</span>Deserts
+          <h1 className="text-2xl font-medium text-terracotta">
+            <span className="text-moroccan-brown">Marrakech</span>Deserts
           </h1>
         </div>
         
@@ -63,7 +63,7 @@ export default function Navbar() {
                 e.preventDefault();
                 scrollToSection(link.href);
               }}
-              className="font-medium text-moroccan-brown hover:text-moroccan-gold transition"
+              className="font-medium text-gray-700 hover:text-terracotta transition-colors"
             >
               {link.name}
             </a>
@@ -73,17 +73,18 @@ export default function Navbar() {
         <div className="md:hidden">
           <Button
             variant="ghost"
-            className="text-moroccan-brown hover:text-moroccan-gold"
+            size="sm"
+            className="text-gray-700"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
       </nav>
       
       {/* Mobile menu */}
       <div className={cn(
-        "md:hidden bg-white border-t border-sandy px-4 py-2",
+        "md:hidden bg-white border-t border-gray-100 px-4 py-2",
         mobileMenuOpen ? "block" : "hidden"
       )}>
         {navLinks.map((link) => (
@@ -94,7 +95,7 @@ export default function Navbar() {
               e.preventDefault();
               scrollToSection(link.href);
             }}
-            className="block py-2 text-moroccan-brown hover:text-moroccan-gold"
+            className="block py-2 text-gray-700 hover:text-terracotta"
           >
             {link.name}
           </a>

@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { constructWhatsAppUrl, whatsAppContacts, getActivityIdByName } from "@/lib/utils";
+import { CalendarIcon, Users, ArrowRight } from "lucide-react";
 
 import {
   Form,
@@ -109,21 +110,21 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white">Full Name *</FormLabel>
+                <FormLabel className="text-white font-medium">Full Name *</FormLabel>
                 <FormControl>
                   <Input 
                     placeholder="Your full name" 
                     {...field} 
-                    className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-moroccan-gold text-white" 
+                    className="bg-white/30 border-white/20 placeholder:text-white/60 text-white focus:ring-white focus:border-white" 
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-white/90" />
               </FormItem>
             )}
           />
@@ -133,15 +134,15 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white">Phone Number *</FormLabel>
+                <FormLabel className="text-white font-medium">Phone Number *</FormLabel>
                 <FormControl>
                   <Input 
                     placeholder="e.g. +212600000000" 
                     {...field} 
-                    className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-moroccan-gold text-white" 
+                    className="bg-white/30 border-white/20 placeholder:text-white/60 text-white focus:ring-white focus:border-white" 
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-white/90" />
               </FormItem>
             )}
           />
@@ -151,13 +152,13 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             name="activity"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white">Select Activity *</FormLabel>
+                <FormLabel className="text-white font-medium">Select Activity *</FormLabel>
                 <Select 
                   defaultValue={field.value}
                   onValueChange={field.onChange}
                 >
                   <FormControl>
-                    <SelectTrigger className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-moroccan-gold text-white">
+                    <SelectTrigger className="bg-white/30 border-white/20 text-white focus:ring-white focus:border-white">
                       <SelectValue placeholder="Choose an activity" />
                     </SelectTrigger>
                   </FormControl>
@@ -169,7 +170,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                     ))}
                   </SelectContent>
                 </Select>
-                <FormMessage />
+                <FormMessage className="text-white/90" />
               </FormItem>
             )}
           />
@@ -179,15 +180,18 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             name="date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white">Preferred Date *</FormLabel>
-                <FormControl>
-                  <Input 
-                    type="date" 
-                    {...field} 
-                    className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-moroccan-gold text-white" 
-                  />
-                </FormControl>
-                <FormMessage />
+                <FormLabel className="text-white font-medium">Preferred Date *</FormLabel>
+                <div className="relative">
+                  <FormControl>
+                    <Input 
+                      type="date" 
+                      {...field} 
+                      className="bg-white/30 border-white/20 text-white focus:ring-white focus:border-white" 
+                    />
+                  </FormControl>
+                  <CalendarIcon className="absolute right-3 top-2.5 h-4 w-4 text-white/70" />
+                </div>
+                <FormMessage className="text-white/90" />
               </FormItem>
             )}
           />
@@ -197,35 +201,31 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             name="people"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white">Number of People *</FormLabel>
-                <FormControl>
-                  <Input 
-                    type="number" 
-                    min="1" 
-                    max="20" 
-                    {...field}
-                    onChange={(e) => field.onChange(parseInt(e.target.value) || 1)} 
-                    className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-moroccan-gold text-white" 
-                  />
-                </FormControl>
-                <FormMessage />
+                <FormLabel className="text-white font-medium">Number of People *</FormLabel>
+                <div className="relative">
+                  <FormControl>
+                    <Input 
+                      type="number" 
+                      min="1" 
+                      max="20" 
+                      {...field}
+                      onChange={(e) => field.onChange(parseInt(e.target.value) || 1)} 
+                      className="bg-white/30 border-white/20 text-white focus:ring-white focus:border-white" 
+                    />
+                  </FormControl>
+                  <Users className="absolute right-3 top-2.5 h-4 w-4 text-white/70" />
+                </div>
+                <FormMessage className="text-white/90" />
               </FormItem>
             )}
           />
           
           <div>
-            <FormLabel className="block text-white text-sm font-medium mb-1">Payment Method</FormLabel>
-            <Select disabled defaultValue="cash">
-              <FormControl>
-                <SelectTrigger className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-moroccan-gold text-white">
-                  <SelectValue placeholder="Payment method" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                <SelectItem value="cash">Cash on Arrival</SelectItem>
-              </SelectContent>
-            </Select>
-            <p className="text-xs mt-1 text-white/70">We currently accept cash payment only upon arrival</p>
+            <FormLabel className="block text-white font-medium mb-2">Payment Method</FormLabel>
+            <div className="bg-white/30 border border-white/20 rounded-md p-2.5 text-white">
+              Cash on Arrival
+            </div>
+            <p className="text-xs mt-1 text-white/70">We currently accept cash payment only</p>
           </div>
         </div>
         
@@ -234,29 +234,30 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">Additional Notes</FormLabel>
+              <FormLabel className="text-white font-medium">Additional Notes</FormLabel>
               <FormControl>
                 <Textarea 
                   placeholder="Any special requirements or questions?" 
                   {...field} 
-                  className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-moroccan-gold text-white" 
+                  value={field.value || ''}
+                  className="bg-white/30 border-white/20 placeholder:text-white/60 text-white focus:ring-white focus:border-white" 
                   rows={3}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-white/90" />
             </FormItem>
           )}
         />
         
-        <div className="pt-4">
+        <div className="pt-2">
           <Button 
             type="submit" 
             disabled={isSubmitting}
-            className="w-full bg-moroccan-gold hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition"
+            className="w-full bg-white hover:bg-white/90 text-terracotta font-medium text-lg py-6"
           >
-            {isSubmitting ? "Processing..." : "Confirm Booking"}
+            {isSubmitting ? "Processing..." : "Confirm Booking"} {!isSubmitting && <ArrowRight className="ml-2 h-5 w-5" />}
           </Button>
-          <p className="text-center text-sm mt-3 text-white/70">You will receive confirmation via WhatsApp</p>
+          <p className="text-center text-sm mt-3 text-white/80">You will receive confirmation via WhatsApp</p>
         </div>
       </form>
     </Form>

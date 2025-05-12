@@ -47,15 +47,15 @@ export default function HomePage() {
         <AboutSection />
         <InstagramSection />
         
-        <section id="booking" className="py-16 bg-moroccan-blue/90 text-white">
+        <section id="booking" className="py-16 bg-terracotta text-white">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-arabic font-bold">Book Your Moroccan Adventure</h2>
-              <div className="h-1 w-24 bg-moroccan-gold mx-auto mt-4"></div>
-              <p className="mt-4 text-lg">Fill out the form below to reserve your tour</p>
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-medium">Book Your Moroccan Adventure</h2>
+              <div className="h-1 w-16 bg-white mx-auto mt-3"></div>
+              <p className="mt-4 text-white/90">Fill out the form below to reserve your tour</p>
             </div>
             
-            <div className="max-w-3xl mx-auto bg-white/10 backdrop-blur-sm p-8 rounded-xl shadow-lg">
+            <div className="max-w-3xl mx-auto bg-terracotta/90 p-6 md:p-8 rounded-md shadow-lg">
               <BookingForm
                 selectedActivityId={selectedActivityId}
                 onSuccess={handleBookingSuccess}
