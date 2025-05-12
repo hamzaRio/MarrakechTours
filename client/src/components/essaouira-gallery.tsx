@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
-// Use the images from public/photos
+// Use the images from attached_assets
 const essaouiraImages = [
-  "/photos/Essaouira Day Trip.jpg",
-  "/photos/Essaouira Day Trip1.jpg",
-  "/photos/Essaouira Day Trip2.jpg",
-  "/photos/Essaouira day trip 3.jpg",
-  "/photos/Essaouira day trip 4.jpg"
+  "/attached_assets/Essaouira Day Trip.jpg",
+  "/attached_assets/Essaouira Day Trip1.jpg",
+  "/attached_assets/Essaouira Day Trip2.jpg",
+  "/attached_assets/Essaouira day trip 3.jpg",
+  "/attached_assets/Essaouira day trip 4.jpg"
 ];
 
 interface EssaouiraGalleryProps {
