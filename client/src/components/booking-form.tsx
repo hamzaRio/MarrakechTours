@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { constructWhatsAppUrl, whatsAppContacts, getActivityIdByName } from "@/lib/utils";
-import { CalendarIcon, Users, ArrowRight } from "lucide-react";
+import { constructWhatsAppUrl, whatsAppContacts, getActivityIdByName, formatPrice } from "@/lib/utils";
+import { CalendarIcon, Users, ArrowRight, Banknote } from "lucide-react";
 
 import {
   Form,
@@ -29,6 +29,8 @@ interface BookingFormProps {
 export default function BookingForm({ selectedActivityId, onSuccess }: BookingFormProps) {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [totalPrice, setTotalPrice] = useState<number | null>(null);
+  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
 
   const { data: activities } = useQuery<Activity[]>({
     queryKey: ["/api/activities"],
@@ -46,6 +48,24 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
       notes: "",
     },
   });
+
+  // Calculate total price when activity or number of people changes
+  useEffect(() => {
+    if (!activities) return;
+    
+    const activityId = parseInt(form.watch("activity"));
+    const people = form.watch("people");
+    
+    if (activityId && people) {
+      const activity = activities.find(a => a.id === activityId);
+      if (activity) {
+        setSelectedActivity(activity);
+        setTotalPrice(activity.price * people);
+      }
+    } else {
+      setTotalPrice(null);
+    }
+  }, [form.watch("activity"), form.watch("people"), activities]);
 
   const bookingMutation = useMutation({
     mutationFn: async (data: BookingFormData) => {
@@ -202,28 +222,45 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-white font-medium">Number of People *</FormLabel>
-                <div className="relative">
+                <Select 
+                  value={String(field.value)}
+                  onValueChange={(value) => field.onChange(parseInt(value))}
+                >
                   <FormControl>
-                    <Input 
-                      type="number" 
-                      min="1" 
-                      max="20" 
-                      {...field}
-                      onChange={(e) => field.onChange(parseInt(e.target.value) || 1)} 
-                      className="bg-white/30 border-white/20 text-white focus:ring-white focus:border-white" 
-                    />
+                    <SelectTrigger className="bg-white/30 border-white/20 text-white focus:ring-white focus:border-white">
+                      <SelectValue placeholder="Select number of people" />
+                    </SelectTrigger>
                   </FormControl>
-                  <Users className="absolute right-3 top-2.5 h-4 w-4 text-white/70" />
-                </div>
+                  <SelectContent>
+                    {[...Array(20)].map((_, i) => (
+                      <SelectItem key={i + 1} value={String(i + 1)}>
+                        {i + 1} {i === 0 ? 'person' : 'people'}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage className="text-white/90" />
               </FormItem>
             )}
           />
           
           <div>
-            <FormLabel className="block text-white font-medium mb-2">Payment Method</FormLabel>
+            <FormLabel className="block text-white font-medium mb-2">
+              Payment Method
+            </FormLabel>
             <div className="bg-white/30 border border-white/20 rounded-md p-2.5 text-white">
               Cash on Arrival
+              {totalPrice && (
+                <div className="mt-1 flex items-center text-white font-medium">
+                  <Banknote className="h-4 w-4 mr-1.5 text-white/70" />
+                  Total: {formatPrice(totalPrice)} MAD
+                  {selectedActivity && (
+                    <span className="text-xs ml-1.5 text-white/70">
+                      ({formatPrice(selectedActivity.price)} per person × {form.watch("people")})
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
             <p className="text-xs mt-1 text-white/70">We currently accept cash payment only</p>
           </div>
