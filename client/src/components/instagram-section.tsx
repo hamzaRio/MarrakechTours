@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "wouter";
+import { Instagram } from "lucide-react";
 
 // Instagram feed images
 const instagramPosts = [
@@ -27,40 +27,55 @@ const instagramPosts = [
 
 export default function InstagramSection() {
   return (
-    <section className="py-16 bg-sandy/10">
+    <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-arabic font-bold text-moroccan-brown">Follow Our Adventures</h2>
-          <div className="h-1 w-24 bg-moroccan-gold mx-auto mt-4"></div>
-          <p className="mt-4 text-lg text-gray-700">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-medium text-gray-800">Follow Our Adventures</h2>
+          <div className="h-1 w-16 bg-terracotta mx-auto mt-3"></div>
+          <p className="mt-4 text-gray-600">
             Check out our latest tours on Instagram{" "}
             <a 
               href="https://www.instagram.com/medina_expeditions" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-royalblue hover:underline"
+              className="text-terracotta hover:underline"
             >
               @medina_expeditions
             </a>
           </p>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
           {instagramPosts.map((post) => (
             <a 
               key={post.id}
               href="https://www.instagram.com/medina_expeditions" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="block"
+              className="group relative block overflow-hidden hover-lift"
             >
               <img 
                 src={post.imageUrl} 
                 alt={post.alt} 
-                className="w-full h-64 object-cover rounded-lg hover:opacity-90 transition cursor-pointer"
+                className="w-full aspect-square object-cover rounded-md"
               />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200">
+                <Instagram className="text-white h-6 w-6" />
+              </div>
             </a>
           ))}
+        </div>
+        
+        <div className="mt-8 text-center">
+          <a 
+            href="https://www.instagram.com/medina_expeditions" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center text-terracotta hover:text-terracotta/80 font-medium"
+          >
+            <Instagram className="h-5 w-5 mr-2" />
+            View more on Instagram
+          </a>
         </div>
       </div>
     </section>
