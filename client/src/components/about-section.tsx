@@ -34,7 +34,7 @@ export default function AboutSection() {
                 </p>
                 <p className="text-gray-700 flex items-center">
                   <Clock className="h-5 w-5 text-terracotta mr-2" />
-                  Open daily: 9:00 AM - 8:00 PM
+                  9h00 à 22h00 (7j/7j)
                 </p>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { MapPin, Phone, Mail, Facebook, Instagram, Send } from "lucide-react";
+import { MapPin, Phone, Mail, Instagram, Send } from "lucide-react";
 
 const quickLinks = [
   { name: "Home", href: "#home" },
@@ -26,11 +26,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
             <h3 className="text-xl font-medium mb-4">MarrakechDeserts</h3>
-            <p className="mb-4 text-gray-400">Your gateway to authentic Moroccan adventures since 2015.</p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-terracotta transition-colors">
-                <Facebook className="h-5 w-5" />
-              </a>
               <a href="https://www.instagram.com/medina_expeditions" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-terracotta transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
