@@ -80,21 +80,21 @@ export class MemStorage implements IStorage {
         title: "Essaouira Day Trip",
         description: "Visit the charming coastal town of Essaouira with its blue-painted seaside buildings, historic medina, and beautiful beaches. Experience the unique atmosphere of this UNESCO World Heritage site.",
         price: 200,
-        imageUrl: "/photos/Essaouira day trip 4.jpg",
+        imageUrl: "/static/photos/Essaouira day trip 4.jpg",
         featured: true,
       },
       {
         title: "Ouzoud Waterfalls Day Trip",
         description: "Explore the stunning Ouzoud Waterfalls, one of Morocco's most spectacular natural wonders with cascading waterfalls and lush green landscapes. Spot wild Barbary macaque monkeys and enjoy breathtaking viewpoints throughout this scenic day trip.",
         price: 200,
-        imageUrl: "/photos/Ouzoud-Waterfalls.jpg",
+        imageUrl: "/static/photos/Ouzoud-Waterfalls.jpg",
         featured: true,
       },
       {
         title: "Ourika Valley Day Trip",
         description: "Journey to the beautiful Ourika Valley with its crystal-clear streams, snow-capped Atlas Mountains, and authentic Berber villages. Experience the local culture, enjoy scenic views, and connect with nature in this verdant paradise.",
         price: 150,
-        imageUrl: "/photos/ourika-valley-marrakech.jpg",
+        imageUrl: "/static/photos/ourika-valley-marrakech.jpg",
         featured: true,
       }
     ];

@@ -86,7 +86,7 @@ export default function ActivityDetailsPage() {
                   className="w-full h-[400px] object-cover rounded-lg"
                   onError={(e) => {
                     // Fallback if image doesn't load
-                    e.currentTarget.src = "/photos/marrakech_screenshot.png";
+                    e.currentTarget.src = "/static/photos/marrakech_screenshot.png";
                     console.error(`Image failed to load: ${activity.imageUrl}`);
                   }}
                 />
