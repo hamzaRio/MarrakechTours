@@ -1,0 +1,79 @@
+import React, { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import Navbar from "@/components/navbar";
+import HeroSection from "@/components/hero-section";
+import ActivitySection from "@/components/activity-section";
+import AboutSection from "@/components/about-section";
+import InstagramSection from "@/components/instagram-section";
+import BookingForm from "@/components/booking-form";
+import ContactSection from "@/components/contact-section";
+import Footer from "@/components/footer";
+import BookingConfirmation from "@/components/booking-confirmation";
+import { BookingFormData } from "@shared/schema";
+import { Helmet } from "react-helmet";
+
+export default function HomePage() {
+  const [selectedActivityId, setSelectedActivityId] = useState<number | undefined>();
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [bookingData, setBookingData] = useState<BookingFormData | undefined>();
+  
+  // When an activity is booked from the activity section, scroll to booking form
+  const handleBookActivity = (activityId: number) => {
+    setSelectedActivityId(activityId);
+    const bookingSection = document.querySelector("#booking");
+    if (bookingSection) {
+      bookingSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // When booking is successful, show confirmation modal
+  const handleBookingSuccess = (data: BookingFormData) => {
+    setBookingData(data);
+    setShowConfirmation(true);
+  };
+
+  return (
+    <>
+      <Helmet>
+        <title>MarrakechDeserts - Authentic Moroccan Desert Tours</title>
+        <meta name="description" content="Experience authentic Moroccan desert tours with MarrakechDeserts. Book hot air balloon rides, desert excursions, and day trips from Marrakech." />
+      </Helmet>
+      
+      <Navbar />
+      
+      <main>
+        <HeroSection />
+        <ActivitySection onBookActivity={handleBookActivity} />
+        <AboutSection />
+        <InstagramSection />
+        
+        <section id="booking" className="py-16 bg-moroccan-blue/90 text-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-arabic font-bold">Book Your Moroccan Adventure</h2>
+              <div className="h-1 w-24 bg-moroccan-gold mx-auto mt-4"></div>
+              <p className="mt-4 text-lg">Fill out the form below to reserve your tour</p>
+            </div>
+            
+            <div className="max-w-3xl mx-auto bg-white/10 backdrop-blur-sm p-8 rounded-xl shadow-lg">
+              <BookingForm
+                selectedActivityId={selectedActivityId}
+                onSuccess={handleBookingSuccess}
+              />
+            </div>
+          </div>
+        </section>
+        
+        <ContactSection />
+      </main>
+      
+      <Footer />
+      
+      <BookingConfirmation 
+        open={showConfirmation} 
+        onClose={() => setShowConfirmation(false)} 
+        bookingData={bookingData} 
+      />
+    </>
+  );
+}
