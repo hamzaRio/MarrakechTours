@@ -1,0 +1,73 @@
+Create a full-stack travel and tour booking website called MarrakechDeserts for a local Moroccan agency.
+
+🎨 Design Style:
+- Use earth tones, Moroccan mosaics, and desert textures for background
+- Use Arabic-style or traditional calligraphy fonts
+- Accent colors: Gold, deep red, royal blue
+
+---
+
+Home Page:
+- Hero banner with Moroccan desert background (I will upload the image)
+- Grid of featured activities:
+  1. Montgolfière (Hot Air Balloon) – 1100 MAD/person
+  2. Agafay Combo – 450 MAD/person
+  3. Essaouira Day Trip – 200 MAD/person
+  4. Ouzoud Waterfalls Day Trip – 200 MAD/person
+  5. Ourika Valley Day Trip – 150 MAD/person
+- Each activity card should include: title, image, short description, price, “Book Now” button
+- About section with agency address: 54 Riad Zitoun Lakdim, Marrakech 40000
+- Instagram feed from: https://www.instagram.com/medina_expeditions
+- Contact section with WhatsApp buttons:
+  - Ahmed: https://wa.me/212600623630
+  - Yahia: https://wa.me/212693323368
+  - Nadia: https://wa.me/212654497354
+
+---
+
+Booking System:
+- Form fields: Name, phone, date, number of people, selected activity
+- Payment method: Cash on arrival only
+- After submitting, show confirmation message
+- Automatically send booking info to all 3 WhatsApp contacts using links
+
+Message format:
+New Booking:
+- Name: [Client Name]
+- Phone: [Client Phone]
+- Activity: [Selected Activity]
+- Date: [Booking Date]
+- Group Size: [Number of People]
+
+---
+
+Admin Panel:
+- Admin login for /admin routes
+- Admin users: Ahmed, Yahia
+- Superadmin user: Nadia
+
+Admin abilities:
+- View/edit/delete bookings and activities
+- Update activity prices
+- Add GetYourGuide price reference
+
+Superadmin (Nadia) can:
+- Override changes
+- View audit log of admin actions
+- Get notifications when other admins make updates
+
+---
+
+✅ Tech Stack:
+- Frontend: Next.js (TypeScript) with Tailwind CSS
+- Backend: Next.js API routes or Express
+- Database: MongoDB with Mongoose
+- Messaging: WhatsApp Web API
+
+📁 File Structure Suggestion:
+- /client → Frontend
+- /server → API and admin routes
+- /shared → Shared logic
+- .env → MONGO_URI, ADMIN_EMAILS, WHATSAPP_NUMBERS
+
+📦 Note: I will upload `photos.zip` with images
