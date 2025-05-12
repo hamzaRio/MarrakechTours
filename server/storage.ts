@@ -71,9 +71,9 @@ export class MemStorage implements IStorage {
       },
       {
         title: "Agafay Combo",
-        description: "Discover the stone desert of Agafay with camel rides, quad biking, and authentic Berber dinner.",
+        description: "Discover the stone desert of Agafay with camel rides, quad biking, and authentic Berber dinner under the stars. Experience the Moroccan desert lifestyle and enjoy breathtaking views of the Atlas mountains.",
         price: 450,
-        imageUrl: "https://images.unsplash.com/photo-1528277342758-f1d7613953a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500",
+        imageUrl: "/attached_assets/agafaypack.jpeg",
         featured: true,
       },
       {
@@ -139,7 +139,12 @@ export class MemStorage implements IStorage {
 
   async createActivity(activity: InsertActivity): Promise<Activity> {
     const id = this.activityCurrentId++;
-    const newActivity: Activity = { ...activity, id };
+    const newActivity: Activity = { 
+      ...activity, 
+      id,
+      featured: activity.featured ?? null,
+      getYourGuidePrice: activity.getYourGuidePrice ?? null
+    };
     this.activities.set(id, newActivity);
     return newActivity;
   }

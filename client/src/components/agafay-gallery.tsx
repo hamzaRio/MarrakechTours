@@ -3,7 +3,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
-// Use the imported images from attached assets
+// Use the images from attached assets
 const agafayImages = [
   "/attached_assets/agafaypack.jpeg",
   "/attached_assets/agafaypack1.jpeg",
