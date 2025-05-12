@@ -4,15 +4,15 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
-// Ouzoud Waterfalls images
+// Ouzoud Waterfalls images from public/photos
 const ouzoudImages = [
-  "/attached_assets/Ouzoud-Waterfalls.jpg",
-  "/attached_assets/Ouzoud-Waterfalls3.jpg",
-  "/attached_assets/Ouzoud-Waterfalls4.JPG",
-  "/attached_assets/Cascades_d'Ouzoud_014.JPG",
-  "/attached_assets/Cascades_d'Ouzoud_018.JPG",
-  "/attached_assets/ouzoud waterfalls 2.jpg",
-  "/attached_assets/Cascades_d'Ouzoud_008.JPG"
+  "/photos/Ouzoud-Waterfalls.jpg",
+  "/photos/Ouzoud-Waterfalls3.jpg",
+  "/photos/Ouzoud-Waterfalls4.JPG",
+  "/photos/Cascades_d'Ouzoud_014.JPG",
+  "/photos/Cascades_d'Ouzoud_018.JPG",
+  "/photos/ouzoud waterfalls 2.jpg",
+  "/photos/Cascades_d'Ouzoud_008.JPG"
 ];
 
 interface OuzoudGalleryProps {

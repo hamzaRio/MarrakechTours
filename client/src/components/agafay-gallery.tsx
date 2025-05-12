@@ -4,16 +4,16 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
-// Use the images from attached assets
+// Use the images from public/photos
 const agafayImages = [
-  "/attached_assets/agafaypack.jpeg",
-  "/attached_assets/agafaypack1.jpeg",
-  "/attached_assets/agafaypack2.jpeg",
-  "/attached_assets/agafaypack3.jpeg", 
-  "/attached_assets/agafaypack5.jpeg",
-  "/attached_assets/agafaypack6.jpeg",
-  "/attached_assets/agafaypack7.jpeg",
-  "/attached_assets/agafaypack9.jpeg"
+  "/photos/agafaypack.jpeg",
+  "/photos/agafaypack1.jpeg",
+  "/photos/agafaypack2.jpeg",
+  "/photos/agafaypack3.jpeg", 
+  "/photos/agafaypack5.jpeg",
+  "/photos/agafaypack6.jpeg",
+  "/photos/agafaypack7.jpeg",
+  "/photos/agafaypack9.jpeg"
 ];
 
 interface AgafayGalleryProps {

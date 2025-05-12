@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
-// Hot Air Balloon images
+// Hot Air Balloon images from public/photos
 const balloonImages = [
-  "/attached_assets/Hot Air Balloon Ride1.jpg",
-  "/attached_assets/Hot Air Balloon Ride2.jpg",
-  "/attached_assets/Hot Air Balloon Ride3.jpg",
-  "/attached_assets/montgofliere_a_marrakech.jpg",
-  "/attached_assets/montgolfiere-marrakech.jpg"
+  "/photos/Hot Air Balloon Ride1.jpg",
+  "/photos/Hot Air Balloon Ride2.jpg",
+  "/photos/Hot Air Balloon Ride3.jpg",
+  "/photos/montgofliere_a_marrakech.jpg",
+  "/photos/montgolfiere-marrakech.jpg"
 ];
 
 interface BalloonGalleryProps {
