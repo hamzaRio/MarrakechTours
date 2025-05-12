@@ -4,14 +4,14 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
-// Ourika Valley images
+// Ourika Valley images from public/photos
 const ourikaImages = [
-  "/attached_assets/Ourika-Valley-day-trip-from-Marrakech.jpg",
-  "/attached_assets/Ourika-valley-day-trip-from-marrakech-1.jpg",
-  "/attached_assets/ourika-valley-marrakech.jpg",
-  "/attached_assets/ourika valley3.jpg",
-  "/attached_assets/Ourika Valley Day Trip.jpg",
-  "/attached_assets/Ourika Valley Day Trip1.jpg"
+  "/photos/Ourika-Valley-day-trip-from-Marrakech.jpg",
+  "/photos/Ourika-valley-day-trip-from-marrakech-1.jpg",
+  "/photos/ourika-valley-marrakech.jpg",
+  "/photos/ourika valley3.jpg",
+  "/photos/Ourika Valley Day Trip.jpg",
+  "/photos/Ourika Valley Day Trip1.jpg"
 ];
 
 interface OurikaGalleryProps {
