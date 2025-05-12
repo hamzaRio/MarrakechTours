@@ -147,7 +147,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                   <Input 
                     placeholder="Your full name" 
                     {...field} 
-                    className="bg-white/30 border-white/20 placeholder:text-white/60 text-white focus:ring-white focus:border-white" 
+                    className="bg-white/70 border-white text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta" 
                   />
                 </FormControl>
                 <FormMessage className="text-white/90" />
@@ -165,7 +165,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                   <Input 
                     placeholder="e.g. +212600000000" 
                     {...field} 
-                    className="bg-white/30 border-white/20 placeholder:text-white/60 text-white focus:ring-white focus:border-white" 
+                    className="bg-white/70 border-white text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta" 
                   />
                 </FormControl>
                 <FormMessage className="text-white/90" />
@@ -184,7 +184,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                   onValueChange={field.onChange}
                 >
                   <FormControl>
-                    <SelectTrigger className="bg-white/30 border-white/20 text-white focus:ring-white focus:border-white">
+                    <SelectTrigger className="bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta">
                       <SelectValue placeholder="Choose an activity" />
                     </SelectTrigger>
                   </FormControl>
@@ -212,10 +212,10 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                     <Input 
                       type="date" 
                       {...field} 
-                      className="bg-white/30 border-white/20 text-white focus:ring-white focus:border-white" 
+                      className="bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta" 
                     />
                   </FormControl>
-                  <CalendarIcon className="absolute right-3 top-2.5 h-4 w-4 text-white/70" />
+                  <CalendarIcon className="absolute right-3 top-2.5 h-4 w-4 text-gray-500" />
                 </div>
                 <FormMessage className="text-white/90" />
               </FormItem>
@@ -233,7 +233,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                   onValueChange={(value) => field.onChange(parseInt(value))}
                 >
                   <FormControl>
-                    <SelectTrigger className="bg-white/30 border-white/20 text-white focus:ring-white focus:border-white">
+                    <SelectTrigger className="bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta">
                       <SelectValue placeholder="Select number of people" />
                     </SelectTrigger>
                   </FormControl>
