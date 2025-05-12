@@ -85,9 +85,9 @@ export class MemStorage implements IStorage {
       },
       {
         title: "Ouzoud Waterfalls Day Trip",
-        description: "Explore the stunning Ouzoud Waterfalls, one of Morocco's most spectacular natural wonders.",
+        description: "Explore the stunning Ouzoud Waterfalls, one of Morocco's most spectacular natural wonders with cascading waterfalls and lush green landscapes. Spot wild Barbary macaque monkeys and enjoy breathtaking viewpoints throughout this scenic day trip.",
         price: 200,
-        imageUrl: "https://images.unsplash.com/photo-1591283304570-2332b81de041?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500",
+        imageUrl: "/attached_assets/Ouzoud-Waterfalls.jpg",
         featured: true,
       },
       {

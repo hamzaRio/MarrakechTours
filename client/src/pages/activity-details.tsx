@@ -9,6 +9,7 @@ import { formatPrice } from "@/lib/utils";
 import { AgafayThumbnailGallery } from "@/components/agafay-gallery";
 import { EssaouiraThumbnailGallery } from "@/components/essaouira-gallery";
 import { BalloonThumbnailGallery } from "@/components/balloon-gallery";
+import { OuzoudThumbnailGallery } from "@/components/ouzoud-gallery";
 import BookingForm from "@/components/booking-form";
 import BookingConfirmation from "@/components/booking-confirmation";
 import { BookingFormData } from "@shared/schema";
@@ -39,6 +40,7 @@ export default function ActivityDetailsPage() {
   const isAgafayCombo = activity?.title.includes("Agafay");
   const isEssaouira = activity?.title.includes("Essaouira");
   const isBalloonRide = activity?.title.includes("Montgolfière") || activity?.title.includes("Hot Air Balloon");
+  const isOuzoud = activity?.title.includes("Ouzoud");
 
   if (!activity) {
     return (
@@ -162,6 +164,24 @@ export default function ActivityDetailsPage() {
                     
                     {/* Hot Air Balloon Gallery */}
                     <BalloonThumbnailGallery />
+                  </>
+                )}
+                
+                {isOuzoud && (
+                  <>
+                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">What's Included</h2>
+                    <ul className="list-disc pl-5 text-gray-600 space-y-1">
+                      <li>Full-day guided tour to the magnificent Ouzoud Waterfalls</li>
+                      <li>Opportunity to spot wild Barbary macaque monkeys</li>
+                      <li>Boat ride at the base of the falls (optional, additional fee)</li>
+                      <li>Scenic hiking experience with breathtaking viewpoints</li>
+                      <li>Traditional Berber lunch option at a local restaurant (additional fee)</li>
+                      <li>Hotel pickup and drop-off in air-conditioned vehicle</li>
+                      <li>Professional guide and bottled water throughout the tour</li>
+                    </ul>
+                    
+                    {/* Ouzoud Waterfalls Gallery */}
+                    <OuzoudThumbnailGallery />
                   </>
                 )}
               </div>
