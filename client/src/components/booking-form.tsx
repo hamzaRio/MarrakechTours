@@ -254,14 +254,14 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             <FormLabel className="block text-white font-medium mb-2">
               Payment Method
             </FormLabel>
-            <div className="bg-white/30 border border-white/20 rounded-md p-2.5 text-white">
+            <div className="bg-white/70 border border-white rounded-md p-3 text-gray-900 font-medium">
               Cash on Arrival
               {totalPrice && (
-                <div className="mt-1 flex items-center text-white font-medium">
-                  <Banknote className="h-4 w-4 mr-1.5 text-white/70" />
-                  Total: <span className="text-xl ml-1 font-bold">{formatPrice(totalPrice)}</span>
+                <div className="mt-1 flex items-center text-gray-900 font-medium">
+                  <Banknote className="h-4 w-4 mr-1.5 text-gray-500" />
+                  Total: <span className="text-xl ml-1 font-bold text-terracotta">{formatPrice(totalPrice)}</span>
                   {selectedActivity && (
-                    <span className="text-xs ml-1.5 text-white/70">
+                    <span className="text-xs ml-1.5 text-gray-500">
                       ({formatPrice(selectedActivity.price)} per person × {form.watch("people")})
                     </span>
                   )}
@@ -283,7 +283,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                   placeholder="Any special requirements or questions?" 
                   {...field} 
                   value={field.value || ''}
-                  className="bg-white/30 border-white/20 placeholder:text-white/60 text-white focus:ring-white focus:border-white" 
+                  className="bg-white/70 border-white text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta" 
                   rows={3}
                 />
               </FormControl>
