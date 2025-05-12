@@ -25,7 +25,7 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
             className="w-full h-56 object-cover"
             onError={(e) => {
               // Fallback if image doesn't load
-              e.currentTarget.src = "/static/photos/marrakech_screenshot.png";
+              e.currentTarget.src = "/attached_assets/bahia.jpg";
               console.error(`Image failed to load: ${activity.imageUrl}`);
             }}
           />

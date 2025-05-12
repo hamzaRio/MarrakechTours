@@ -259,7 +259,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
               {totalPrice && (
                 <div className="mt-1 flex items-center text-white font-medium">
                   <Banknote className="h-4 w-4 mr-1.5 text-white/70" />
-                  Total: {formatPrice(totalPrice)} MAD
+                  Total: <span className="text-xl ml-1 font-bold">{formatPrice(totalPrice)}</span>
                   {selectedActivity && (
                     <span className="text-xs ml-1.5 text-white/70">
                       ({formatPrice(selectedActivity.price)} per person × {form.watch("people")})
@@ -296,7 +296,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
           <Button 
             type="submit" 
             disabled={isSubmitting}
-            className="w-full bg-terracotta hover:bg-terracotta/90 text-white font-bold text-lg py-6 shadow-md"
+            className="w-full bg-terracotta hover:bg-terracotta/90 text-white font-bold text-lg py-6 shadow-md border-2 border-white"
           >
             {isSubmitting ? "Processing..." : "Confirm Booking"} {!isSubmitting && <ArrowRight className="ml-2 h-5 w-5" />}
           </Button>
