@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/home";
 import ActivityDetailsPage from "@/pages/activity-details";
+import PhotoGalleryPage from "@/pages/photo-gallery";
 import AdminLogin from "@/pages/admin/login";
 import AdminDashboard from "@/pages/admin/dashboard";
 import AdminActivities from "@/pages/admin/activities";
