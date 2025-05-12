@@ -130,13 +130,34 @@
   border-color: var(--color-moroccan-gold);
 }
 
-/* Simplified background patterns */
+/* Moroccan background patterns using the new images */
 .pattern-overlay {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-    url('https://pixabay.com/get/g751ab9f7def7b93684126800f26b7b1bdd0bc316f11bde31789c3955554a6d240a397b569dcc122fe036999d986ab9422009ed6df686117a574a08521c0f15d9_1280.jpg');
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.pattern-overlay::before, 
+.pattern-overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
   background-size: cover;
   background-position: center;
-  background-blend-mode: overlay;
+  opacity: 0.8;
+  z-index: -1;
+}
+
+.pattern-overlay::before {
+  left: 0;
+  background-image: url('/attached_assets/Ourika-valley-day-trip-from-marrakech-1.jpg');
+}
+
+.pattern-overlay::after {
+  right: 0;
+  background-image: url('/attached_assets/bahia.jpg');
 }
 
 /* Clean background without texture */
