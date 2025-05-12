@@ -84,6 +84,11 @@ export default function ActivityDetailsPage() {
                   src={activity.imageUrl} 
                   alt={activity.title}
                   className="w-full h-[400px] object-cover rounded-lg"
+                  onError={(e) => {
+                    // Fallback if image doesn't load
+                    e.currentTarget.src = "/photos/marrakech_screenshot.png";
+                    console.error(`Image failed to load: ${activity.imageUrl}`);
+                  }}
                 />
                 <div className="absolute top-4 right-4 bg-terracotta text-white px-4 py-2 rounded-md font-medium">
                   {formatPrice(activity.price)}/person
@@ -234,7 +239,13 @@ export default function ActivityDetailsPage() {
                     </div>
                     
                     <Button 
-                      onClick={() => setShowBookingForm(true)}
+                      onClick={() => {
+                        setShowBookingForm(true);
+                        // Ensure selected activity id is set
+                        if (activity && activity.id) {
+                          console.log("Setting booking form for activity:", activity.id);
+                        }
+                      }}
                       className="w-full bg-terracotta hover:bg-terracotta/90 text-white"
                     >
                       Book Now <ArrowRight className="ml-2 h-4 w-4" />

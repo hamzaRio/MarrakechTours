@@ -19,11 +19,15 @@ export default function HomePage() {
   
   // When an activity is booked from the activity section, scroll to booking form
   const handleBookActivity = (activityId: number) => {
+    console.log("Booking activity from home page:", activityId);
     setSelectedActivityId(activityId);
-    const bookingSection = document.querySelector("#booking");
-    if (bookingSection) {
-      bookingSection.scrollIntoView({ behavior: "smooth" });
-    }
+    // Small delay to ensure state is updated before scrolling
+    setTimeout(() => {
+      const bookingSection = document.querySelector("#booking");
+      if (bookingSection) {
+        bookingSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
 
   // When booking is successful, show confirmation modal

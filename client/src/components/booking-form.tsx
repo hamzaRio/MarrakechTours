@@ -53,6 +53,12 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
   useEffect(() => {
     if (!activities) return;
     
+    // Update form value when selectedActivityId prop changes
+    if (selectedActivityId && selectedActivityId !== parseInt(form.getValues("activity"))) {
+      form.setValue("activity", String(selectedActivityId));
+      form.setValue("activityId", selectedActivityId);
+    }
+    
     const activityId = parseInt(form.watch("activity"));
     const people = form.watch("people");
     
@@ -65,7 +71,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
     } else {
       setTotalPrice(null);
     }
-  }, [form.watch("activity"), form.watch("people"), activities]);
+  }, [selectedActivityId, form.watch("activity"), form.watch("people"), activities, form]);
 
   const bookingMutation = useMutation({
     mutationFn: async (data: BookingFormData) => {

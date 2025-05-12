@@ -66,14 +66,14 @@ export class MemStorage implements IStorage {
         title: "Montgolfière (Hot Air Balloon)",
         description: "Experience the breathtaking views of Marrakech and the Atlas Mountains from a hot air balloon at sunrise. Float peacefully above the stunning Moroccan landscape as the sun begins to illuminate the desert and mountains.",
         price: 1100,
-        imageUrl: "/photos/montgolfiere-marrakech.jpg",
+        imageUrl: "/static/photos/montgolfiere-marrakech.jpg",
         featured: true,
       },
       {
         title: "Agafay Combo",
         description: "Discover the stone desert of Agafay with camel rides, quad biking, and authentic Berber dinner under the stars. Experience the Moroccan desert lifestyle and enjoy breathtaking views of the Atlas mountains.",
         price: 450,
-        imageUrl: "/photos/agafaypack.jpeg",
+        imageUrl: "/static/photos/agafaypack.jpeg",
         featured: true,
       },
       {
