@@ -35,12 +35,17 @@ export default function AvailabilityCalendar({
   // Get the availability for the current month for a specific activity
   const { data: activityAvailability, isLoading } = useQuery<ActivityAvailability[]>({
     queryKey: ['/api/availability/activity', activityId, currentMonth],
+    queryFn: () => activityId ? 
+      fetch(`/api/availability/activity/${activityId}/${currentMonth}`).then(res => res.json()) : 
+      Promise.resolve([]),
     enabled: !!activityId,
   });
   
   // If no specific activity is provided, get general availability for today
+  const todayFormatted = format(today, 'yyyy-MM-dd');
   const { data: generalAvailability } = useQuery<ActivityAvailability[]>({
-    queryKey: ['/api/availability/date', format(today, 'yyyy-MM-dd')],
+    queryKey: ['/api/availability/date', todayFormatted],
+    queryFn: () => fetch(`/api/availability/date/${todayFormatted}`).then(res => res.json()),
     enabled: !activityId,
   });
   

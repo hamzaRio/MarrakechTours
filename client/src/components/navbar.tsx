@@ -121,17 +121,28 @@ export default function Navbar() {
               {link.name}
             </Link>
           ) : (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection(link.href);
-              }}
-              className="block py-2 text-gray-700 hover:text-terracotta"
-            >
-              {link.name}
-            </a>
+            link.name === "Home" ? (
+              <Link
+                key={link.name}
+                href="/"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 text-gray-700 hover:text-terracotta"
+              >
+                {link.name}
+              </Link>
+            ) : (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection(link.href);
+                }}
+                className="block py-2 text-gray-700 hover:text-terracotta"
+              >
+                {link.name}
+              </a>
+            )
           )
         ))}
       </div>
