@@ -50,9 +50,11 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-white shadow-sm">
       <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center">
-          <h1 className="text-2xl font-medium text-terracotta">
-            <span className="text-moroccan-brown">Marrakech</span>Deserts
-          </h1>
+          <Link href="/">
+            <h1 className="text-2xl font-medium text-terracotta cursor-pointer">
+              <span className="text-moroccan-brown">Marrakech</span>Deserts
+            </h1>
+          </Link>
         </div>
         
         <div className="hidden md:flex space-x-8">
@@ -66,17 +68,27 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ) : (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(link.href);
-                }}
-                className="font-medium text-gray-700 hover:text-terracotta transition-colors"
-              >
-                {link.name}
-              </a>
+              link.name === "Home" ? (
+                <Link
+                  key={link.name}
+                  href="/"
+                  className="font-medium text-gray-700 hover:text-terracotta transition-colors"
+                >
+                  {link.name}
+                </Link>
+              ) : (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(link.href);
+                  }}
+                  className="font-medium text-gray-700 hover:text-terracotta transition-colors"
+                >
+                  {link.name}
+                </a>
+              )
             )
           ))}
         </div>
