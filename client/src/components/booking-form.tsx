@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { constructWhatsAppUrl, whatsAppContacts, getActivityIdByName, formatPrice } from "@/lib/utils";
+import { constructWhatsAppUrl, whatsAppContacts, getActivityIdByName, getActivityPriceById, formatPrice } from "@/lib/utils";
 import { CalendarIcon, Users, ArrowRight, Banknote } from "lucide-react";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -95,20 +95,23 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
       const formData = form.getValues();
       
       // Send to WhatsApp contacts
-      const activityName = activities?.find(a => a.id === parseInt(formData.activity))?.title || formData.activity;
+      const activityId = parseInt(formData.activity);
+      const activityPrice = getActivityPriceById(activityId);
+      const totalPrice = activityPrice * formData.people;
       
       const bookingInfo = {
         name: formData.name,
         phone: formData.phone,
-        activity: activityName,
+        activity: formData.activity, // Pass the ID so we can get the proper name in the utility function
         date: formData.date,
         people: formData.people,
       };
 
-      // Open WhatsApp links in new tabs
-      window.open(constructWhatsAppUrl(whatsAppContacts.ahmed, bookingInfo), "_blank");
-      window.open(constructWhatsAppUrl(whatsAppContacts.yahia, bookingInfo), "_blank");
-      window.open(constructWhatsAppUrl(whatsAppContacts.nadia, bookingInfo), "_blank");
+      // Construct a single WhatsApp message to be sent to all three team members
+      // The message will include pricing information and mention all three team members
+      window.open(constructWhatsAppUrl(whatsAppContacts.ahmed, bookingInfo, activityPrice), "_blank");
+      window.open(constructWhatsAppUrl(whatsAppContacts.yahia, bookingInfo, activityPrice), "_blank");
+      window.open(constructWhatsAppUrl(whatsAppContacts.nadia, bookingInfo, activityPrice), "_blank");
       
       onSuccess(formData);
       
@@ -379,7 +382,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
             </svg>
-            <p className="text-center text-sm">You will receive confirmation via phone</p>
+            <p className="text-center text-sm">You will receive confirmation via WhatsApp from our team members (Nadia, Ahmed, and Yahia)</p>
           </div>
         </div>
       </form>
