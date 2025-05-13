@@ -213,9 +213,17 @@ export default function ActivityDetailsPage() {
             </div>
             
             {/* Right column - Booking panel */}
-            <div className="lg:w-1/3">
-              <div className="bg-gray-50 shadow-lg rounded-lg p-6 sticky top-24 border-2 border-terracotta">
-                <h2 className="text-3xl font-bold text-terracotta mb-5 text-center border-b-2 border-terracotta pb-2">Book This Tour</h2>
+            <div className="lg:w-1/3 mt-8 lg:mt-0">
+              <div className="bg-gray-50 shadow-lg rounded-lg p-4 sm:p-6 sticky top-24 border-2 border-terracotta">
+                <div className="bg-terracotta text-white rounded-lg py-4 px-2 mb-6 shadow-md">
+                  <h2 className="text-2xl font-bold text-center flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+                      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    Book This Tour
+                  </h2>
+                </div>
                 
                 {!showBookingForm ? (
                   <>
