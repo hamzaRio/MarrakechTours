@@ -8,6 +8,8 @@ import { constructWhatsAppUrl, whatsAppContacts, getActivityIdByName, getActivit
 import { CalendarIcon, Users, ArrowRight, Banknote } from "lucide-react";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import AvailabilityCalendar from "@/components/availability-calendar";
+import { format } from "date-fns";
 
 import {
   Form,
@@ -132,6 +134,12 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
     },
   });
 
+  const handleDateSelect = (date: Date) => {
+    // Format date to YYYY-MM-DD for the form value
+    const formattedDate = format(date, 'yyyy-MM-dd');
+    form.setValue('date', formattedDate);
+  };
+
   const onSubmit = async (data: BookingFormData) => {
     setIsSubmitting(true);
     await bookingMutation.mutateAsync(data);
@@ -254,16 +262,18 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             render={({ field }) => (
               <FormItem className="mb-6 w-full">
                 <FormLabel className="text-gray-800 font-medium mb-2 block">Preferred Date *</FormLabel>
-                <div className="relative w-full">
-                  <FormControl>
-                    <Input 
-                      type="date" 
-                      {...field} 
-                      className="bg-white border border-gray-300 text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta h-12 px-4 w-full p-3" 
-                    />
-                  </FormControl>
-                  <CalendarIcon className="absolute right-3 top-4 h-4 w-4 text-gray-500" />
-                </div>
+                <FormControl>
+                  <input 
+                    type="hidden" 
+                    {...field}
+                  />
+                </FormControl>
+                <AvailabilityCalendar 
+                  activityId={parseInt(form.getValues("activity")) || undefined}
+                  onDateSelect={handleDateSelect}
+                  buttonVariant="outline"
+                  className="w-full"
+                />
                 <FormMessage className="mt-2 text-gray-700" />
               </FormItem>
             )}
