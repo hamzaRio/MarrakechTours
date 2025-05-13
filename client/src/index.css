@@ -194,6 +194,86 @@
 }
 
 .react-tel-input {
+  font-family: inherit !important;
+  width: 100% !important;
+}
+
+.phone-input-container {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.phone-input {
+  width: 100% !important;
+  height: 48px !important;
+  font-size: 16px !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.375rem !important;
+  color: #333 !important;
+  background-color: white !important;
+  padding-left: 80px !important;
+}
+
+.react-tel-input .form-control {
+  width: 100% !important;
+  height: 48px !important;
+  font-size: 16px !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.375rem !important;
+  color: #333 !important;
+  background-color: white !important;
+  padding-left: 80px !important;
+}
+
+/* Fix double flag issue */
+.react-tel-input .flag-dropdown {
+  border: 1px solid #d1d5db !important;
+  border-right: none !important;
+  border-radius: 0.375rem 0 0 0.375rem !important;
+  background-color: white !important;
+}
+
+.react-tel-input .flag-dropdown.open {
+  background-color: white !important;
+}
+
+.react-tel-input .selected-flag {
+  padding: 0 0 0 10px !important;
+  border-radius: 0.375rem 0 0 0.375rem !important;
+  background-color: white !important;
+}
+
+.react-tel-input .selected-flag:hover,
+.react-tel-input .selected-flag:focus {
+  background-color: #f8fafc !important;
+}
+
+.react-tel-input .selected-flag .flag {
+  margin-right: 8px !important;
+}
+
+.phone-dropdown {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.375rem !important;
+  background-color: white !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+.phone-dropdown .country {
+  padding: 8px 10px !important;
+}
+
+.phone-search {
+  margin: 0 auto !important;
+  padding: 8px !important;
+  font-size: 16px !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.25rem !important;
+}
+
+.react-tel-input {
   width: 100% !important;
   display: block !important;
 }

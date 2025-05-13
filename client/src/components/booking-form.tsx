@@ -183,38 +183,40 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                       inputProps={{
                         name: 'phone',
                         required: true,
-                        style: { fontSize: '18px' }
+                        className: 'phone-input'
                       }}
-                      containerStyle={{ width: '100%' }}
+                      containerClass="phone-input-container"
+                      inputClass="phone-input"
+                      buttonClass="phone-button"
+                      dropdownClass="phone-dropdown"
+                      searchClass="phone-search"
+                      containerStyle={{ width: '100%', margin: 0 }}
                       inputStyle={{ 
                         width: '100%', 
-                        height: '42px',
-                        paddingLeft: '75px',
+                        height: '48px',
+                        paddingLeft: '80px',
                         fontSize: '16px',
                         border: '1px solid #d1d5db',
                         borderRadius: '0.375rem',
-                        color: '#333'
+                        color: '#333',
+                        backgroundColor: 'white'
                       }}
                       buttonStyle={{
                         border: '1px solid #d1d5db',
                         borderRight: 'none',
                         borderRadius: '0.375rem 0 0 0.375rem',
                         backgroundColor: 'white',
-                        width: '65px',
-                        paddingLeft: '8px',
-                        height: '42px'
+                        width: '70px',
+                        paddingLeft: '10px',
+                        height: '48px'
                       }}
-                      onFocus={() => console.log("Focus changed")}
                       autoFormat={true}
                       countryCodeEditable={false}
-                      dropdownClass="country-dropdown"
-                      dropdownStyle={{
-                        width: '280px',
-                      }}
                       enableSearch={true}
                       disableSearchIcon={false}
                       searchPlaceholder="Search countries..."
-                      preferredCountries={['ma', 'fr', 'es', 'gb', 'de']}
+                      preferredCountries={['ma', 'fr', 'es', 'gb', 'de', 'us']}
+                      onlyCountries={['ma', 'fr', 'es', 'gb', 'de', 'us', 'it', 'nl', 'be', 'pt', 'ch', 'ae', 'sa']}
                     />
                   </div>
                 </FormControl>
