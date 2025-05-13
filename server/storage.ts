@@ -2,8 +2,10 @@ import {
   Activity, InsertActivity, 
   Booking, InsertBooking, 
   User, InsertUser, 
-  AuditLog, InsertAuditLog
+  AuditLog, InsertAuditLog, 
+  ActivityAvailability, AvailabilityStatus
 } from "@shared/schema";
+import { format, parse, startOfMonth, endOfMonth, eachDayOfInterval, addDays } from "date-fns";
 
 // Define the storage interface with all CRUD operations
 export interface IStorage {
@@ -30,6 +32,10 @@ export interface IStorage {
   // Audit log operations
   createAuditLog(log: InsertAuditLog): Promise<AuditLog>;
   getAuditLogs(): Promise<AuditLog[]>;
+  
+  // Availability operations
+  getAvailabilityForDate(date: string): Promise<ActivityAvailability[]>;
+  getAvailabilityForActivity(activityId: number, monthYear: string): Promise<ActivityAvailability[]>;
 }
 
 // In-memory implementation of the storage interface
@@ -248,6 +254,87 @@ export class MemStorage implements IStorage {
 
   async getAuditLogs(): Promise<AuditLog[]> {
     return Array.from(this.auditLogs.values());
+  }
+  
+  // Availability methods
+  async getAvailabilityForDate(date: string): Promise<ActivityAvailability[]> {
+    const activities = await this.getAllActivities();
+    const bookings = await this.getAllBookings();
+    
+    // Get bookings for this date
+    const dateBookings = bookings.filter(booking => booking.date === date);
+    
+    return activities.map(activity => {
+      const activityBookings = dateBookings.filter(booking => booking.activityId === activity.id);
+      let status = AvailabilityStatus.AVAILABLE;
+      
+      // Simulate some availability logic
+      // This would be more sophisticated in a real implementation
+      if (activityBookings.length >= 10) {
+        status = AvailabilityStatus.UNAVAILABLE;
+      } else if (activityBookings.length >= 5) {
+        status = AvailabilityStatus.LIMITED;
+      }
+      
+      return {
+        date,
+        activityId: activity.id,
+        status,
+        spotsRemaining: 10 - activityBookings.length
+      };
+    });
+  }
+  
+  async getAvailabilityForActivity(activityId: number, monthYear: string): Promise<ActivityAvailability[]> {
+    // Parse the month year string (format: 'YYYY-MM')
+    const parsedDate = parse(monthYear, 'yyyy-MM', new Date());
+    
+    // Get start and end of month
+    const start = startOfMonth(parsedDate);
+    const end = endOfMonth(parsedDate);
+    
+    // Get all days of the month
+    const days = eachDayOfInterval({ start, end });
+    
+    // Get all bookings
+    const bookings = await this.getAllBookings();
+    
+    // Hard-coded dates for demonstration
+    const unavailableDays = [2, 5, 10, 15, 20, 25];
+    const limitedDays = [3, 7, 12, 18, 24, 28];
+    
+    return days.map(day => {
+      const dateStr = format(day, 'yyyy-MM-dd');
+      const dayOfMonth = day.getDate();
+      
+      // Determine status based on day of month (for demo purposes)
+      let status = AvailabilityStatus.AVAILABLE;
+      
+      if (unavailableDays.includes(dayOfMonth)) {
+        status = AvailabilityStatus.UNAVAILABLE;
+      } else if (limitedDays.includes(dayOfMonth)) {
+        status = AvailabilityStatus.LIMITED;
+      }
+      
+      // Count actual bookings for this activity on this date
+      const dayBookings = bookings.filter(
+        booking => booking.activityId === activityId && booking.date === dateStr
+      );
+      
+      // Override status based on bookings if needed
+      if (dayBookings.length >= 10) {
+        status = AvailabilityStatus.UNAVAILABLE;
+      } else if (dayBookings.length >= 5 && status === AvailabilityStatus.AVAILABLE) {
+        status = AvailabilityStatus.LIMITED;
+      }
+      
+      return {
+        date: dateStr,
+        activityId,
+        status,
+        spotsRemaining: status === AvailabilityStatus.UNAVAILABLE ? 0 : 10 - dayBookings.length
+      };
+    });
   }
 }
 

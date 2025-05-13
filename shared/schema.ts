@@ -93,3 +93,25 @@ export const loginSchema = z.object({
 });
 
 export type LoginData = z.infer<typeof loginSchema>;
+
+// Availability types
+export enum AvailabilityStatus {
+  AVAILABLE = "available",
+  LIMITED = "limited",
+  UNAVAILABLE = "unavailable"
+}
+
+export interface ActivityAvailability {
+  date: string;  // ISO format date string (YYYY-MM-DD)
+  activityId: number;
+  status: AvailabilityStatus;
+  spotsRemaining?: number;  // Optional field to show how many spots are left
+}
+
+export interface DateAvailability {
+  date: string;
+  status: AvailabilityStatus;
+  activitiesStatus: {
+    [activityId: number]: AvailabilityStatus;
+  };
+}

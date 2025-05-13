@@ -390,6 +390,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to fetch users" });
     }
   });
+  
+  // Availability routes
+  app.get("/api/availability/date/:date", async (req, res) => {
+    try {
+      const date = req.params.date;
+      const availability = await storage.getAvailabilityForDate(date);
+      res.json(availability);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch availability" });
+    }
+  });
+  
+  app.get("/api/availability/activity/:id/:monthYear", async (req, res) => {
+    try {
+      const activityId = parseInt(req.params.id);
+      const monthYear = req.params.monthYear;
+      const availability = await storage.getAvailabilityForActivity(activityId, monthYear);
+      res.json(availability);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch activity availability" });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;
