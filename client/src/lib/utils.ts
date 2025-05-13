@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatPrice(price: number): string {
-  return `${price}`;
+  return `${price} MAD`;
 }
 
 export function formatDate(dateString: string): string {
@@ -26,15 +26,23 @@ export function constructWhatsAppUrl(
     activity: string, 
     date: string, 
     people: number 
-  }
+  },
+  price?: number
 ): string {
+  const activityId = parseInt(bookingData.activity);
+  const activityPrice = price || getActivityPriceById(activityId);
+  const totalPrice = activityPrice * bookingData.people;
+  
   const message = encodeURIComponent(
     `New Booking:
 - Name: ${bookingData.name}
 - Phone: ${bookingData.phone}
-- Activity: ${bookingData.activity}
+- Activity: ${getActivityNameById(parseInt(bookingData.activity))}
 - Date: ${bookingData.date}
-- Group Size: ${bookingData.people}`
+- Group Size: ${bookingData.people} people
+- Price: ${activityPrice} MAD/person
+- Total: ${totalPrice} MAD
+- Reservation will be shared with Nadia, Ahmed, and Yahia`
   );
   
   return `https://wa.me/${phoneNumber}?text=${message}`;
@@ -70,4 +78,17 @@ export function getActivityNameById(activityId: number): string {
   };
   
   return activityMapping[activityId] || "Unknown Activity";
+}
+
+export function getActivityPriceById(activityId: number): number {
+  // This mapping should match the prices in the database
+  const priceMapping: { [key: number]: number } = {
+    1: 1100, // Hot Air Balloon
+    2: 450,  // Agafay Combo
+    3: 200,  // Essaouira
+    4: 180,  // Ouzoud
+    5: 150   // Ourika
+  };
+  
+  return priceMapping[activityId] || 0;
 }

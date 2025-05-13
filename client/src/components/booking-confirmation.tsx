@@ -1,8 +1,8 @@
 import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, Calendar, Users, X } from "lucide-react";
-import { getActivityNameById } from "@/lib/utils";
+import { CheckCircle, Calendar, Users, DollarSign, X } from "lucide-react";
+import { getActivityNameById, getActivityPriceById, formatPrice } from "@/lib/utils";
 import { BookingFormData } from "@shared/schema";
 
 interface BookingConfirmationProps {
@@ -14,7 +14,10 @@ interface BookingConfirmationProps {
 export default function BookingConfirmation({ open, onClose, bookingData }: BookingConfirmationProps) {
   if (!bookingData) return null;
 
-  const activityName = getActivityNameById(parseInt(bookingData.activity));
+  const activityId = parseInt(bookingData.activity);
+  const activityName = getActivityNameById(activityId);
+  const activityPrice = getActivityPriceById(activityId);
+  const totalPrice = activityPrice * bookingData.people;
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -63,7 +66,21 @@ export default function BookingConfirmation({ open, onClose, bookingData }: Book
                 </span> 
                 <span className="text-gray-600">{bookingData.people} people</span>
               </p>
+              <p className="text-gray-700 flex items-start">
+                <span className="font-medium w-24 flex items-center">
+                  <DollarSign className="h-3.5 w-3.5 mr-1.5 text-terracotta" />
+                  Price:
+                </span> 
+                <span className="text-gray-600">{formatPrice(activityPrice)}/person</span>
+              </p>
+              <p className="text-gray-700 flex items-start mt-2 pt-2 border-t border-gray-100">
+                <span className="font-medium w-24">Total:</span> 
+                <span className="text-terracotta font-bold">{formatPrice(totalPrice)}</span>
+              </p>
             </div>
+          </div>
+          <div className="mb-4 text-left text-sm text-gray-600">
+            <p>Your booking will be shared with our team: Nadia, Ahmed, and Yahia</p>
           </div>
           
           <Button 
