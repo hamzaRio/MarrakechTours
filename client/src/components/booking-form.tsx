@@ -148,7 +148,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 booking-form">
         <div className="grid grid-cols-1 gap-6 w-full">
           <FormField
             control={form.control}
@@ -182,19 +182,16 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                       onChange={(phone) => field.onChange("+" + phone)}
                       inputProps={{
                         name: 'phone',
-                        required: true,
-                        className: 'phone-input'
+                        required: true
                       }}
-                      containerClass="phone-input-container"
-                      inputClass="phone-input"
-                      buttonClass="phone-button"
-                      dropdownClass="phone-dropdown"
-                      searchClass="phone-search"
-                      containerStyle={{ width: '100%', margin: 0 }}
+                      containerStyle={{ 
+                        width: '100%', 
+                        margin: 0 
+                      }}
                       inputStyle={{ 
                         width: '100%', 
                         height: '48px',
-                        paddingLeft: '80px',
+                        paddingLeft: '50px',
                         fontSize: '16px',
                         border: '1px solid #d1d5db',
                         borderRadius: '0.375rem',
@@ -202,13 +199,10 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                         backgroundColor: 'white'
                       }}
                       buttonStyle={{
-                        border: '1px solid #d1d5db',
-                        borderRight: 'none',
-                        borderRadius: '0.375rem 0 0 0.375rem',
-                        backgroundColor: 'white',
-                        width: '70px',
-                        paddingLeft: '10px',
-                        height: '48px'
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        left: '10px',
+                        position: 'absolute'
                       }}
                       autoFormat={true}
                       countryCodeEditable={false}
