@@ -97,6 +97,27 @@ export default function BookingManager({ className }: BookingManagerProps) {
     },
   });
   
+  // Mutation for syncing booking with CRM
+  const crmSyncMutation = useMutation({
+    mutationFn: async (bookingId: number) => {
+      return apiRequest(`/api/bookings/${bookingId}/sync-crm`, 'POST');
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['/api/bookings'] });
+      toast({
+        title: 'CRM Sync Successful',
+        description: data.message || 'Booking has been synced with CRM',
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'CRM Sync Failed',
+        description: error instanceof Error ? error.message : 'Unknown error occurred',
+        variant: 'destructive',
+      });
+    },
+  });
+  
   // Export bookings to CSV
   const exportToCSV = () => {
     if (!filteredBookings || filteredBookings.length === 0) {
@@ -144,6 +165,11 @@ export default function BookingManager({ className }: BookingManagerProps) {
   // Handle resending WhatsApp notification
   const handleResendWhatsApp = (bookingId: number) => {
     resendMutation.mutate(bookingId);
+  };
+  
+  // Handle syncing booking with CRM
+  const handleCrmSync = (bookingId: number) => {
+    crmSyncMutation.mutate(bookingId);
   };
   
   // Reset all filters
@@ -343,19 +369,35 @@ export default function BookingManager({ className }: BookingManagerProps) {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleResendWhatsApp(booking.id)}
-                        disabled={resendMutation.isPending && resendMutation.variables === booking.id}
-                      >
-                        {resendMutation.isPending && resendMutation.variables === booking.id ? (
-                          <RefreshCw className="h-4 w-4 mr-1 animate-spin" />
-                        ) : (
-                          <MessageSquare className="h-4 w-4 mr-1" />
-                        )}
-                        <span className="hidden sm:inline">Resend WhatsApp</span>
-                      </Button>
+                      <div className="flex justify-end gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleResendWhatsApp(booking.id)}
+                          disabled={resendMutation.isPending && resendMutation.variables === booking.id}
+                        >
+                          {resendMutation.isPending && resendMutation.variables === booking.id ? (
+                            <RefreshCw className="h-4 w-4 mr-1 animate-spin" />
+                          ) : (
+                            <MessageSquare className="h-4 w-4 mr-1" />
+                          )}
+                          <span className="hidden sm:inline">Resend WhatsApp</span>
+                        </Button>
+                        
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleCrmSync(booking.id)}
+                          disabled={crmSyncMutation.isPending && crmSyncMutation.variables === booking.id}
+                        >
+                          {crmSyncMutation.isPending && crmSyncMutation.variables === booking.id ? (
+                            <RefreshCw className="h-4 w-4 mr-1 animate-spin" />
+                          ) : (
+                            <Building2 className="h-4 w-4 mr-1" />
+                          )}
+                          <span className="hidden sm:inline">Sync CRM</span>
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))
