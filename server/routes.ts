@@ -43,11 +43,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     if (isMongoConnected()) {
       app.use('/api/mongo', mongoBookingRoutes);
       console.log('MongoDB booking routes registered and available at /api/mongo/*');
+      
+      // Add MongoDB status endpoint
+      app.get('/api/mongo/status', (req, res) => {
+        res.status(200).json({ connected: true });
+      });
     } else {
       console.log('MongoDB routes not registered - database not connected');
+      
+      // Add MongoDB status endpoint (not connected)
+      app.get('/api/mongo/status', (req, res) => {
+        res.status(503).json({ connected: false });
+      });
     }
   } catch (error) {
     console.error('Error while setting up MongoDB routes:', error);
+    
+    // Add MongoDB status endpoint (error)
+    app.get('/api/mongo/status', (req, res) => {
+      res.status(500).json({ connected: false, error: String(error) });
+    });
   }
 
   // Middleware to check authentication

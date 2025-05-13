@@ -11,12 +11,25 @@ import { Activity, Booking } from "@shared/schema";
 import { CalendarCheck, BookCheck, ClipboardList, Eye, LogOut, Database, MessageSquare } from "lucide-react";
 import MongoBookings from "@/components/admin/mongo-bookings";
 import NotificationStats from "@/components/admin/notification-stats";
+import BookingManager from "@/components/admin/booking-manager";
 
 export default function AdminDashboard() {
   const [, navigate] = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
   const { toast } = useToast();
   const [showMongoSection, setShowMongoSection] = useState(false);
+  const [isMongoConnected, setIsMongoConnected] = useState(false);
+  
+  // Check if MongoDB is connected
+  useEffect(() => {
+    fetch('/api/mongo/status')
+      .then(response => {
+        setIsMongoConnected(response.ok);
+      })
+      .catch(() => {
+        setIsMongoConnected(false);
+      });
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -125,6 +138,11 @@ export default function AdminDashboard() {
           <NotificationStats />
         </div>
         
+        {/* Advanced Booking Manager with timeline, filters and export */}
+        <div className="mt-8 mb-8">
+          <BookingManager />
+        </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card>
             <CardHeader>
@@ -156,39 +174,66 @@ export default function AdminDashboard() {
           
           <Card>
             <CardHeader>
-              <CardTitle>Recent Bookings</CardTitle>
+              <CardTitle>System Status</CardTitle>
             </CardHeader>
             <CardContent>
-              {bookings && bookings.length > 0 ? (
-                <div className="space-y-4">
-                  {bookings.slice(0, 5).map((booking) => (
-                    <div key={booking.id} className="flex justify-between items-center border-b pb-2">
-                      <div>
-                        <p className="font-medium">{booking.name}</p>
-                        <p className="text-sm text-gray-500">
-                          Activity ID: {booking.activityId} • {booking.date}
-                        </p>
-                      </div>
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        booking.status === "confirmed" ? "bg-green-100 text-green-800" :
-                        booking.status === "cancelled" ? "bg-red-100 text-red-800" :
-                        "bg-yellow-100 text-yellow-800"
-                      }`}>
-                        {booking.status}
-                      </span>
-                    </div>
-                  ))}
+              <div className="space-y-4">
+                <div className="flex justify-between items-center pb-2 border-b">
+                  <div className="flex items-center">
+                    <Database className="h-5 w-5 mr-2 text-blue-600" />
+                    <span className="font-medium">Database Status</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className={`h-3 w-3 rounded-full ${isMongoConnected ? 'bg-green-500' : 'bg-orange-500'} mr-2`}></div>
+                    <span className="text-sm">{isMongoConnected ? 'MongoDB Connected' : 'Memory Storage'}</span>
+                  </div>
                 </div>
-              ) : (
-                <p className="text-gray-500">No bookings available</p>
-              )}
+                
+                <div className="flex justify-between items-center pb-2 border-b">
+                  <div className="flex items-center">
+                    <MessageSquare className="h-5 w-5 mr-2 text-green-600" />
+                    <span className="font-medium">WhatsApp API</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="h-3 w-3 rounded-full bg-orange-500 mr-2"></div>
+                    <span className="text-sm">Simulation Mode</span>
+                  </div>
+                </div>
+                
+                <div className="flex justify-between items-center pb-2">
+                  <div className="flex items-center">
+                    <BookCheck className="h-5 w-5 mr-2 text-moroccan-brown" />
+                    <span className="font-medium">Total Bookings</span>
+                  </div>
+                  <span className="text-lg font-bold">{bookings?.length || 0}</span>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
         
-        {showMongoSection && (
+        {showMongoSection && isMongoConnected && (
           <div className="mt-8">
             <MongoBookings />
+          </div>
+        )}
+        
+        {showMongoSection && !isMongoConnected && (
+          <div className="mt-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>MongoDB Data</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <Database className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-lg font-medium mb-2">MongoDB Not Connected</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto">
+                    MongoDB connection is currently unavailable. The application is running with in-memory storage.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         )}
       </div>
