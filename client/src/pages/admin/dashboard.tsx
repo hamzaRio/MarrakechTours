@@ -8,8 +8,9 @@ import Navbar from "@/components/navbar";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
 import { Activity, Booking } from "@shared/schema";
-import { CalendarCheck, BookCheck, ClipboardList, Eye, LogOut, Database } from "lucide-react";
+import { CalendarCheck, BookCheck, ClipboardList, Eye, LogOut, Database, MessageSquare } from "lucide-react";
 import MongoBookings from "@/components/admin/mongo-bookings";
+import NotificationStats from "@/components/admin/notification-stats";
 
 export default function AdminDashboard() {
   const [, navigate] = useLocation();

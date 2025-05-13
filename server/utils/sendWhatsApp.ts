@@ -1,6 +1,11 @@
 import twilio from 'twilio';
 import dotenv from 'dotenv';
 import { log } from '../vite';
+import { 
+  trackMessageSuccess, 
+  trackMessageFailure, 
+  trackBookingSubmission 
+} from './notificationStats';
 
 // Load environment variables
 dotenv.config();
@@ -69,6 +74,8 @@ export async function sendBookingNotification(booking: {
   numberOfPeople: number;
   notes?: string;
 }): Promise<{ success: boolean; results: any[] }> {
+  // Track this booking submission in our stats
+  trackBookingSubmission();
   // Check if Twilio credentials are available
   if (!accountSid || !authToken) {
     log('Twilio credentials not found. WhatsApp notifications disabled.', 'twilio');
@@ -90,17 +97,25 @@ export async function sendBookingNotification(booking: {
       sendToAdmin(client, adminPhones.nadia, messageBody)
     ]);
     
-    // Log results
+    // Log results with improved format for better visibility
     results.forEach((result, index) => {
       const adminName = Object.keys(adminPhones)[index];
       if (result.status === 'fulfilled' && result.value.success) {
-        log(`✅ WhatsApp notification sent to ${adminName}`, 'twilio');
+        // Track success in stats
+        trackMessageSuccess(adminName);
+        
+        log(`✅ WhatsApp sent to ${adminName}: SUCCESS`, 'twilio');
+        console.log(`✅ WhatsApp sent to ${adminName}: SUCCESS`);
       } else {
-        log(`❌ Failed to send WhatsApp to ${adminName}: ${
-          result.status === 'rejected' 
-            ? result.reason 
-            : (result as PromiseFulfilledResult<{ success: boolean; error?: any }>).value.error
-        }`, 'twilio');
+        const errorMsg = result.status === 'rejected' 
+          ? result.reason 
+          : (result as PromiseFulfilledResult<{ success: boolean; error?: any }>).value.error;
+        
+        // Track failure in stats
+        trackMessageFailure(adminName);
+          
+        log(`❌ WhatsApp sent to ${adminName}: FAILED - ${errorMsg}`, 'twilio');
+        console.log(`❌ WhatsApp sent to ${adminName}: FAILED - ${errorMsg}`);
       }
     });
     

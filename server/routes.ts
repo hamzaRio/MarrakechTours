@@ -439,6 +439,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // WhatsApp notification stats endpoint (admin only)
+  app.get("/api/admin/notification-stats", requireAuth, async (req, res) => {
+    try {
+      const { getNotificationStats } = await import('./utils/notificationStats');
+      const stats = getNotificationStats();
+      res.json(stats);
+    } catch (error) {
+      res.status(500).json({ 
+        message: "Failed to fetch notification stats",
+        error: error instanceof Error ? error.message : String(error) 
+      });
+    }
+  });
+  
   app.get("/api/availability/activity/:id/:monthYear", async (req, res) => {
     try {
       const activityId = parseInt(req.params.id);
