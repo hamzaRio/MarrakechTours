@@ -42,8 +42,17 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Skip MongoDB connection for now to make sure app starts properly
-  log('MongoDB integration disabled - app will run with memory storage only', 'mongodb');
+  // Attempt to connect to MongoDB, but continue regardless of result
+  connectToDatabase().then(connected => {
+    if (connected) {
+      log('MongoDB integration is active', 'mongodb');
+    } else {
+      log('Running without MongoDB support - using memory storage only', 'mongodb');
+    }
+  }).catch(error => {
+    log(`Failed to initialize MongoDB: ${error}`, 'mongodb');
+    log('Continuing with memory storage only', 'mongodb');
+  });
   
   const server = await registerRoutes(app);
 

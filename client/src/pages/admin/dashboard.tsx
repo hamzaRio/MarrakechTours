@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,12 +8,14 @@ import Navbar from "@/components/navbar";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
 import { Activity, Booking } from "@shared/schema";
-import { CalendarCheck, BookCheck, ClipboardList, Eye, LogOut } from "lucide-react";
+import { CalendarCheck, BookCheck, ClipboardList, Eye, LogOut, Database } from "lucide-react";
+import MongoBookings from "@/components/admin/mongo-bookings";
 
 export default function AdminDashboard() {
   const [, navigate] = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
   const { toast } = useToast();
+  const [showMongoSection, setShowMongoSection] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) {

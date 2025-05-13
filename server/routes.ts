@@ -11,6 +11,7 @@ import session from "express-session";
 import MemoryStore from "memorystore";
 import path from "path";
 import mongoBookingRoutes from './routes/mongoBookingRoutes';
+import { isMongoConnected } from './config/database';
 
 // JWT secret - in production, use environment variable
 const JWT_SECRET = process.env.JWT_SECRET || "marrakech-deserts-secret-key";
@@ -37,8 +38,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   console.log(`Serving static files from: ${staticPath}`);
   app.use('/static', express.static(staticPath));
   
-  // MongoDB routes disabled for now
-  console.log('MongoDB routes disabled - using memory storage only');
+  // Register MongoDB routes only if MongoDB is connected
+  try {
+    if (isMongoConnected()) {
+      app.use('/api/mongo', mongoBookingRoutes);
+      console.log('MongoDB booking routes registered and available at /api/mongo/*');
+    } else {
+      console.log('MongoDB routes not registered - database not connected');
+    }
+  } catch (error) {
+    console.error('Error while setting up MongoDB routes:', error);
+  }
 
   // Middleware to check authentication
   const requireAuth = (req: Request, res: Response, next: NextFunction) => {

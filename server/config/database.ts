@@ -5,6 +5,13 @@ import { log } from '../vite';
 // Load environment variables
 dotenv.config();
 
+// Connection options to improve performance and reliability
+const mongooseOptions = {
+  serverSelectionTimeoutMS: 5000, // 5 seconds timeout for server selection
+  socketTimeoutMS: 45000, // 45 seconds timeout on socket operations
+  family: 4 // Use IPv4, skip trying IPv6
+};
+
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/marrakechTours';
 let isConnected = false;
 
@@ -20,21 +27,26 @@ export const connectToDatabase = async (): Promise<boolean> => {
   try {
     log('Connecting to MongoDB...', 'mongodb');
     
-    // Create a promise that will be rejected after 5 seconds
-    const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => {
-        reject(new Error('MongoDB connection timeout after 5 seconds'));
-      }, 5000);
+    // Set mongoose connection event handlers
+    mongoose.connection.on('connected', () => {
+      log('MongoDB connected successfully', 'mongodb');
+      isConnected = true;
     });
     
-    // Try to connect with a timeout
-    await Promise.race([
-      mongoose.connect(MONGODB_URI),
-      timeoutPromise
-    ]);
+    mongoose.connection.on('error', (err) => {
+      log(`MongoDB connection error: ${err}`, 'mongodb');
+      isConnected = false;
+    });
+    
+    mongoose.connection.on('disconnected', () => {
+      log('MongoDB disconnected', 'mongodb');
+      isConnected = false;
+    });
+    
+    // Attempt connection with timeout options
+    await mongoose.connect(MONGODB_URI, mongooseOptions);
     
     isConnected = true;
-    log('MongoDB connected successfully', 'mongodb');
     return true;
   } catch (error) {
     log(`MongoDB connection error: ${error}`, 'mongodb');

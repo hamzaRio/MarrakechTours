@@ -91,7 +91,37 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
         notes: data.notes || "",
       };
 
-      return apiRequest("POST", "/api/bookings", bookingData);
+      // First save to in-memory storage
+      await apiRequest("POST", "/api/bookings", bookingData);
+      
+      // Try to save to MongoDB as well (this won't block the booking process if it fails)
+      try {
+        const response = await fetch('/api/mongo/bookings', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            fullName: data.name,
+            phoneNumber: data.phone,
+            selectedActivity: activities?.find(a => a.id === parseInt(data.activity))?.title || data.activity,
+            preferredDate: data.date,
+            numberOfPeople: data.people,
+            notes: data.notes || "",
+          }),
+        });
+        
+        if (response.ok) {
+          console.log('Booking saved to MongoDB database');
+        } else {
+          const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+          console.warn('MongoDB save failed:', errorData.message);
+        }
+      } catch (error) {
+        console.warn('MongoDB connection failed, but booking is still processed in memory storage');
+      }
+      
+      return bookingData;
     },
     onSuccess: async () => {
       const formData = form.getValues();
