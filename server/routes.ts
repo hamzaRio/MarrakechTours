@@ -10,6 +10,7 @@ import jwt from "jsonwebtoken";
 import session from "express-session";
 import MemoryStore from "memorystore";
 import path from "path";
+import mongoBookingRoutes from './routes/mongoBookingRoutes';
 
 // JWT secret - in production, use environment variable
 const JWT_SECRET = process.env.JWT_SECRET || "marrakech-deserts-secret-key";
@@ -35,6 +36,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const staticPath = path.join(process.cwd(), 'public');
   console.log(`Serving static files from: ${staticPath}`);
   app.use('/static', express.static(staticPath));
+  
+  // MongoDB routes disabled for now
+  console.log('MongoDB routes disabled - using memory storage only');
 
   // Middleware to check authentication
   const requireAuth = (req: Request, res: Response, next: NextFunction) => {
