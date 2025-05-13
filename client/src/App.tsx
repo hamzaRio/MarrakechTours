@@ -10,6 +10,7 @@ import AdminLogin from "@/pages/admin/login";
 import AdminDashboard from "@/pages/admin/dashboard";
 import AdminActivities from "@/pages/admin/activities";
 import AdminBookings from "@/pages/admin/bookings";
+import AdminAuditLogs from "@/pages/admin/audit-logs";
 import AdminIndex from "@/pages/admin/index";
 
 function Router() {
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/admin/activities" component={AdminActivities} />
       <Route path="/admin/bookings" component={AdminBookings} />
+      <Route path="/admin/audit-logs" component={AdminAuditLogs} />
       
       {/* Fallback to 404 */}
       <Route component={NotFound} />

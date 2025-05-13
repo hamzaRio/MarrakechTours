@@ -230,6 +230,15 @@ export default function ActivityDetailsPage() {
                   </h2>
                 </div>
                 
+                <div className="mb-6">
+                  <AvailabilityCalendar 
+                    onDateSelect={(date) => {
+                      console.log("Selected date:", date);
+                      setShowBookingForm(true);
+                    }}
+                  />
+                </div>
+                
                 {!showBookingForm ? (
                   <>
                     <div className="mb-6 bg-white p-5 rounded-md shadow-sm">
