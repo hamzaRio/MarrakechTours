@@ -16,6 +16,7 @@ import BookingConfirmation from "@/components/booking-confirmation";
 import { BookingFormData } from "@shared/schema";
 import { CalendarDays, Clock, Users, MapPin, ArrowRight, Globe, Wallet } from "lucide-react";
 import { Helmet } from "react-helmet";
+import { SocialSharePopover } from "@/components/social-share";
 
 export default function ActivityDetailsPage() {
   const [, params] = useRoute("/activity/:id");
