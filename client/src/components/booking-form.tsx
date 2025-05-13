@@ -6,6 +6,8 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { constructWhatsAppUrl, whatsAppContacts, getActivityIdByName, formatPrice } from "@/lib/utils";
 import { CalendarIcon, Users, ArrowRight, Banknote } from "lucide-react";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 import {
   Form,
@@ -135,22 +137,22 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-white font-medium">Full Name *</FormLabel>
+              <FormItem className="mb-4">
+                <FormLabel className="text-white font-medium mb-2 block">Full Name *</FormLabel>
                 <FormControl>
                   <Input 
                     placeholder="Your full name" 
                     {...field} 
-                    className="bg-white/70 border-white text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta" 
+                    className="bg-white/70 border-white text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta h-12 px-4" 
                   />
                 </FormControl>
-                <FormMessage className="text-white/90" />
+                <FormMessage className="mt-1 text-white/90" />
               </FormItem>
             )}
           />
@@ -159,16 +161,25 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             control={form.control}
             name="phone"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-white font-medium">WhatsApp Phone Number (with country code) *</FormLabel>
+              <FormItem className="mb-4">
+                <FormLabel className="text-white font-medium mb-2 block">Phone Number *</FormLabel>
                 <FormControl>
-                  <Input 
-                    placeholder="e.g. +212600000000 or +33612345678" 
-                    {...field} 
-                    className="bg-white/70 border-white text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta" 
+                  <PhoneInput
+                    country={'ma'}
+                    value={field.value}
+                    onChange={(phone) => field.onChange("+" + phone)}
+                    inputProps={{
+                      name: 'phone',
+                      required: true,
+                      className: 'focus:ring-2 focus:ring-terracotta focus:border-terracotta'
+                    }}
+                    containerClass="phone-input-container"
+                    enableSearch={true}
+                    searchPlaceholder="Search country..."
+                    preferredCountries={['ma', 'fr', 'es', 'gb', 'de']}
                   />
                 </FormControl>
-                <FormMessage className="text-white/90" />
+                <FormMessage className="mt-1 text-white/90" />
               </FormItem>
             )}
           />
@@ -177,8 +188,8 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             control={form.control}
             name="activity"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-white font-medium">
+              <FormItem className="mb-4">
+                <FormLabel className="text-white font-medium mb-2 block">
                   {selectedActivityId ? "Selected Activity" : "Select Activity *"}
                 </FormLabel>
                 <Select 
@@ -188,7 +199,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                 >
                   <FormControl>
                     <SelectTrigger 
-                      className={`bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta ${selectedActivityId ? 'cursor-not-allowed opacity-80' : ''}`}
+                      className={`bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta h-12 ${selectedActivityId ? 'cursor-not-allowed opacity-80' : ''}`}
                     >
                       <SelectValue placeholder={selectedActivityId ? selectedActivity?.title : "Choose an activity"} />
                     </SelectTrigger>
@@ -201,7 +212,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                     ))}
                   </SelectContent>
                 </Select>
-                <FormMessage className="text-white/90" />
+                <FormMessage className="mt-1 text-white/90" />
               </FormItem>
             )}
           />
@@ -210,19 +221,19 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             control={form.control}
             name="date"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-white font-medium">Preferred Date *</FormLabel>
+              <FormItem className="mb-4">
+                <FormLabel className="text-white font-medium mb-2 block">Preferred Date *</FormLabel>
                 <div className="relative">
                   <FormControl>
                     <Input 
                       type="date" 
                       {...field} 
-                      className="bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta" 
+                      className="bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta h-12 px-4" 
                     />
                   </FormControl>
-                  <CalendarIcon className="absolute right-3 top-2.5 h-4 w-4 text-gray-500" />
+                  <CalendarIcon className="absolute right-3 top-4 h-4 w-4 text-gray-500" />
                 </div>
-                <FormMessage className="text-white/90" />
+                <FormMessage className="mt-1 text-white/90" />
               </FormItem>
             )}
           />
@@ -231,14 +242,14 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             control={form.control}
             name="people"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-white font-medium">Number of People *</FormLabel>
+              <FormItem className="mb-4">
+                <FormLabel className="text-white font-medium mb-2 block">Number of People *</FormLabel>
                 <Select 
                   value={String(field.value)}
                   onValueChange={(value) => field.onChange(parseInt(value))}
                 >
                   <FormControl>
-                    <SelectTrigger className="bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta">
+                    <SelectTrigger className="bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta h-12">
                       <SelectValue placeholder="Select number of people" />
                     </SelectTrigger>
                   </FormControl>
@@ -250,23 +261,23 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                     ))}
                   </SelectContent>
                 </Select>
-                <FormMessage className="text-white/90" />
+                <FormMessage className="mt-1 text-white/90" />
               </FormItem>
             )}
           />
           
-          <div>
+          <div className="mb-4">
             <FormLabel className="block text-white font-medium mb-2">
               Payment Method
             </FormLabel>
-            <div className="bg-white/70 border border-white rounded-md p-3 text-gray-900 font-medium">
+            <div className="bg-white/70 border border-white rounded-md p-4 text-gray-900 font-medium h-12 flex items-center">
               Cash on Arrival
               {totalPrice && (
-                <div className="mt-1 flex items-center text-gray-900 font-medium">
-                  <Banknote className="h-4 w-4 mr-1.5 text-gray-500" />
-                  Total: <span className="text-xl ml-1 font-bold text-terracotta">{formatPrice(totalPrice)}</span>
+                <div className="ml-auto flex items-center text-gray-900 font-medium">
+                  <Banknote className="h-4 w-4 mr-2 text-gray-500" />
+                  Total: <span className="text-xl ml-2 font-bold text-terracotta">{formatPrice(totalPrice)}</span>
                   {selectedActivity && (
-                    <span className="text-xs ml-1.5 text-gray-500">
+                    <span className="text-xs ml-2 text-gray-500">
                       ({formatPrice(selectedActivity.price)} per person × {form.watch("people")})
                     </span>
                   )}
@@ -281,23 +292,23 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
           control={form.control}
           name="notes"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-white font-medium">Additional Notes</FormLabel>
+            <FormItem className="mb-6">
+              <FormLabel className="text-white font-medium mb-2 block">Additional Notes</FormLabel>
               <FormControl>
                 <Textarea 
                   placeholder="Any special requirements or questions?" 
                   {...field} 
                   value={field.value || ''}
-                  className="bg-white/70 border-white text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta" 
+                  className="bg-white/70 border-white text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta min-h-[100px] p-4" 
                   rows={3}
                 />
               </FormControl>
-              <FormMessage className="text-white/90" />
+              <FormMessage className="mt-1 text-white/90" />
             </FormItem>
           )}
         />
         
-        <div className="pt-2">
+        <div className="pt-4">
           <Button 
             type="submit" 
             disabled={isSubmitting}
