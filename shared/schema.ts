@@ -54,14 +54,16 @@ export const insertUserSchema = createInsertSchema(users).omit({
 export const auditLogs = pgTable("audit_logs", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull(),
-  action: text("action").notNull(),
+  action: text("action").notNull(), // CREATE, UPDATE, DELETE, LOGIN
+  entityType: text("entity_type"), // activity, booking, user
+  entityId: integer("entity_id"),
   details: json("details"), // Stores the details of what was changed
-  timestamp: timestamp("timestamp").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const insertAuditLogSchema = createInsertSchema(auditLogs).omit({ 
   id: true, 
-  timestamp: true 
+  createdAt: true 
 });
 
 // Type definitions

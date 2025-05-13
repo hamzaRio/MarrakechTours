@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AuditLog } from "@shared/schema";
+import { useAuth } from "@/hooks/use-auth";
 import { formatDate } from "@/lib/utils";
 import { Activity, RotateCcw, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -27,6 +28,7 @@ export default function AuditLogTable() {
   const [actionTypeFilter, setActionTypeFilter] = useState<string | null>(null);
   const [userFilter, setUserFilter] = useState<string>("");
   const [dateFilter, setDateFilter] = useState<string>("");
+  const { users } = useAuth();
 
   const { data: auditLogs, isLoading, refetch } = useQuery<AuditLog[]>({
     queryKey: ["/api/admin/audit-logs"],
@@ -60,6 +62,12 @@ export default function AuditLogTable() {
     }
   };
 
+  // Get username by user id
+  const getUserNameById = (userId: number) => {
+    const user = users?.find(u => u.id === userId);
+    return user ? user.username : `User #${userId}`;
+  };
+
   const filteredLogs = (auditLogs || []).filter((log) => {
     // Filter by action type if selected
     if (actionTypeFilter && log.action !== actionTypeFilter) {
@@ -67,13 +75,14 @@ export default function AuditLogTable() {
     }
 
     // Filter by user if specified
-    if (userFilter && !log.userName.toLowerCase().includes(userFilter.toLowerCase())) {
+    const userName = getUserNameById(log.userId);
+    if (userFilter && !userName.toLowerCase().includes(userFilter.toLowerCase())) {
       return false;
     }
 
     // Filter by date if specified
     if (dateFilter) {
-      const logDate = new Date(log.createdAt).toISOString().split('T')[0];
+      const logDate = log.createdAt ? new Date(log.createdAt).toISOString().split('T')[0] : '';
       if (logDate !== dateFilter) {
         return false;
       }
@@ -201,9 +210,11 @@ export default function AuditLogTable() {
                 {filteredLogs.map((log) => (
                   <TableRow key={log.id}>
                     <TableCell className="font-medium whitespace-nowrap">
-                      {new Date(log.createdAt).toLocaleString()}
+                      {log.createdAt 
+                        ? new Date(log.createdAt).toLocaleString() 
+                        : 'N/A'}
                     </TableCell>
-                    <TableCell>{log.userName}</TableCell>
+                    <TableCell>{getUserNameById(log.userId)}</TableCell>
                     <TableCell>
                       <Badge
                         className={`${getActionColor(
@@ -214,15 +225,17 @@ export default function AuditLogTable() {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge
-                        className={`${getEntityColor(
-                          log.entityType
-                        )} border-none font-normal`}
-                      >
-                        {log.entityType}
-                      </Badge>
+                      {log.entityType && (
+                        <Badge
+                          className={`${getEntityColor(
+                            log.entityType
+                          )} border-none font-normal`}
+                        >
+                          {log.entityType}
+                        </Badge>
+                      )}
                     </TableCell>
-                    <TableCell>{log.entityId}</TableCell>
+                    <TableCell>{log.entityId ?? 'N/A'}</TableCell>
                     <TableCell>
                       {renderDetails(log.details)}
                     </TableCell>

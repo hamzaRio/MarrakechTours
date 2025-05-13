@@ -1,101 +1,89 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { useToast } from "@/hooks/use-toast";
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { User } from '@shared/schema';
+import { useQuery } from '@tanstack/react-query';
 
-// Define user type
-interface User {
-  id: number;
-  username: string;
-  role: string;
-}
-
-// Define auth context type
 interface AuthContextType {
-  user: User | null;
   isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (token: string, user: User) => void;
+  user: User | null;
+  users: User[] | null;
+  login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
 }
 
-// Create auth context with default values
 const AuthContext = createContext<AuthContextType>({
-  user: null,
   isAuthenticated: false,
-  isLoading: true,
-  login: () => {},
+  user: null,
+  users: null,
+  login: async () => false,
   logout: () => {},
 });
 
-// Provider component
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const { toast } = useToast();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Check for existing auth on mount
+  const { data: fetchedUsers } = useQuery<User[]>({
+    queryKey: ['/api/admin/users'],
+    enabled: isAuthenticated && user?.role === 'superadmin',
+  });
+  
+  const users = fetchedUsers || [];
+
+  // Check if user is already logged in
   useEffect(() => {
-    try {
-      // Check for stored user and token
-      const storedUser = localStorage.getItem("user");
-      const storedToken = localStorage.getItem("token");
-
-      if (storedUser && storedToken) {
-        setUser(JSON.parse(storedUser));
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        setIsAuthenticated(true);
+      } catch (e) {
+        localStorage.removeItem('user');
       }
-    } catch (error) {
-      // If there's an error parsing the stored user, clear storage
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
-    } finally {
-      setIsLoading(false);
     }
   }, []);
 
-  // Login function
-  const login = (token: string, userData: User) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData);
+  const login = async (username: string, password: string): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        return false;
+      }
+
+      const data = await response.json();
+      setUser(data.user);
+      setIsAuthenticated(true);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      return true;
+    } catch (error) {
+      console.error('Login error:', error);
+      return false;
+    }
   };
 
-  // Logout function
   const logout = () => {
-    fetch("/api/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    }).catch((error) => {
-      toast({
-        title: "Logout Error",
-        description: "There was an issue logging out. Please try again.",
-        variant: "destructive",
-      });
-    });
-
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
     setUser(null);
+    setIsAuthenticated(false);
+    localStorage.removeItem('user');
+    fetch('/api/admin/logout', { method: 'POST' }).catch(console.error);
   };
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        isAuthenticated: !!user,
-        isLoading,
-        login,
-        logout,
-      }}
-    >
+    <AuthContext.Provider value={{ isAuthenticated, user, users, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Hook to use auth context
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);
