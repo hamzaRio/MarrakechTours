@@ -161,7 +161,7 @@ export async function sendBookingNotification(booking: {
         results.push(result);
         
         // Add 1 second delay before sending the next message (except for the last one)
-        if (Object.keys(adminPhones).indexOf(adminName) < Object.keys(adminPhones).length - 1) {
+        if (adminNames.indexOf(adminName) < adminNames.length - 1) {
           log(`Waiting 1 second before sending next message...`, 'twilio');
           await new Promise(resolve => setTimeout(resolve, 1000));
         }
