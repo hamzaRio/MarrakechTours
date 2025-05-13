@@ -190,7 +190,8 @@ export class MemStorage implements IStorage {
       id, 
       status: "pending", // Default status for new bookings
       createdAt: now,
-      notes: booking.notes ?? null
+      notes: booking.notes ?? null,
+      crmReference: booking.crmReference ?? null
     };
     this.bookings.set(id, newBooking);
     return newBooking;

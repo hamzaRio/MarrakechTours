@@ -37,6 +37,7 @@ export const bookings = pgTable("bookings", {
   people: integer("people").notNull(),
   notes: text("notes"),
   status: text("status").default("pending"), // pending, confirmed, cancelled
+  crmReference: text("crm_reference"), // Reference ID in the CRM system
   createdAt: timestamp("created_at").defaultNow(),
 });
 
