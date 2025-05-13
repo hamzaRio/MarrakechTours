@@ -164,19 +164,23 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
               <FormItem className="mb-6 w-full">
                 <FormLabel className="text-gray-800 font-medium mb-2 block">Phone Number *</FormLabel>
                 <FormControl>
-                  <div className="w-full phone-container">
-                    <PhoneInput
-                      country={'ma'}
-                      value={field.value}
-                      onChange={(phone) => field.onChange("+" + phone)}
-                      inputProps={{
-                        name: 'phone',
-                        required: true,
-                        className: 'focus:ring-2 focus:ring-terracotta focus:border-terracotta text-lg'
-                      }}
-                      containerClass="phone-input-container w-full"
-                      preferredCountries={['ma', 'fr', 'es', 'gb', 'de']}
-                      placeholder="+212"
+                  <div className="relative w-full">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                      <span className="flex items-center">
+                        <img 
+                          src="https://flagcdn.com/w20/ma.png" 
+                          alt="Morocco" 
+                          className="mr-1 h-4 w-6" 
+                        />
+                        <span className="text-gray-700 text-lg">+212</span>
+                      </span>
+                    </div>
+                    <Input 
+                      type="tel" 
+                      placeholder="6XX-XXX-XXX"
+                      value={field.value ? field.value.replace("+212", "") : ""}
+                      onChange={(e) => field.onChange("+212" + e.target.value)}
+                      className="bg-white border border-gray-300 text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta h-14 pl-20 pr-4 w-full text-lg"
                     />
                   </div>
                 </FormControl>
