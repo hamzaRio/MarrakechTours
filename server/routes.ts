@@ -278,6 +278,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to fetch booking" });
     }
   });
+  
+  // Endpoint to resend WhatsApp notification for a specific booking
+  app.post("/api/bookings/:id/resend-whatsapp", requireAuth, async (req, res) => {
+    try {
+      const bookingId = parseInt(req.params.id);
+      const booking = await storage.getBooking(bookingId);
+      
+      if (!booking) {
+        return res.status(404).json({ message: "Booking not found" });
+      }
+      
+      // Get activity name for the booking
+      const activity = booking.activityId ? await storage.getActivity(booking.activityId) : null;
+      const activityName = booking.selectedActivity || (activity?.title || `Activity #${booking.activityId}`);
+      
+      // Resend WhatsApp notification
+      try {
+        const { sendBookingNotification } = await import('./utils/sendWhatsApp');
+        const result = await sendBookingNotification({
+          fullName: booking.fullName || booking.name,
+          phoneNumber: booking.phoneNumber || booking.phone,
+          selectedActivity: activityName,
+          preferredDate: booking.preferredDate || booking.date,
+          numberOfPeople: booking.numberOfPeople || booking.people || 1,
+          notes: booking.notes || ''
+        });
+        
+        // Log the resend action as an audit log
+        if (req.session.userId) {
+          await storage.createAuditLog({
+            userId: req.session.userId,
+            action: "RESEND_WHATSAPP",
+            entityType: "booking",
+            entityId: bookingId,
+            details: { success: result.success }
+          });
+        }
+        
+        return res.status(200).json({ 
+          message: "WhatsApp notification resent", 
+          success: result.success,
+          results: result.results
+        });
+      } catch (err) {
+        log(`Failed to resend WhatsApp notification: ${err}`, 'express');
+        return res.status(500).json({ 
+          message: "Failed to resend WhatsApp notification", 
+          error: err instanceof Error ? err.message : String(err)
+        });
+      }
+    } catch (error) {
+      res.status(500).json({ 
+        message: "Failed to process booking resend request", 
+        error: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
 
   app.post("/api/bookings", async (req, res) => {
     try {
