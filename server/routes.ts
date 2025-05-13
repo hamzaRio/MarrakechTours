@@ -283,6 +283,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertBookingSchema.parse(req.body);
       const booking = await storage.createBooking(validatedData);
+      
+      // Send WhatsApp notification to admins
+      try {
+        const { sendBookingNotification } = await import('./utils/sendWhatsApp');
+        
+        // Get activity name from ID
+        const activity = await storage.getActivity(booking.activityId);
+        const activityName = activity?.title || `Activity #${booking.activityId}`;
+        
+        // Send WhatsApp notification
+        await sendBookingNotification({
+          fullName: booking.name,
+          phoneNumber: booking.phone,
+          selectedActivity: activityName,
+          preferredDate: booking.date,
+          numberOfPeople: booking.people,
+          notes: booking.notes
+        });
+      } catch (notificationError) {
+        // Log error but don't fail the booking creation
+        console.error('Failed to send WhatsApp notification:', notificationError);
+      }
+      
       res.status(201).json(booking);
     } catch (error) {
       if (error instanceof z.ZodError) {

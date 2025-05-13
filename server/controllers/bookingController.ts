@@ -33,6 +33,24 @@ export const createBooking = async (req: Request, res: Response) => {
     // Save to database
     const savedBooking = await newBooking.save();
     
+    // Send WhatsApp notification to admins
+    try {
+      const { sendBookingNotification } = await import('../utils/sendWhatsApp');
+      
+      // Send WhatsApp notification
+      await sendBookingNotification({
+        fullName: validatedData.fullName,
+        phoneNumber: validatedData.phoneNumber,
+        selectedActivity: validatedData.selectedActivity,
+        preferredDate: validatedData.preferredDate.toISOString().split('T')[0], // Format date as YYYY-MM-DD
+        numberOfPeople: validatedData.numberOfPeople,
+        notes: validatedData.notes
+      });
+    } catch (notificationError) {
+      // Log error but don't fail the booking creation
+      console.error('Failed to send WhatsApp notification:', notificationError);
+    }
+    
     // Return the saved booking
     res.status(201).json(savedBooking);
   } catch (error) {

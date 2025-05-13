@@ -126,30 +126,14 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
     onSuccess: async () => {
       const formData = form.getValues();
       
-      // Send to WhatsApp contacts
-      const activityId = parseInt(formData.activity);
-      const activityPrice = getActivityPriceById(activityId);
-      const totalPrice = activityPrice * formData.people;
-      
-      const bookingInfo = {
-        name: formData.name,
-        phone: formData.phone,
-        activity: formData.activity, // Pass the ID so we can get the proper name in the utility function
-        date: formData.date,
-        people: formData.people,
-      };
-
-      // Construct a single WhatsApp message to be sent to all three team members
-      // The message will include pricing information and mention all three team members
-      window.open(constructWhatsAppUrl(whatsAppContacts.ahmed, bookingInfo, activityPrice), "_blank");
-      window.open(constructWhatsAppUrl(whatsAppContacts.yahia, bookingInfo, activityPrice), "_blank");
-      window.open(constructWhatsAppUrl(whatsAppContacts.nadia, bookingInfo, activityPrice), "_blank");
+      // The server will send WhatsApp notifications to the team members
+      // No need to open WhatsApp directly from the browser anymore
       
       onSuccess(formData);
       
       toast({
         title: "Booking Confirmed!",
-        description: "Your booking has been sent to our team via WhatsApp.",
+        description: "Our team has been notified and will contact you soon via WhatsApp.",
       });
       
       form.reset();
