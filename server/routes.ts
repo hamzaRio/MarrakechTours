@@ -363,15 +363,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = insertBookingSchema.parse(req.body);
       const booking = await storage.createBooking(validatedData);
       
+      // Get activity name from ID
+      const activity = await storage.getActivity(booking.activityId);
+      const activityName = activity?.title || `Activity #${booking.activityId}`;
+      
       // Send WhatsApp notification to admins
       try {
         const { sendBookingNotification } = await import('./utils/sendWhatsApp');
         
-        // Get activity name from ID
-        const activity = await storage.getActivity(booking.activityId);
-        const activityName = activity?.title || `Activity #${booking.activityId}`;
-        
-        // Send WhatsApp notification
         await sendBookingNotification({
           fullName: booking.name,
           phoneNumber: booking.phone,
@@ -383,6 +382,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } catch (notificationError) {
         // Log error but don't fail the booking creation
         console.error('Failed to send WhatsApp notification:', notificationError);
+      }
+      
+      // Sync with CRM
+      try {
+        const { syncBookingWithCrm } = await import('./utils/crmIntegration');
+        const crmResult = await syncBookingWithCrm(booking, activityName);
+        
+        if (crmResult.success) {
+          console.log(`Booking synced with CRM: ${crmResult.message}`);
+          
+          // Create audit log for CRM sync
+          if (crmResult.crmId) {
+            await storage.createAuditLog({
+              userId: req.session?.userId || 0,
+              action: "CRM_SYNC",
+              entityType: "booking",
+              entityId: booking.id,
+              details: { 
+                crmId: crmResult.crmId,
+                message: crmResult.message
+              }
+            });
+          }
+        } else {
+          console.warn(`CRM sync failed: ${crmResult.message}`);
+        }
+      } catch (crmError) {
+        // Log error but don't fail the booking creation
+        console.error('Failed to sync with CRM:', crmError);
       }
       
       res.status(201).json(booking);

@@ -9,6 +9,7 @@ export interface IBooking extends Document {
   numberOfPeople: number;
   notes?: string;
   createdAt: Date;
+  crmReference?: string; // Reference ID in the CRM system
 }
 
 // Create the Booking schema
@@ -41,6 +42,10 @@ const BookingSchema: Schema = new Schema({
   createdAt: { 
     type: Date, 
     default: Date.now 
+  },
+  crmReference: { 
+    type: String, 
+    required: false 
   }
 });
 

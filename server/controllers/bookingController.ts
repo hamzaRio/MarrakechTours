@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Booking, { IBooking } from '../models/Booking';
 import { z } from 'zod';
+import { syncBookingWithCrm } from '../utils/crmIntegration';
 
 // Zod schema for validating booking data
 const bookingSchema = z.object({
@@ -49,6 +50,37 @@ export const createBooking = async (req: Request, res: Response) => {
     } catch (notificationError) {
       // Log error but don't fail the booking creation
       console.error('Failed to send WhatsApp notification:', notificationError);
+    }
+    
+    // Sync with CRM
+    try {
+      // Adapt the MongoDB document to the format expected by the CRM integration
+      const bookingForCrm = {
+        id: savedBooking._id.toString(),
+        name: savedBooking.fullName,
+        phone: savedBooking.phoneNumber,
+        date: savedBooking.preferredDate.toISOString().split('T')[0],
+        people: savedBooking.numberOfPeople,
+        notes: savedBooking.notes || null
+      };
+      
+      // Sync booking with CRM
+      const crmResult = await syncBookingWithCrm(bookingForCrm, validatedData.selectedActivity);
+      
+      if (crmResult.success) {
+        console.log(`MongoDB booking synced with CRM: ${crmResult.message}`);
+        
+        // Update the booking with CRM ID if available
+        if (crmResult.crmId) {
+          savedBooking.crmReference = crmResult.crmId;
+          await savedBooking.save();
+        }
+      } else {
+        console.warn(`CRM sync failed for MongoDB booking: ${crmResult.message}`);
+      }
+    } catch (crmError) {
+      // Log error but don't fail the booking creation
+      console.error('Failed to sync MongoDB booking with CRM:', crmError);
     }
     
     // Return the saved booking
