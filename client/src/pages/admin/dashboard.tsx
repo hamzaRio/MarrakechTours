@@ -18,7 +18,7 @@ import CrmStatus from "@/components/admin/crm-status";
 
 export default function AdminDashboard() {
   const [, navigate] = useLocation();
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, logoutMutation } = useAuth();
   const { toast } = useToast();
   const [showMongoSection, setShowMongoSection] = useState(false);
   const [isMongoConnected, setIsMongoConnected] = useState(false);
@@ -34,27 +34,16 @@ export default function AdminDashboard() {
       });
   }, []);
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/admin/login");
-    }
-  }, [isAuthenticated, navigate]);
-
   const { data: activities } = useQuery<Activity[]>({
     queryKey: ["/api/activities"],
   });
 
   const { data: bookings } = useQuery<Booking[]>({
     queryKey: ["/api/bookings"],
-    enabled: isAuthenticated,
   });
 
   const handleLogout = () => {
-    logout();
-    toast({
-      title: "Logged Out",
-      description: "You have been successfully logged out",
-    });
+    logoutMutation.mutate();
     navigate("/admin/login");
   };
 
@@ -62,10 +51,6 @@ export default function AdminDashboard() {
   const totalActivities = activities?.length || 0;
   const totalBookings = bookings?.length || 0;
   const pendingBookings = bookings?.filter(b => b.status === "pending").length || 0;
-
-  if (!isAuthenticated) {
-    return null;
-  }
 
   return (
     <>

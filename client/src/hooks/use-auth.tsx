@@ -40,7 +40,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryFn: getQueryFn({ on401: "returnNull" }),
   });
 
-  const user = userData?.success ? userData.user : null;
+  // Default to null if userData is undefined or doesn't have success flag
+  const user = userData && userData.success === true ? userData.user : null;
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginData) => {
