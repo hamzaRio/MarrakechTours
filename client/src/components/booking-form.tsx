@@ -42,7 +42,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
     resolver: zodResolver(bookingFormSchema),
     defaultValues: {
       name: "",
-      phone: "",
+      phone: "+212",
       activityId: selectedActivityId || 0,
       activity: selectedActivityId ? String(selectedActivityId) : "",
       date: "",
@@ -164,21 +164,12 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
               <FormItem className="mb-6 w-full">
                 <FormLabel className="text-gray-800 font-medium mb-2 block">Phone Number *</FormLabel>
                 <FormControl>
-                  <div className="w-full phone-container">
-                    <PhoneInput
-                      country={'ma'}
-                      value={field.value}
-                      onChange={(phone) => field.onChange("+" + phone)}
-                      inputProps={{
-                        name: 'phone',
-                        required: true,
-                        className: 'focus:ring-2 focus:ring-terracotta focus:border-terracotta'
-                      }}
-                      containerClass="phone-input-container w-full"
-                      preferredCountries={['ma', 'fr', 'es', 'gb', 'de']}
-                      placeholder="+212"
-                    />
-                  </div>
+                  <Input 
+                    type="tel" 
+                    placeholder="+212 6XX-XXXXXX" 
+                    {...field} 
+                    className="bg-white border border-gray-300 text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta h-12 px-4 w-full p-3" 
+                  />
                 </FormControl>
                 <FormMessage className="mt-2 text-gray-700" />
               </FormItem>
@@ -292,13 +283,13 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                     <div className="flex flex-wrap justify-between items-center">
                       <span className="text-gray-800 font-medium">Total Price:</span>
                       <span className="text-2xl font-bold text-terracotta">
-                        {formatPrice(totalPrice)}
+                        {formatPrice(totalPrice)} MAD
                       </span>
                     </div>
                     
                     {selectedActivity && (
                       <div className="text-sm text-gray-600 text-right mt-1">
-                        ({formatPrice(selectedActivity.price)} per person × {form.watch("people")} {form.watch("people") === 1 ? 'person' : 'people'})
+                        ({formatPrice(selectedActivity.price)} MAD per person × {form.watch("people")} {form.watch("people") === 1 ? 'person' : 'people'})
                       </div>
                     )}
                   </div>

@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatPrice(price: number): string {
-  return `${price} MAD`;
+  return `${price}`;
 }
 
 export function formatDate(dateString: string): string {
