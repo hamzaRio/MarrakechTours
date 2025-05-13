@@ -172,7 +172,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                       inputProps={{
                         name: 'phone',
                         required: true,
-                        className: 'focus:ring-2 focus:ring-terracotta focus:border-terracotta'
+                        className: 'focus:ring-2 focus:ring-terracotta focus:border-terracotta text-lg'
                       }}
                       containerClass="phone-input-container w-full"
                       preferredCountries={['ma', 'fr', 'es', 'gb', 'de']}
