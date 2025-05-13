@@ -4,12 +4,16 @@ import { Express, Request, Response, NextFunction } from "express";
 import session from "express-session";
 import bcrypt from "bcrypt";
 import { storage } from "./storage";
-import { User } from "@shared/schema";
 
 // Extend Express.User interface with our user properties
 declare global {
   namespace Express {
-    interface User extends User {}
+    interface User {
+      id: number;
+      username: string;
+      role: string;
+      createdAt: Date | null;
+    }
   }
 }
 
@@ -89,7 +93,7 @@ export function setupAuth(app: Express) {
 
   // Authentication routes
   app.post("/api/login", (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
+    passport.authenticate("local", (err: Error | null, user: any, info: { message?: string } | undefined) => {
       if (err) return next(err);
       
       if (!user) {
@@ -149,7 +153,7 @@ export function setupAuth(app: Express) {
       });
     }
     
-    req.logout((err) => {
+    req.logout((err: any) => {
       if (err) {
         return res.status(500).json({ 
           success: false, 
@@ -190,7 +194,7 @@ export function requireAdmin(req: Request, res: Response, next: NextFunction) {
     });
   }
   
-  const user = req.user as any;
+  const user = req.user as Express.User;
   if (user.role !== 'admin' && user.role !== 'superadmin') {
     return res.status(403).json({ 
       success: false, 
@@ -212,7 +216,7 @@ export function requireSuperAdmin(req: Request, res: Response, next: NextFunctio
     });
   }
   
-  const user = req.user as any;
+  const user = req.user as Express.User;
   if (user.role !== 'superadmin') {
     return res.status(403).json({ 
       success: false, 
