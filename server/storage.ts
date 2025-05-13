@@ -6,6 +6,10 @@ import {
   ActivityAvailability, AvailabilityStatus
 } from "@shared/schema";
 import { format, parse, startOfMonth, endOfMonth, eachDayOfInterval, addDays } from "date-fns";
+import session from 'express-session';
+import createMemoryStore from 'memorystore';
+
+const MemoryStore = createMemoryStore(session);
 
 // Define the storage interface with all CRUD operations
 export interface IStorage {
@@ -36,6 +40,9 @@ export interface IStorage {
   // Availability operations
   getAvailabilityForDate(date: string): Promise<ActivityAvailability[]>;
   getAvailabilityForActivity(activityId: number, monthYear: string): Promise<ActivityAvailability[]>;
+  
+  // Session store
+  sessionStore: session.Store;
 }
 
 // In-memory implementation of the storage interface
@@ -49,8 +56,13 @@ export class MemStorage implements IStorage {
   private bookingCurrentId: number;
   private userCurrentId: number;
   private auditLogCurrentId: number;
+  
+  public sessionStore: session.Store;
 
   constructor() {
+    this.sessionStore = new MemoryStore({
+      checkPeriod: 86400000 // Prune expired entries every 24h
+    });
     this.activities = new Map();
     this.bookings = new Map();
     this.users = new Map();
