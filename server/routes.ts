@@ -6,34 +6,16 @@ import {
   insertActivitySchema, insertBookingSchema, loginSchema,
   Activity, Booking, User
 } from "@shared/schema";
-import jwt from "jsonwebtoken";
-import session from "express-session";
-import MemoryStore from "memorystore";
 import path from "path";
 import { log } from "./vite";
 import mongoBookingRoutes from './routes/mongoBookingRoutes';
 import mongoActivityRoutes from './routes/mongoActivityRoutes';
 import { isMongoConnected } from './config/database';
-
-// JWT secret - in production, use environment variable
-const JWT_SECRET = process.env.JWT_SECRET || "marrakech-deserts-secret-key";
-
-// Session middleware
-const SessionStore = MemoryStore(session);
+import { setupAuth, requireAuth, requireAdmin, requireSuperAdmin } from './auth';
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Configure session
-  app.use(
-    session({
-      cookie: { maxAge: 86400000 }, // 24 hours
-      store: new SessionStore({
-        checkPeriod: 86400000 // 24 hours
-      }),
-      resave: false,
-      saveUninitialized: false,
-      secret: JWT_SECRET
-    })
-  );
+  // Set up authentication (includes session configuration)
+  setupAuth(app);
   
   // Set up static files serving
   const staticPath = path.join(process.cwd(), 'public');

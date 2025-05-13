@@ -119,7 +119,7 @@ export class MemStorage implements IStorage {
         title: "Ourika Valley Day Trip",
         description: "Journey to the beautiful Ourika Valley with its crystal-clear streams, snow-capped Atlas Mountains, and authentic Berber villages. Experience the local culture, enjoy scenic views, and connect with nature in this verdant paradise.",
         price: 150,
-        imageUrl: "/attached_assets/ourika-valley-marrakech.jpg",
+        image: "/attached_assets/ourika-valley-marrakech.jpg",
         featured: true,
       }
     ];
@@ -169,11 +169,20 @@ export class MemStorage implements IStorage {
 
   async createActivity(activity: InsertActivity): Promise<Activity> {
     const id = this.activityCurrentId++;
+    const now = new Date();
     const newActivity: Activity = { 
       ...activity, 
       id,
       featured: activity.featured ?? null,
-      getYourGuidePrice: activity.getYourGuidePrice ?? null
+      getYourGuidePrice: activity.getYourGuidePrice ?? null,
+      createdAt: now,
+      updatedAt: now,
+      durationHours: activity.durationHours ?? null,
+      includesFood: activity.includesFood ?? null,
+      includesTransportation: activity.includesTransportation ?? null,
+      maxGroupSize: activity.maxGroupSize ?? null,
+      priceType: activity.priceType ?? "per_person",
+      createdBy: activity.createdBy ?? null
     };
     this.activities.set(id, newActivity);
     return newActivity;
@@ -185,7 +194,8 @@ export class MemStorage implements IStorage {
 
     const updatedActivity: Activity = {
       ...existingActivity,
-      ...activityUpdate
+      ...activityUpdate,
+      updatedAt: new Date()
     };
 
     this.activities.set(id, updatedActivity);
