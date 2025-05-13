@@ -136,6 +136,12 @@ export default function AdminDashboard() {
                   <ClipboardList className="mr-2 h-4 w-4" /> View Audit Logs
                 </Button>
               )}
+              <Button 
+                onClick={() => setShowMongoSection(!showMongoSection)} 
+                className="w-full bg-blue-600 hover:bg-blue-700"
+              >
+                <Database className="mr-2 h-4 w-4" /> {showMongoSection ? "Hide MongoDB Data" : "Show MongoDB Data"}
+              </Button>
               <Button onClick={() => navigate("/")} variant="outline" className="w-full">
                 <Eye className="mr-2 h-4 w-4" /> View Website
               </Button>
@@ -173,6 +179,12 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
         </div>
+        
+        {showMongoSection && (
+          <div className="mt-8">
+            <MongoBookings />
+          </div>
+        )}
       </div>
     </>
   );
