@@ -320,6 +320,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Endpoint to manually sync a booking with CRM
+  app.post("/api/bookings/:id/sync-crm", requireAuth, async (req, res) => {
+    try {
+      const bookingId = parseInt(req.params.id);
+      const booking = await storage.getBooking(bookingId);
+      
+      if (!booking) {
+        return res.status(404).json({ message: "Booking not found" });
+      }
+      
+      // Get activity name for the booking
+      const activity = booking.activityId ? await storage.getActivity(booking.activityId) : null;
+      const activityName = activity?.title || `Activity #${booking.activityId}`;
+      
+      // Sync with CRM
+      const { syncBookingWithCrm } = await import('./utils/crmIntegration');
+      const crmResult = await syncBookingWithCrm(booking, activityName);
+      
+      if (crmResult.success) {
+        // Update the booking with the CRM reference ID if available
+        if (crmResult.crmId) {
+          const updatedBooking = await storage.updateBooking(bookingId, {
+            crmReference: crmResult.crmId
+          });
+          
+          // Create audit log for CRM sync
+          await storage.createAuditLog({
+            userId: req.session?.userId || 0,
+            action: "MANUAL_CRM_SYNC",
+            entityType: "booking",
+            entityId: bookingId,
+            details: { 
+              crmId: crmResult.crmId,
+              message: crmResult.message
+            }
+          });
+          
+          return res.json({
+            success: true,
+            message: crmResult.message,
+            booking: updatedBooking || booking
+          });
+        }
+      }
+      
+      return res.json({
+        success: crmResult.success,
+        message: crmResult.message || "Unknown error during CRM sync"
+      });
+    } catch (error) {
+      console.error('Error syncing booking with CRM:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: error instanceof Error ? error.message : "Failed to sync booking with CRM" 
+      });
+    }
+  });
+  
   // Endpoint to resend WhatsApp notification for a specific booking
   app.post("/api/bookings/:id/resend-whatsapp", requireAuth, async (req, res) => {
     try {
@@ -380,7 +438,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/bookings", async (req, res) => {
     try {
       const validatedData = insertBookingSchema.parse(req.body);
-      const booking = await storage.createBooking(validatedData);
+      let booking = await storage.createBooking(validatedData);
       
       // Get activity name from ID
       const activity = await storage.getActivity(booking.activityId);
@@ -411,8 +469,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (crmResult.success) {
           console.log(`Booking synced with CRM: ${crmResult.message}`);
           
-          // Create audit log for CRM sync
+          // Update the booking with CRM reference ID
           if (crmResult.crmId) {
+            const updatedBooking = await storage.updateBooking(booking.id, {
+              crmReference: crmResult.crmId
+            });
+            
+            if (updatedBooking) {
+              booking = updatedBooking; // Update the booking reference for the response
+            }
+            
+            // Create audit log for CRM sync
             await storage.createAuditLog({
               userId: req.session?.userId || 0,
               action: "CRM_SYNC",
