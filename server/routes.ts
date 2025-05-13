@@ -72,6 +72,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   }
 
+  // CRM integration routes
+  app.get('/api/crm/status', (req, res) => {
+    const { getCrmStatus } = require('./utils/crmStatus');
+    res.json(getCrmStatus());
+  });
+
+  app.post('/api/crm/test', async (req, res) => {
+    try {
+      const { testCrmConnection } = require('./utils/crmStatus');
+      const result = await testCrmConnection();
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        message: error instanceof Error ? error.message : 'Unknown error testing CRM connection'
+      });
+    }
+  });
+
   // Middleware to check authentication
   const requireAuth = (req: Request, res: Response, next: NextFunction) => {
     // Check for session authentication

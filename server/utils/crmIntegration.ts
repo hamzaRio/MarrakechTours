@@ -301,5 +301,13 @@ export async function syncBookingWithCrm(booking: Booking, activityName: string)
     };
   }
   
-  return await crm.syncContactWithBooking(booking, activityName);
+  const result = await crm.syncContactWithBooking(booking, activityName);
+  
+  // If successful, record the sync in our status tracker
+  if (result.success) {
+    const { recordSuccessfulSync } = require('./crmStatus');
+    recordSuccessfulSync();
+  }
+  
+  return result;
 }

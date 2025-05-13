@@ -14,6 +14,7 @@ import NotificationStats from "@/components/admin/notification-stats";
 import BookingManager from "@/components/admin/booking-manager";
 import BookingAnalytics from "@/components/admin/booking-analytics";
 import ActivityManager from "@/components/admin/activity-manager";
+import CrmStatus from "@/components/admin/crm-status";
 
 export default function AdminDashboard() {
   const [, navigate] = useLocation();
@@ -153,6 +154,11 @@ export default function AdminDashboard() {
         {/* Advanced Booking Manager with timeline, filters and export */}
         <div className="mt-8 mb-8">
           <BookingManager />
+        </div>
+        
+        {/* CRM Status */}
+        <div className="mt-8 mb-8">
+          <CrmStatus />
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
