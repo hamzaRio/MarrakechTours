@@ -269,25 +269,44 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             )}
           />
           
-          <div className="mb-4">
-            <FormLabel className="block text-white font-medium mb-2">
-              Payment Method
-            </FormLabel>
-            <div className="bg-white/70 border border-white rounded-md p-4 text-gray-900 font-medium h-12 flex items-center">
-              Cash on Arrival
-              {totalPrice && (
-                <div className="ml-auto flex items-center text-gray-900 font-medium">
-                  <Banknote className="h-4 w-4 mr-2 text-gray-500" />
-                  Total: <span className="text-xl ml-2 font-bold text-terracotta">{formatPrice(totalPrice)}</span>
-                  {selectedActivity && (
-                    <span className="text-xs ml-2 text-gray-500">
-                      ({formatPrice(selectedActivity.price)} per person × {form.watch("people")})
+          <div className="mb-6 w-full">
+            <div className="bg-white/20 backdrop-blur-sm rounded-lg border border-white/30 overflow-hidden">
+              <div className="bg-terracotta/80 px-4 py-3">
+                <h3 className="text-white font-semibold">Booking Summary</h3>
+              </div>
+              
+              <div className="p-4">
+                <div className="mb-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="flex items-center text-white font-medium">
+                      <Banknote className="h-4 w-4 mr-2" />
+                      Payment Method:
                     </span>
-                  )}
+                    <span className="bg-white/70 px-3 py-1 rounded text-gray-900 font-medium text-sm">
+                      Cash on Arrival
+                    </span>
+                  </div>
+                  <p className="text-xs text-white/80">We currently accept cash payment only</p>
                 </div>
-              )}
+                
+                {totalPrice && (
+                  <div className="mt-4 pt-3 border-t border-white/20">
+                    <div className="flex flex-wrap justify-between items-center">
+                      <span className="text-white font-medium">Total Price:</span>
+                      <span className="text-2xl font-bold text-white">
+                        {formatPrice(totalPrice)} <span className="text-white/80">MAD</span>
+                      </span>
+                    </div>
+                    
+                    {selectedActivity && (
+                      <div className="text-sm text-white/80 text-right mt-1">
+                        ({formatPrice(selectedActivity.price)} MAD per person × {form.watch("people")} {form.watch("people") === 1 ? 'person' : 'people'})
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
-            <p className="text-xs mt-1 text-white/70">We currently accept cash payment only</p>
           </div>
         </div>
         
@@ -311,15 +330,32 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
           )}
         />
         
-        <div className="pt-4">
+        <div className="pt-4 w-full">
           <Button 
             type="submit" 
             disabled={isSubmitting}
-            className="w-full bg-terracotta hover:bg-terracotta/90 text-white font-bold text-lg py-6 shadow-md border-2 border-white"
+            className="w-full bg-terracotta hover:bg-terracotta/90 text-white font-bold text-lg py-6 shadow-lg border-2 border-white transition-all duration-300 hover:shadow-xl hover:translate-y-[-2px]"
           >
-            {isSubmitting ? "Processing..." : "Confirm Booking"} {!isSubmitting && <ArrowRight className="ml-2 h-5 w-5" />}
+            {isSubmitting ? (
+              <span className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </span>
+            ) : (
+              <span className="flex items-center justify-center">
+                Confirm Booking <ArrowRight className="ml-2 h-5 w-5" />
+              </span>
+            )}
           </Button>
-          <p className="text-center text-sm mt-3 text-white/80">You will receive confirmation via WhatsApp</p>
+          <div className="flex items-center justify-center mt-4 text-white/80">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <p className="text-center text-sm">You will receive confirmation via WhatsApp</p>
+          </div>
         </div>
       </form>
     </Form>
