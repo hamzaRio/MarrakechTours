@@ -32,7 +32,8 @@ import {
   Search, 
   Calendar as CalendarIcon, 
   RefreshCw, 
-  X
+  X,
+  Building2
 } from 'lucide-react';
 
 // Extended booking type to handle both memory storage and MongoDB formats
@@ -51,6 +52,7 @@ interface ExtendedBooking {
   notes?: string | null;
   status?: string | null;
   createdAt?: Date | null;
+  crmReference?: string | null;
 }
 
 interface BookingManagerProps {
