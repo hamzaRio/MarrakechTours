@@ -243,7 +243,13 @@
 }
 
 .react-tel-input .selected-flag .flag {
-  transform: scale(1.5) !important;
+  transform: scale(2) !important;
+  margin-left: 5px !important;
+}
+
+.react-tel-input .flag {
+  width: 32px !important;
+  height: 24px !important;
 }
 
 .react-tel-input .country-list {
@@ -284,6 +290,38 @@
 .react-tel-input .country-list .country.highlight .country-name {
   color: white !important;
   font-weight: 600 !important;
+}
+
+.country-dropdown {
+  width: 350px !important;
+  max-height: 300px !important;
+  overflow-y: auto !important;
+  background: white !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 4px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  z-index: 100 !important;
+}
+
+.country-dropdown .country {
+  padding: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.country-dropdown .country-name {
+  margin-left: 8px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: #333 !important;
+}
+
+.country-dropdown .country.highlight {
+  background-color: var(--color-terracotta) !important;
+}
+
+.country-dropdown .country.highlight .country-name {
+  color: white !important;
 }
 
 .phone-input-container {
