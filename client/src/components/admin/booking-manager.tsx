@@ -102,11 +102,11 @@ export default function BookingManager({ className }: BookingManagerProps) {
     mutationFn: async (bookingId: number) => {
       return apiRequest(`/api/bookings/${bookingId}/sync-crm`, 'POST');
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       queryClient.invalidateQueries({ queryKey: ['/api/bookings'] });
       toast({
         title: 'CRM Sync Successful',
-        description: data.message || 'Booking has been synced with CRM',
+        description: data && data.message ? data.message : 'Booking has been synced with CRM',
       });
     },
     onError: (error) => {
@@ -356,17 +356,26 @@ export default function BookingManager({ className }: BookingManagerProps) {
                       {booking.numberOfPeople || 1}
                     </TableCell>
                     <TableCell className="text-center">
-                      <Badge className={
-                        booking.status === 'confirmed' ? 'bg-green-100 text-green-800 hover:bg-green-200' :
-                        booking.status === 'cancelled' ? 'bg-red-100 text-red-800 hover:bg-red-200' :
-                        ''
-                      } variant={
-                        booking.status === 'confirmed' ? 'outline' :
-                        booking.status === 'cancelled' ? 'destructive' :
-                        'outline'
-                      }>
-                        {booking.status || 'pending'}
-                      </Badge>
+                      <div className="flex flex-wrap justify-center items-center gap-2">
+                        <Badge className={
+                          booking.status === 'confirmed' ? 'bg-green-100 text-green-800 hover:bg-green-200' :
+                          booking.status === 'cancelled' ? 'bg-red-100 text-red-800 hover:bg-red-200' :
+                          ''
+                        } variant={
+                          booking.status === 'confirmed' ? 'outline' :
+                          booking.status === 'cancelled' ? 'destructive' :
+                          'outline'
+                        }>
+                          {booking.status || 'pending'}
+                        </Badge>
+                        
+                        {booking.crmReference && (
+                          <Badge variant="outline" className="bg-slate-100 border-slate-200">
+                            <Building2 className="h-3 w-3 mr-1" />
+                            <span className="text-xs">CRM</span>
+                          </Badge>
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
