@@ -17,6 +17,7 @@ import { BookingFormData } from "@shared/schema";
 import { CalendarDays, Clock, Users, MapPin, ArrowRight, Globe, Wallet } from "lucide-react";
 import { Helmet } from "react-helmet";
 import { SocialSharePopover } from "@/components/social-share";
+import AvailabilityCalendar from "@/components/availability-calendar";
 
 export default function ActivityDetailsPage() {
   const [, params] = useRoute("/activity/:id");
@@ -96,7 +97,10 @@ export default function ActivityDetailsPage() {
                 </div>
               </div>
               
-              <h1 className="text-3xl font-medium text-gray-800 mt-6 mb-4">{activity.title}</h1>
+              <div className="flex justify-between items-center mt-6 mb-4">
+                <h1 className="text-3xl font-medium text-gray-800">{activity.title}</h1>
+                <SocialSharePopover activity={activity} />
+              </div>
               
               <div className="flex flex-wrap gap-4 mb-6">
                 <div className="flex items-center bg-gray-100 px-3 py-2 rounded-md">

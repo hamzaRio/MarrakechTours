@@ -410,3 +410,29 @@
     align-items: center !important;
   }
 }
+
+/* Availability Calendar Styles */
+.availability-calendar .limited-availability:not(.selected) {
+  background-color: rgba(245, 158, 11, 0.2) !important;
+  color: #f59e0b !important;
+}
+
+.availability-calendar .limited-availability:hover:not(.selected) {
+  background-color: rgba(245, 158, 11, 0.3) !important;
+  color: #f59e0b !important;
+}
+
+.availability-calendar .rdp-day_selected {
+  background-color: var(--color-terracotta) !important;
+  color: white !important;
+}
+
+.availability-calendar .rdp-day_selected:hover {
+  background-color: var(--color-terracotta) !important;
+  opacity: 0.9;
+}
+
+.availability-calendar .rdp-button:hover:not([disabled]) {
+  background-color: rgba(242, 111, 33, 0.1) !important;
+  color: var(--color-terracotta) !important;
+}
