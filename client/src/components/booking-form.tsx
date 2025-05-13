@@ -182,13 +182,11 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                       value={field.value}
                       onChange={(phone) => field.onChange(phone || "")}
                       className="phone-input"
-                      style={{
-                        width: '100%',
-                        height: '40px',
-                        paddingLeft: '50px',
-                        border: '1px solid #ccc',
-                        borderRadius: '0.375rem'
+                      countrySelectProps={{ 
+                        unicodeFlags: true,
+                        className: 'country-dropdown'
                       }}
+                      countryCallingCodeEditable={false}
                     />
                   </div>
                 </FormControl>
