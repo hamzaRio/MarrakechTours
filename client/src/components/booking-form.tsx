@@ -177,19 +177,21 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                       containerStyle={{ width: '100%' }}
                       inputStyle={{ 
                         width: '100%', 
-                        height: '58px',
-                        paddingLeft: '90px',
-                        fontSize: '18px',
+                        height: '42px',
+                        paddingLeft: '75px',
+                        fontSize: '16px',
                         border: '1px solid #d1d5db',
-                        borderRadius: '0.375rem'
+                        borderRadius: '0.375rem',
+                        color: '#333'
                       }}
                       buttonStyle={{
                         border: '1px solid #d1d5db',
                         borderRight: 'none',
                         borderRadius: '0.375rem 0 0 0.375rem',
                         backgroundColor: 'white',
-                        width: '80px',
-                        paddingLeft: '12px'
+                        width: '65px',
+                        paddingLeft: '8px',
+                        height: '42px'
                       }}
                       onFocus={() => console.log("Focus changed")}
                       autoFormat={true}
