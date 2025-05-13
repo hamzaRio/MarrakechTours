@@ -152,7 +152,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (req.session.userId) {
         await storage.createAuditLog({
           userId: req.session.userId,
-          action: "CREATE_ACTIVITY",
+          action: "CREATE",
+          entityType: "activity",
+          entityId: activity.id,
           details: activity
         });
       }
@@ -182,7 +184,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (req.session.userId) {
         await storage.createAuditLog({
           userId: req.session.userId,
-          action: "UPDATE_ACTIVITY",
+          action: "UPDATE",
+          entityType: "activity",
+          entityId: id,
           details: { 
             old: oldActivity, 
             new: updatedActivity 
@@ -214,7 +218,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (success && req.session.userId) {
         await storage.createAuditLog({
           userId: req.session.userId,
-          action: "DELETE_ACTIVITY",
+          action: "DELETE",
+          entityType: "activity",
+          entityId: id,
           details: activity
         });
       }
@@ -279,7 +285,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (req.session.userId) {
         await storage.createAuditLog({
           userId: req.session.userId,
-          action: "UPDATE_BOOKING",
+          action: "UPDATE",
+          entityType: "booking",
+          entityId: id,
           details: { 
             old: oldBooking, 
             new: updatedBooking 
@@ -311,7 +319,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (success && req.session.userId) {
         await storage.createAuditLog({
           userId: req.session.userId,
-          action: "DELETE_BOOKING",
+          action: "DELETE",
+          entityType: "booking",
+          entityId: id,
           details: booking
         });
       }
@@ -323,7 +333,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Audit logs route (superadmin only)
-  app.get("/api/audit-logs", requireAuth, requireSuperAdmin, async (req, res) => {
+  app.get("/api/admin/audit-logs", requireAuth, requireSuperAdmin, async (req, res) => {
     try {
       const logs = await storage.getAuditLogs();
       res.json(logs);

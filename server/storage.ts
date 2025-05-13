@@ -232,7 +232,9 @@ export class MemStorage implements IStorage {
     const newLog: AuditLog = { 
       ...log, 
       id, 
-      timestamp: now,
+      createdAt: now,
+      entityType: log.entityType ?? null,
+      entityId: log.entityId ?? null,
       details: log.details ?? null
     };
     this.auditLogs.set(id, newLog);
