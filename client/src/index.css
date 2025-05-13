@@ -186,138 +186,27 @@
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-/* Phone Input Customization */
+/* Phone Input Customization - Simplified */
 .phone-container {
-  padding: 0 !important;
-  margin: 0 !important;
-  width: 100% !important;
+  width: 100%;
 }
 
-/* Global phone input styling */
-.react-tel-input {
-  font-family: inherit !important;
-  width: 100% !important;
-}
-
-/* Fix main input field */
-.react-tel-input .form-control {
-  width: 100% !important;
-  height: 48px !important;
-  font-size: 16px !important;
-  padding-left: 50px !important;
-  border: 1px solid #d1d5db !important;
-  border-radius: 0.375rem !important;
-  color: #333 !important;
-  background-color: white !important;
-}
-
-/* Fix flag display */
-.react-tel-input .selected-flag {
-  position: absolute !important;
-  width: 45px !important;
-  height: 100% !important;
-  padding: 0 0 0 12px !important;
-  border-radius: 0.375rem 0 0 0.375rem !important;
-  background-color: transparent !important;
-}
-
-.react-tel-input .selected-flag .flag {
-  transform: scale(1.2) !important;
-}
-
-/* Fix flag dropdown */
+/* Fix phone input to match specifications */
 .react-tel-input .flag-dropdown {
   background-color: transparent !important;
   border: none !important;
-}
-
-.react-tel-input .flag-dropdown.open {
-  background-color: transparent !important;
-  z-index: 20 !important;
-}
-
-.react-tel-input .selected-flag:hover,
-.react-tel-input .selected-flag:focus {
-  background-color: transparent !important;
-}
-
-/* Style the dropdown */
-.react-tel-input .country-list {
-  margin: 10px 0 0 -1px !important;
-  padding: 0 !important;
-  max-height: 200px !important;
-  width: 300px !important;
-  border: 1px solid #d1d5db !important;
-  border-radius: 0.375rem !important;
-  background-color: white !important;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-}
-
-.react-tel-input .country-list .country {
-  padding: 8px 10px !important;
-}
-
-.react-tel-input .country-list .search-box {
-  margin: 0 auto !important;
-  padding: 8px !important;
-  border-bottom: 1px solid #d1d5db !important;
-}
-
-.react-tel-input .country-list .search-box input {
-  font-size: 16px !important;
-  padding: 6px 8px !important;
-  border: 1px solid #d1d5db !important;
-  border-radius: 0.25rem !important;
-  width: 100% !important;
-}
-
-/* Fix phone input container display */
-.react-tel-input.container {
-  display: block !important;
-}
-
-/* Additional styling for specific instances */
-.booking-form .react-tel-input .form-control {
-  font-weight: 500 !important;
-  letter-spacing: 0.5px !important;
-  text-indent: 0 !important;
-  text-align: left !important;
-  direction: ltr !important;
-  position: relative !important;
-  z-index: 0 !important;
-}
-
-.react-tel-input .flag-dropdown {
-  position: absolute !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  background-color: white !important;
-  border: 1px solid #d1d5db !important;
-  border-right: none !important;
-  border-radius: 0.375rem 0 0 0.375rem !important;
-  width: 65px !important;
-  z-index: 2 !important;
+  left: 10px !important;
 }
 
 .react-tel-input .selected-flag {
-  border-radius: 0.375rem 0 0 0.375rem !important;
-  background-color: white !important;
-  padding: 0 5px 0 8px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  height: 100% !important;
-  width: 65px !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
+  padding: 0 0 0 8px !important;
 }
 
 .react-tel-input .selected-flag .flag {
   transform: scale(1.2) !important;
-  margin-left: 0 !important;
 }
 
+/* Fix flag appearance */
 .react-tel-input .flag {
   width: 20px !important;
   height: 15px !important;

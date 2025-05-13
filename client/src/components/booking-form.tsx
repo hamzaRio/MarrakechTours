@@ -185,24 +185,19 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                         required: true
                       }}
                       containerStyle={{ 
-                        width: '100%', 
-                        margin: 0 
+                        width: '100%'
                       }}
                       inputStyle={{ 
-                        width: '100%', 
-                        height: '48px',
                         paddingLeft: '50px',
-                        fontSize: '16px',
-                        border: '1px solid #d1d5db',
-                        borderRadius: '0.375rem',
-                        color: '#333',
-                        backgroundColor: 'white'
+                        width: '100%',
+                        height: '40px', 
+                        border: '1px solid #ccc',
+                        borderRadius: '0.375rem'
                       }}
                       buttonStyle={{
-                        backgroundColor: 'transparent',
                         border: 'none',
-                        left: '10px',
-                        position: 'absolute'
+                        backgroundColor: 'transparent',
+                        left: '10px'
                       }}
                       autoFormat={true}
                       countryCodeEditable={false}
