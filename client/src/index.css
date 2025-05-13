@@ -248,10 +248,20 @@
 }
 
 .react-tel-input .flag {
-  width: 24px !important;
-  height: 18px !important;
+  width: 20px !important;
+  height: 15px !important;
   border-radius: 2px !important;
   margin-top: 0 !important;
+  box-shadow: 0 0 1px rgba(0,0,0,0.3) !important;
+}
+
+/* Country list flags */
+.country-dropdown .flag {
+  width: 20px !important;
+  height: 15px !important;
+  margin-right: 5px !important;
+  border-radius: 2px !important;
+  box-shadow: 0 0 1px rgba(0,0,0,0.3) !important;
 }
 
 .react-tel-input .country-list {
@@ -295,35 +305,59 @@
 }
 
 .country-dropdown {
-  width: 350px !important;
-  max-height: 300px !important;
+  width: 280px !important;
+  max-height: 320px !important;
   overflow-y: auto !important;
   background: white !important;
   border: 1px solid #d1d5db !important;
   border-radius: 4px !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
   z-index: 100 !important;
+  margin-top: 2px !important;
 }
 
 .country-dropdown .country {
-  padding: 12px !important;
+  padding: 8px 15px !important;
   display: flex !important;
   align-items: center !important;
+  height: 36px !important;
 }
 
 .country-dropdown .country-name {
-  margin-left: 8px !important;
-  font-size: 16px !important;
-  font-weight: 500 !important;
+  margin-left: 10px !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
   color: #333 !important;
 }
 
-.country-dropdown .country.highlight {
-  background-color: var(--color-terracotta) !important;
+.country-dropdown .country.highlight,
+.react-tel-input .country-list .country.highlight {
+  background-color: #F26F21 !important;
 }
 
-.country-dropdown .country.highlight .country-name {
+.country-dropdown .country.highlight .country-name,
+.react-tel-input .country-list .country.highlight .country-name,
+.react-tel-input .country-list .country.highlight .dial-code {
   color: white !important;
+}
+
+.react-tel-input .country-list .search {
+  padding: 6px 10px !important;
+  margin: 0 !important;
+}
+
+.react-tel-input .country-list .search-box {
+  width: 100% !important;
+  height: 36px !important;
+  padding: 0 10px !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 4px !important;
+  font-size: 14px !important;
+}
+
+.react-tel-input .dial-code {
+  color: #666 !important;
+  font-size: 14px !important;
 }
 
 .phone-input-container {

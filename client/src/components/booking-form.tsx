@@ -198,7 +198,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                       countryCodeEditable={false}
                       dropdownClass="country-dropdown"
                       dropdownStyle={{
-                        width: '350px',
+                        width: '280px',
                       }}
                       enableSearch={true}
                       disableSearchIcon={false}
