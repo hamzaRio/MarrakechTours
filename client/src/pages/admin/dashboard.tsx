@@ -120,6 +120,11 @@ export default function AdminDashboard() {
           </Card>
         </div>
         
+        {/* WhatsApp Notification Stats Card */}
+        <div className="mt-8 mb-8">
+          <NotificationStats />
+        </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card>
             <CardHeader>
