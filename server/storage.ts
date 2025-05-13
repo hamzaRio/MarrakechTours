@@ -8,6 +8,7 @@ import {
 import { format, parse, startOfMonth, endOfMonth, eachDayOfInterval, addDays } from "date-fns";
 import session from 'express-session';
 import createMemoryStore from 'memorystore';
+import bcrypt from 'bcrypt';
 
 const MemoryStore = createMemoryStore(session);
 
@@ -76,7 +77,12 @@ export class MemStorage implements IStorage {
     // Initialize with default activities
     this.initializeActivities();
     // Initialize with default admin users
-    this.initializeUsers();
+    this.initialize();
+  }
+
+  // Initialize async operations
+  private async initialize() {
+    await this.initializeUsers();
   }
 
   private initializeActivities() {
@@ -85,28 +91,28 @@ export class MemStorage implements IStorage {
         title: "Montgolfière (Hot Air Balloon)",
         description: "Experience the breathtaking views of Marrakech and the Atlas Mountains from a hot air balloon at sunrise. Float peacefully above the stunning Moroccan landscape as the sun begins to illuminate the desert and mountains.",
         price: 1100,
-        imageUrl: "/attached_assets/montgolfiere-marrakech.jpg",
+        image: "/attached_assets/montgolfiere-marrakech.jpg",
         featured: true,
       },
       {
         title: "Agafay Combo",
         description: "Discover the stone desert of Agafay with camel rides, quad biking, and authentic Berber dinner under the stars. Experience the Moroccan desert lifestyle and enjoy breathtaking views of the Atlas mountains.",
         price: 450,
-        imageUrl: "/attached_assets/agafaypack.jpeg",
+        image: "/attached_assets/agafaypack.jpeg",
         featured: true,
       },
       {
         title: "Essaouira Day Trip",
         description: "Visit the charming coastal town of Essaouira with its blue-painted seaside buildings, historic medina, and beautiful beaches. Experience the unique atmosphere of this UNESCO World Heritage site.",
         price: 200,
-        imageUrl: "/attached_assets/Essaouira day trip 4.jpg",
+        image: "/attached_assets/Essaouira day trip 4.jpg",
         featured: true,
       },
       {
         title: "Ouzoud Waterfalls Day Trip",
         description: "Explore the stunning Ouzoud Waterfalls, one of Morocco's most spectacular natural wonders with cascading waterfalls and lush green landscapes. Spot wild Barbary macaque monkeys and enjoy breathtaking viewpoints throughout this scenic day trip.",
         price: 200,
-        imageUrl: "/attached_assets/Ouzoud-Waterfalls.jpg",
+        image: "/attached_assets/Ouzoud-Waterfalls.jpg",
         featured: true,
       },
       {
@@ -123,28 +129,33 @@ export class MemStorage implements IStorage {
     });
   }
 
-  private initializeUsers() {
+  private async initializeUsers() {
+    // Hash passwords with bcrypt for security
+    const saltRounds = 10;
+    
+    // Define our default admin users
     const defaultUsers: InsertUser[] = [
       {
         username: "ahmed",
-        password: "password123", // In a real app, this would be hashed
+        password: await bcrypt.hash("MarrakechTour2025", saltRounds), 
         role: "admin"
       },
       {
         username: "yahia",
-        password: "password123", // In a real app, this would be hashed
+        password: await bcrypt.hash("MarrakechTour2025", saltRounds),
         role: "admin"
       },
       {
         username: "nadia",
-        password: "password123", // In a real app, this would be hashed
+        password: await bcrypt.hash("MarrakechTour2025", saltRounds),
         role: "superadmin"
       }
     ];
 
-    defaultUsers.forEach(user => {
-      this.createUser(user);
-    });
+    // Create each user in the storage
+    for (const user of defaultUsers) {
+      await this.createUser(user);
+    }
   }
 
   // Activity operations
