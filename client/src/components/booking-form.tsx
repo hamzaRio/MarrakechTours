@@ -6,8 +6,8 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { constructWhatsAppUrl, whatsAppContacts, getActivityIdByName, getActivityPriceById, formatPrice } from "@/lib/utils";
 import { CalendarIcon, Users, ArrowRight, Banknote } from "lucide-react";
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 import AvailabilityCalendar from "@/components/availability-calendar";
 import { format } from "date-fns";
 
@@ -177,35 +177,18 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                 <FormControl>
                   <div className="w-full phone-container">
                     <PhoneInput
-                      country={'ma'}
+                      international
+                      defaultCountry="MA"
                       value={field.value}
-                      onChange={(phone) => field.onChange("+" + phone)}
-                      inputProps={{
-                        name: 'phone',
-                        required: true
-                      }}
-                      containerStyle={{ 
-                        width: '100%'
-                      }}
-                      inputStyle={{ 
-                        paddingLeft: '50px',
+                      onChange={(phone) => field.onChange(phone || "")}
+                      className="phone-input"
+                      style={{
                         width: '100%',
-                        height: '40px', 
+                        height: '40px',
+                        paddingLeft: '50px',
                         border: '1px solid #ccc',
                         borderRadius: '0.375rem'
                       }}
-                      buttonStyle={{
-                        border: 'none',
-                        backgroundColor: 'transparent',
-                        left: '10px'
-                      }}
-                      autoFormat={true}
-                      countryCodeEditable={false}
-                      enableSearch={true}
-                      disableSearchIcon={false}
-                      searchPlaceholder="Search countries..."
-                      preferredCountries={['ma', 'fr', 'es', 'gb', 'de', 'us']}
-                      onlyCountries={['ma', 'fr', 'es', 'gb', 'de', 'us', 'it', 'nl', 'be', 'pt', 'ch', 'ae', 'sa']}
                     />
                   </div>
                 </FormControl>
