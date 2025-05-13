@@ -91,6 +91,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
         expiresIn: "24h"
       });
+      
+      // Create audit log for login
+      await storage.createAuditLog({
+        userId: user.id,
+        action: "LOGIN",
+        entityType: "user",
+        entityId: user.id,
+        details: { username: user.username, timestamp: new Date() }
+      });
 
       // Return user info and token
       return res.json({
@@ -361,6 +370,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+  
+  // Get all users (only for superadmin)
+  app.get("/api/admin/users", requireAuth, requireSuperAdmin, async (req, res) => {
+    try {
+      // Get all users from storage - this would be implemented in a real storage solution
+      // For memory storage, we need to get all users from the map
+      const users = Array.from(storage.getUsers().values()).map(user => ({
+        id: user.id,
+        username: user.username,
+        role: user.role,
+        createdAt: user.createdAt
+      }));
+      
+      res.json(users);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch users" });
     }
   });
 

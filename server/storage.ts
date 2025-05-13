@@ -25,6 +25,7 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  getUsers(): Map<number, User>;
   
   // Audit log operations
   createAuditLog(log: InsertAuditLog): Promise<AuditLog>;
@@ -223,6 +224,10 @@ export class MemStorage implements IStorage {
     const newUser: User = { ...user, id, createdAt: now };
     this.users.set(id, newUser);
     return newUser;
+  }
+  
+  getUsers(): Map<number, User> {
+    return this.users;
   }
 
   // Audit log operations

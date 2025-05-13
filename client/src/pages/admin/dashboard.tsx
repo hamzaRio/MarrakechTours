@@ -8,6 +8,7 @@ import Navbar from "@/components/navbar";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
 import { Activity, Booking } from "@shared/schema";
+import { CalendarCheck, BookCheck, ClipboardList, Eye, LogOut } from "lucide-react";
 
 export default function AdminDashboard() {
   const [, navigate] = useLocation();
@@ -61,7 +62,7 @@ export default function AdminDashboard() {
           <div className="flex items-center gap-4">
             <span>Welcome, <strong>{user?.username}</strong> ({user?.role})</span>
             <Button onClick={handleLogout} variant="destructive">
-              Logout
+              <LogOut className="mr-2 h-4 w-4" /> Logout
             </Button>
           </div>
         </div>
@@ -123,18 +124,18 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent className="space-y-2">
               <Button onClick={() => navigate("/admin/activities")} className="w-full bg-moroccan-brown">
-                Manage Activities
+                <CalendarCheck className="mr-2 h-4 w-4" /> Manage Activities
               </Button>
               <Button onClick={() => navigate("/admin/bookings")} className="w-full bg-moroccan-brown">
-                Manage Bookings
+                <BookCheck className="mr-2 h-4 w-4" /> Manage Bookings
               </Button>
               {user?.role === "superadmin" && (
                 <Button onClick={() => navigate("/admin/audit-logs")} className="w-full bg-moroccan-gold">
-                  View Audit Logs
+                  <ClipboardList className="mr-2 h-4 w-4" /> View Audit Logs
                 </Button>
               )}
               <Button onClick={() => navigate("/")} variant="outline" className="w-full">
-                View Website
+                <Eye className="mr-2 h-4 w-4" /> View Website
               </Button>
             </CardContent>
           </Card>
