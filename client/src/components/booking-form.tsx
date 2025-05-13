@@ -137,22 +137,22 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 gap-4 w-full">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <div className="grid grid-cols-1 gap-6 w-full">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem className="mb-4 w-full">
-                <FormLabel className="text-white font-medium mb-2 block">Full Name *</FormLabel>
+              <FormItem className="mb-6 w-full">
+                <FormLabel className="text-gray-800 font-medium mb-2 block">Full Name *</FormLabel>
                 <FormControl>
                   <Input 
                     placeholder="Your full name" 
                     {...field} 
-                    className="bg-white/70 border-white text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta h-12 px-4 w-full p-2" 
+                    className="bg-white border border-gray-300 text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta h-12 px-4 w-full p-3" 
                   />
                 </FormControl>
-                <FormMessage className="mt-2 text-white/90" />
+                <FormMessage className="mt-2 text-gray-700" />
               </FormItem>
             )}
           />
@@ -161,8 +161,8 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             control={form.control}
             name="phone"
             render={({ field }) => (
-              <FormItem className="mb-4 w-full">
-                <FormLabel className="text-white font-medium mb-2 block">Phone Number (WhatsApp) *</FormLabel>
+              <FormItem className="mb-6 w-full">
+                <FormLabel className="text-gray-800 font-medium mb-2 block">Phone Number *</FormLabel>
                 <FormControl>
                   <div className="w-full phone-container">
                     <PhoneInput
@@ -175,14 +175,12 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                         className: 'focus:ring-2 focus:ring-terracotta focus:border-terracotta'
                       }}
                       containerClass="phone-input-container w-full"
-                      enableSearch={true}
-                      searchPlaceholder="Search country..."
                       preferredCountries={['ma', 'fr', 'es', 'gb', 'de']}
-                      placeholder="Enter phone number"
+                      placeholder="+212"
                     />
                   </div>
                 </FormControl>
-                <FormMessage className="mt-2 text-white/90" />
+                <FormMessage className="mt-2 text-gray-700" />
               </FormItem>
             )}
           />
@@ -191,8 +189,8 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             control={form.control}
             name="activity"
             render={({ field }) => (
-              <FormItem className="mb-4 w-full">
-                <FormLabel className="text-white font-medium mb-2 block">
+              <FormItem className="mb-6 w-full">
+                <FormLabel className="text-gray-800 font-medium mb-2 block">
                   {selectedActivityId ? "Selected Activity" : "Select Activity *"}
                 </FormLabel>
                 <Select 
@@ -202,7 +200,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                 >
                   <FormControl>
                     <SelectTrigger 
-                      className={`bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta h-12 p-2 w-full ${selectedActivityId ? 'cursor-not-allowed opacity-80' : ''}`}
+                      className={`bg-white border border-gray-300 text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta h-12 p-3 w-full ${selectedActivityId ? 'cursor-not-allowed opacity-80' : ''}`}
                     >
                       <SelectValue placeholder={selectedActivityId ? selectedActivity?.title : "Choose an activity"} />
                     </SelectTrigger>
@@ -215,7 +213,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                     ))}
                   </SelectContent>
                 </Select>
-                <FormMessage className="mt-2 text-white/90" />
+                <FormMessage className="mt-2 text-gray-700" />
               </FormItem>
             )}
           />
@@ -224,19 +222,19 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             control={form.control}
             name="date"
             render={({ field }) => (
-              <FormItem className="mb-4 w-full">
-                <FormLabel className="text-white font-medium mb-2 block">Preferred Date *</FormLabel>
+              <FormItem className="mb-6 w-full">
+                <FormLabel className="text-gray-800 font-medium mb-2 block">Preferred Date *</FormLabel>
                 <div className="relative w-full">
                   <FormControl>
                     <Input 
                       type="date" 
                       {...field} 
-                      className="bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta h-12 px-4 w-full p-2" 
+                      className="bg-white border border-gray-300 text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta h-12 px-4 w-full p-3" 
                     />
                   </FormControl>
                   <CalendarIcon className="absolute right-3 top-4 h-4 w-4 text-gray-500" />
                 </div>
-                <FormMessage className="mt-2 text-white/90" />
+                <FormMessage className="mt-2 text-gray-700" />
               </FormItem>
             )}
           />
@@ -245,14 +243,14 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             control={form.control}
             name="people"
             render={({ field }) => (
-              <FormItem className="mb-4 w-full">
-                <FormLabel className="text-white font-medium mb-2 block">Number of People *</FormLabel>
+              <FormItem className="mb-6 w-full">
+                <FormLabel className="text-gray-800 font-medium mb-2 block">Number of People *</FormLabel>
                 <Select 
                   value={String(field.value)}
                   onValueChange={(value) => field.onChange(parseInt(value))}
                 >
                   <FormControl>
-                    <SelectTrigger className="bg-white/70 border-white text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta h-12 p-2 w-full">
+                    <SelectTrigger className="bg-white border border-gray-300 text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta h-12 p-3 w-full">
                       <SelectValue placeholder="Select number of people" />
                     </SelectTrigger>
                   </FormControl>
@@ -264,43 +262,43 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                     ))}
                   </SelectContent>
                 </Select>
-                <FormMessage className="mt-2 text-white/90" />
+                <FormMessage className="mt-2 text-gray-700" />
               </FormItem>
             )}
           />
           
           <div className="mb-6 w-full">
-            <div className="bg-white/20 backdrop-blur-sm rounded-lg border border-white/30 overflow-hidden">
-              <div className="bg-terracotta/80 px-4 py-3">
-                <h3 className="text-white font-semibold">Booking Summary</h3>
+            <div className="bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
+              <div className="bg-gray-100 px-4 py-3 border-b border-gray-300">
+                <h3 className="text-gray-800 font-semibold">Booking Summary</h3>
               </div>
               
-              <div className="p-4">
+              <div className="p-5">
                 <div className="mb-4">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="flex items-center text-white font-medium">
-                      <Banknote className="h-4 w-4 mr-2" />
+                    <span className="flex items-center text-gray-800 font-medium">
+                      <Banknote className="h-4 w-4 mr-2 text-gray-600" />
                       Payment Method:
                     </span>
-                    <span className="bg-white/70 px-3 py-1 rounded text-gray-900 font-medium text-sm">
+                    <span className="bg-gray-100 px-3 py-1 rounded text-gray-900 font-medium text-sm">
                       Cash on Arrival
                     </span>
                   </div>
-                  <p className="text-xs text-white/80">We currently accept cash payment only</p>
+                  <p className="text-xs text-gray-600">We currently accept cash payment only</p>
                 </div>
                 
                 {totalPrice && (
-                  <div className="mt-4 pt-3 border-t border-white/20">
+                  <div className="mt-4 pt-3 border-t border-gray-200">
                     <div className="flex flex-wrap justify-between items-center">
-                      <span className="text-white font-medium">Total Price:</span>
-                      <span className="text-2xl font-bold text-white">
-                        {formatPrice(totalPrice)} <span className="text-white/80">MAD</span>
+                      <span className="text-gray-800 font-medium">Total Price:</span>
+                      <span className="text-2xl font-bold text-terracotta">
+                        {formatPrice(totalPrice)}
                       </span>
                     </div>
                     
                     {selectedActivity && (
-                      <div className="text-sm text-white/80 text-right mt-1">
-                        ({formatPrice(selectedActivity.price)} MAD per person × {form.watch("people")} {form.watch("people") === 1 ? 'person' : 'people'})
+                      <div className="text-sm text-gray-600 text-right mt-1">
+                        ({formatPrice(selectedActivity.price)} per person × {form.watch("people")} {form.watch("people") === 1 ? 'person' : 'people'})
                       </div>
                     )}
                   </div>
@@ -315,17 +313,17 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
           name="notes"
           render={({ field }) => (
             <FormItem className="mb-6 w-full">
-              <FormLabel className="text-white font-medium mb-2 block">Additional Notes</FormLabel>
+              <FormLabel className="text-gray-800 font-medium mb-2 block">Additional Notes</FormLabel>
               <FormControl>
                 <Textarea 
                   placeholder="Any special requirements or questions?" 
                   {...field} 
                   value={field.value || ''}
-                  className="bg-white/70 border-white text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta min-h-[100px] p-4 w-full" 
+                  className="bg-white border border-gray-300 text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta min-h-[100px] p-4 w-full" 
                   rows={3}
                 />
               </FormControl>
-              <FormMessage className="mt-2 text-white/90" />
+              <FormMessage className="mt-2 text-gray-700" />
             </FormItem>
           )}
         />
@@ -334,7 +332,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
           <Button 
             type="submit" 
             disabled={isSubmitting}
-            className="w-full bg-terracotta hover:bg-terracotta/90 text-white font-bold text-lg py-6 shadow-lg border-2 border-white transition-all duration-300 hover:shadow-xl hover:translate-y-[-2px]"
+            className="w-full bg-terracotta hover:bg-terracotta/90 text-white font-bold text-lg py-6 shadow-md border border-gray-300 transition-all duration-300 hover:shadow-lg"
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center">
@@ -350,11 +348,11 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
               </span>
             )}
           </Button>
-          <div className="flex items-center justify-center mt-4 text-white/80">
+          <div className="flex items-center justify-center mt-4 text-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
             </svg>
-            <p className="text-center text-sm">You will receive confirmation via WhatsApp</p>
+            <p className="text-center text-sm">You will receive confirmation via phone</p>
           </div>
         </div>
       </form>
