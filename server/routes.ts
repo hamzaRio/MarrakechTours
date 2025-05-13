@@ -10,7 +10,9 @@ import jwt from "jsonwebtoken";
 import session from "express-session";
 import MemoryStore from "memorystore";
 import path from "path";
+import { log } from "./vite";
 import mongoBookingRoutes from './routes/mongoBookingRoutes';
+import mongoActivityRoutes from './routes/mongoActivityRoutes';
 import { isMongoConnected } from './config/database';
 
 // JWT secret - in production, use environment variable
@@ -41,8 +43,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register MongoDB routes only if MongoDB is connected
   try {
     if (isMongoConnected()) {
+      // Register booking routes
       app.use('/api/mongo', mongoBookingRoutes);
       console.log('MongoDB booking routes registered and available at /api/mongo/*');
+      
+      // Register activity routes
+      app.use('/api/mongo', mongoActivityRoutes);
+      console.log('MongoDB activity routes registered and available at /api/mongo/*');
       
       // Add MongoDB status endpoint
       app.get('/api/mongo/status', (req, res) => {

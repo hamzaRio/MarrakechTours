@@ -64,7 +64,7 @@ type ActivityFormData = z.infer<typeof activitySchema>;
 
 // Extended activity interface for form
 interface ExtendedActivity extends Activity {
-  createdBy?: string;
+  // No need to extend as the Activity type from schema now includes all these fields
 }
 
 interface ActivityManagerProps {

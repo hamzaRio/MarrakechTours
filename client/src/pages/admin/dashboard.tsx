@@ -8,10 +8,12 @@ import Navbar from "@/components/navbar";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
 import { Activity, Booking } from "@shared/schema";
-import { CalendarCheck, BookCheck, ClipboardList, Eye, LogOut, Database, MessageSquare } from "lucide-react";
+import { CalendarCheck, BookCheck, ClipboardList, Eye, LogOut, Database, MessageSquare, BarChart, Pencil } from "lucide-react";
 import MongoBookings from "@/components/admin/mongo-bookings";
 import NotificationStats from "@/components/admin/notification-stats";
 import BookingManager from "@/components/admin/booking-manager";
+import BookingAnalytics from "@/components/admin/booking-analytics";
+import ActivityManager from "@/components/admin/activity-manager";
 
 export default function AdminDashboard() {
   const [, navigate] = useLocation();
@@ -131,6 +133,16 @@ export default function AdminDashboard() {
               </Button>
             </CardContent>
           </Card>
+        </div>
+        
+        {/* Booking Analytics Dashboard */}
+        <div className="mt-8 mb-8">
+          <BookingAnalytics />
+        </div>
+        
+        {/* Activity Management */}
+        <div className="mt-8 mb-8">
+          <ActivityManager />
         </div>
         
         {/* WhatsApp Notification Stats Card */}

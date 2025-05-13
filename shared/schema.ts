@@ -8,13 +8,23 @@ export const activities = pgTable("activities", {
   title: text("title").notNull(),
   description: text("description").notNull(),
   price: integer("price").notNull(), // Price in MAD
-  imageUrl: text("image_url").notNull(),
+  image: text("image").notNull(),
   featured: boolean("featured").default(true),
   getYourGuidePrice: integer("get_your_guide_price"), // Optional reference price
+  durationHours: integer("duration_hours"),
+  includesFood: boolean("includes_food").default(false),
+  includesTransportation: boolean("includes_transportation").default(false),
+  maxGroupSize: integer("max_group_size"),
+  priceType: text("price_type").default("per_person"), // 'fixed' or 'per_person'
+  createdBy: text("created_by"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const insertActivitySchema = createInsertSchema(activities).omit({ 
-  id: true 
+  id: true,
+  createdAt: true,
+  updatedAt: true
 });
 
 // Define bookings table
