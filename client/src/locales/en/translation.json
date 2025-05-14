@@ -176,6 +176,8 @@
   "language": {
     "english": "English",
     "french": "French",
+    "arabic": "Arabic",
+    "languages": "Languages",
     "switchLanguage": "Switch Language"
   },
   "hero": {

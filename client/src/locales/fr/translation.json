@@ -122,6 +122,8 @@
   "language": {
     "english": "Anglais",
     "french": "Français",
+    "arabic": "Arabe",
+    "languages": "Langues",
     "switchLanguage": "Changer de Langue"
   },
   "hero": {

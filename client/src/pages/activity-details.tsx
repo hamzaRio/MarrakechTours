@@ -269,7 +269,9 @@ export default function ActivityDetailsPage() {
                 
                 {activity.id && !showBookingForm && (
                   <div className="mb-4">
-                    <h3 className="text-sm font-medium text-gray-700 mb-2">Availability for {selectedDate.toLocaleDateString()}</h3>
+                    <h3 className="text-sm font-medium text-gray-700 mb-2">
+                      {t('booking.availabilityFor', { date: selectedDate.toLocaleDateString() })}
+                    </h3>
                     <CapacityDisplay 
                       activityId={activity.id} 
                       date={selectedDate}
@@ -284,23 +286,23 @@ export default function ActivityDetailsPage() {
                       <div className="flex justify-between items-center py-3 border-b border-gray-200">
                         <span className="text-gray-700 font-medium flex items-center">
                           <Users className="mr-2 h-5 w-5 text-terracotta" /> 
-                          Price per person
+                          {t('activities.price')} {t('activities.perPerson')}
                         </span>
                         <span className="font-bold text-2xl text-terracotta">{formatPrice(activity.price)}</span>
                       </div>
                       <div className="flex justify-between items-center py-3 border-b border-gray-200">
                         <span className="text-gray-700 font-medium flex items-center">
                           <Clock className="mr-2 h-5 w-5 text-terracotta" /> 
-                          Duration
+                          {t('activities.duration')}
                         </span>
-                        <span className="font-bold">Full day</span>
+                        <span className="font-bold">{t('activities.fullDayTour')}</span>
                       </div>
                       <div className="flex justify-between items-center py-3 border-b border-gray-200">
                         <span className="text-gray-700 font-medium flex items-center">
                           <Globe className="mr-2 h-5 w-5 text-terracotta" /> 
-                          Languages
+                          {t('language.languages')}
                         </span>
-                        <span className="font-bold">English, French, Arabic</span>
+                        <span className="font-bold">{t('language.english')}, {t('language.french')}, {t('about.arabic')}</span>
                       </div>
                       <div className="flex justify-between items-center py-3">
                         <span className="text-gray-700 font-medium flex items-center">
