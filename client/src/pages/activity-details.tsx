@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRoute } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Activity } from "@shared/schema";
+import { useTranslation } from "react-i18next";
 
 // Extended type to handle both image property variants
 interface ActivityWithImageUrl extends Activity {
@@ -28,6 +29,7 @@ import { CapacityDisplay, CapacityBadge } from "@/components/capacity-display";
 export default function ActivityDetailsPage() {
   const [, params] = useRoute("/activity/:id");
   const activityId = params?.id ? parseInt(params.id) : null;
+  const { t } = useTranslation();
   
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [bookingData, setBookingData] = useState<BookingFormData | undefined>();
@@ -313,18 +315,28 @@ export default function ActivityDetailsPage() {
                         // Ensure selected activity id is set
                         if (activity && activity.id) {
                           console.log("Setting booking form for activity:", activity.id);
+                          
+                          // Create a small delay to ensure state is updated before scrolling
+                          setTimeout(() => {
+                            const bookingSection = document.getElementById("booking-form-section");
+                            if (bookingSection) {
+                              bookingSection.scrollIntoView({ behavior: "smooth" });
+                            }
+                          }, 100);
                         }
                       }}
                       className="w-full bg-terracotta hover:bg-terracotta/90 text-white font-bold text-lg py-6 border-2 border-white shadow-md"
                     >
-                      Book Now <ArrowRight className="ml-2 h-5 w-5" />
+                      {t('activities.bookNow')} <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                   </>
                 ) : (
-                  <BookingForm 
-                    selectedActivityId={activity.id}
-                    onSuccess={handleBookingSuccess}
-                  />
+                  <div id="booking-form-section">
+                    <BookingForm 
+                      selectedActivityId={activity.id}
+                      onSuccess={handleBookingSuccess}
+                    />
+                  </div>
                 )}
               </div>
             </div>
