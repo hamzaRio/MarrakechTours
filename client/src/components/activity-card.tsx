@@ -73,7 +73,7 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
               <Button 
                 className="w-full bg-terracotta hover:bg-terracotta/90 text-white"
               >
-                {t('activities.booknow')} <ArrowRight className="ml-1 h-4 w-4" />
+                {t('activities.bookNow')} <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </Link>
             

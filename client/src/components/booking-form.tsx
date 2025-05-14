@@ -414,7 +414,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
               <FormLabel className="text-gray-800 font-medium mb-2 block">{t('booking.additionalNotes')}</FormLabel>
               <FormControl>
                 <Textarea 
-                  placeholder={t('booking.notesPlaceholder')} 
+                  placeholder={t('booking.anyRequirements')} 
                   {...field} 
                   value={field.value || ''}
                   className="bg-white border border-gray-300 text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta min-h-[100px] p-4 w-full" 
