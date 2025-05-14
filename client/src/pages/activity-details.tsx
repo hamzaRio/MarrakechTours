@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useRoute } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Activity } from "@shared/schema";
+
+// Extended type to handle both image property variants
+interface ActivityWithImageUrl extends Activity {
+  imageUrl?: string;
+}
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -27,7 +32,7 @@ export default function ActivityDetailsPage() {
   const [bookingData, setBookingData] = useState<BookingFormData | undefined>();
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const { data: activities } = useQuery<Activity[]>({
+  const { data: activities } = useQuery<ActivityWithImageUrl[]>({
     queryKey: ["/api/activities"],
   });
 
@@ -83,13 +88,13 @@ export default function ActivityDetailsPage() {
             <div className="lg:w-2/3">
               <div className="relative">
                 <img 
-                  src={activity.imageUrl} 
+                  src={activity.image || activity.imageUrl} 
                   alt={activity.title}
                   className="w-full h-[400px] object-cover rounded-lg"
                   onError={(e) => {
                     // Fallback if image doesn't load
                     e.currentTarget.src = "/attached_assets/bahia.jpg";
-                    console.error(`Image failed to load: ${activity.imageUrl}`);
+                    console.error(`Image failed to load: ${activity.image || activity.imageUrl}`);
                   }}
                 />
                 <div className="absolute top-4 right-4 bg-terracotta text-white px-4 py-2 rounded-md font-medium">

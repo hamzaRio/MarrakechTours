@@ -6,8 +6,13 @@ import { formatPrice } from "@/lib/utils";
 import { Activity } from "@shared/schema";
 import { ArrowRight, Info } from "lucide-react";
 
+// Extended type to handle both image property variants
+interface ActivityWithImageUrl extends Activity {
+  imageUrl?: string;
+}
+
 interface ActivityCardProps {
-  activity: Activity;
+  activity: ActivityWithImageUrl;
   onBookNow: (activityId: number) => void;
 }
 
@@ -20,13 +25,13 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
       >
         <div className="relative">
           <img 
-            src={activity.imageUrl} 
+            src={activity.image || activity.imageUrl} 
             alt={activity.title} 
             className="w-full h-56 object-cover"
             onError={(e) => {
               // Fallback if image doesn't load
               e.currentTarget.src = "/attached_assets/bahia.jpg";
-              console.error(`Image failed to load: ${activity.imageUrl}`);
+              console.error(`Image failed to load: ${activity.image || activity.imageUrl}`);
             }}
           />
         </div>

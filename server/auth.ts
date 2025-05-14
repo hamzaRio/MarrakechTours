@@ -3,7 +3,13 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Express, Request, Response, NextFunction } from "express";
 import session from "express-session";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import { storage } from "./storage";
+
+// JWT Configuration
+const JWT_SECRET = process.env.JWT_SECRET || 'marrakechdeserts_jwt_secret';
+const JWT_EXPIRY = '24h'; // Default to 24 hours
+const JWT_REMEMBER_ME_EXPIRY = '30d'; // 30 days for "Remember Me"
 
 // Extend Express.User interface with our user properties
 declare global {
