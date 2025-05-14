@@ -3,20 +3,25 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const navLinks = [
-  { name: "Home", href: "#home" },
-  { name: "Activities", href: "#activities" },
-  { name: "About", href: "#about" },
-  { name: "Contact", href: "#contact" },
-  { name: "Photos", href: "/photos", isPage: true }
-];
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "./language-switcher";
 
 export default function Navbar() {
+  const { t } = useTranslation();
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isAdminPage = location.startsWith("/admin");
+
+  // Define navigation links with translations
+  const links = [
+    { name: t('navigation.home'), href: "#home" },
+    { name: t('navigation.activities'), href: "#activities" },
+    { name: t('navigation.about'), href: "#about" },
+    { name: t('navigation.contact'), href: "#contact" },
+    { name: t('navigation.booking'), href: "#booking" },
+    { name: "Photos", href: "/photos", isPage: true }
+  ];
 
   const scrollToSection = (sectionId: string) => {
     const element = document.querySelector(sectionId);
@@ -36,11 +41,14 @@ export default function Navbar() {
               <span className="text-moroccan-brown">Marrakech</span>Deserts
             </span>
           </Link>
-          <Link href="/">
-            <span className="text-gray-600 hover:text-terracotta transition-colors">
-              Back to Site
-            </span>
-          </Link>
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+            <Link href="/">
+              <span className="text-gray-600 hover:text-terracotta transition-colors">
+                {t('admin.backToSite')}
+              </span>
+            </Link>
+          </div>
         </nav>
       </header>
     );
@@ -57,8 +65,8 @@ export default function Navbar() {
           </Link>
         </div>
         
-        <div className="hidden md:flex space-x-8">
-          {navLinks.map((link) => (
+        <div className="hidden md:flex items-center space-x-4">
+          {links.map((link) => (
             link.isPage ? (
               <Link
                 key={link.name}
@@ -68,7 +76,7 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ) : (
-              link.name === "Home" ? (
+              link.name === t('navigation.home') ? (
                 <Link
                   key={link.name}
                   href="/"
@@ -91,9 +99,13 @@ export default function Navbar() {
               )
             )
           ))}
+          
+          {/* Language Switcher */}
+          <LanguageSwitcher />
         </div>
         
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
+          <LanguageSwitcher />
           <Button
             variant="ghost"
             size="sm"
@@ -110,7 +122,7 @@ export default function Navbar() {
         "md:hidden bg-white border-t border-gray-100 px-4 py-2",
         mobileMenuOpen ? "block" : "hidden"
       )}>
-        {navLinks.map((link) => (
+        {links.map((link) => (
           link.isPage ? (
             <Link
               key={link.name}
@@ -121,7 +133,7 @@ export default function Navbar() {
               {link.name}
             </Link>
           ) : (
-            link.name === "Home" ? (
+            link.name === t('navigation.home') ? (
               <Link
                 key={link.name}
                 href="/"
