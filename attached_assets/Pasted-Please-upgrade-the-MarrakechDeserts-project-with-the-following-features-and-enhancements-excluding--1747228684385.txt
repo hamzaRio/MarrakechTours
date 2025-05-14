@@ -1,0 +1,81 @@
+Please upgrade the MarrakechDeserts project with the following features and enhancements (excluding payment and Arabic):
+
+---
+
+🔐 1. Secure Session Management
+- Implement token-based or cookie-based session system (JWT or secure cookie)
+- Add session expiration with auto-logout
+- Include a “Remember Me” checkbox for longer sessions
+- Securely store session state (compatible with Replit hosting)
+
+---
+
+📊 2. Advanced Analytics (Extend Current)
+- Add date-range filters (weekly, monthly, yearly) to analytics
+- Add revenue trends and booking frequency over time
+- Add estimated revenue forecasting per activity
+- Add optional visual heatmap or line graph of bookings over time
+
+---
+
+📦 3. Capacity & Inventory Management
+- Add optional `maxParticipants` field per activity
+- Prevent bookings that exceed the max allowed participants
+- Show live availability in the public activity details (e.g., “Only 3 spots left!”)
+
+---
+
+🗓️ 4. Calendar View for Admins
+- Integrate a calendar view (e.g., using FullCalendar)
+- Show all bookings in a daily/weekly/monthly layout
+- Allow filter by activity, admin, or client
+- Add “Export calendar as PDF” or `.ics` download option
+
+---
+
+💬 5. WhatsApp Notification Enhancements
+- Allow each admin (Nadia, Ahmed, Yahia) to opt in/out of alerts
+- Add log of WhatsApp delivery for every message sent
+- Optional: Add automated follow-up message if booking isn’t confirmed after 24 hours
+
+---
+
+👥 6. Role & Admin Controls
+- Add ability for superadmin (Nadia) to:
+  - Create, edit, or deactivate admin accounts
+  - View full audit logs per admin
+- Track activity history per admin (edit logs, login logs)
+- Show “Last Login” date/time for each admin
+
+---
+
+🔄 7. CRM Finalization
+- Fix CRM connection (currently shows "Disconnected")
+- Store CRM sync history (timestamp, success/failure)
+- Add CRM re-sync button per booking and global re-sync
+- Auto-sync new bookings on creation
+- Show synced status in booking table with visual badge
+
+---
+
+🌐 8. French Language Support Only
+- Implement i18n system (e.g., using `react-i18next`)
+- Support French and English switcher (flag or dropdown in navbar)
+- Translate:
+  - Public site interface (homepage, activities, booking form)
+  - Admin dashboard sections and labels
+- Store selected language in session/cookie
+
+---
+
+🧪 9. Testing & Admin Tools
+- Add a manual backup/export option for full MongoDB data
+- Allow superadmin to export all data to CSV (activities, bookings, audit logs)
+- Create an alert if MongoDB disconnects (admin sees warning banner)
+- Add unit testing boilerplate (Jest or Vitest) for backend routes
+
+---
+
+✅ Please ensure these upgrades maintain the existing design and are fully compatible with the current MongoDB Atlas setup and Replit deployment.
+
+Let me know if you need test users or booking data to simulate results.
