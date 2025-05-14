@@ -114,24 +114,24 @@ export default function ActivityDetailsPage() {
               <div className="flex flex-wrap gap-4 mb-6">
                 <div className="flex items-center bg-gray-100 px-3 py-2 rounded-md">
                   <Clock className="h-4 w-4 mr-2 text-terracotta" />
-                  <span className="text-sm">Full day tour</span>
+                  <span className="text-sm">{t('activities.fullDayTour')}</span>
                 </div>
                 <div className="flex items-center bg-gray-100 px-3 py-2 rounded-md">
                   <Users className="h-4 w-4 mr-2 text-terracotta" />
-                  <span className="text-sm">Small groups</span>
+                  <span className="text-sm">{t('activities.smallGroups')}</span>
                   {activity.id && activity.maxGroupSize && (
                     <span className="text-xs text-gray-500 ml-1">
-                      (max {activity.maxGroupSize})
+                      ({t('activities.max')} {activity.maxGroupSize})
                     </span>
                   )}
                 </div>
                 <div className="flex items-center bg-gray-100 px-3 py-2 rounded-md">
                   <CalendarDays className="h-4 w-4 mr-2 text-terracotta" />
-                  <span className="text-sm">Available daily</span>
+                  <span className="text-sm">{t('activities.availableDaily')}</span>
                 </div>
                 <div className="flex items-center bg-gray-100 px-3 py-2 rounded-md">
                   <MapPin className="h-4 w-4 mr-2 text-terracotta" />
-                  <span className="text-sm">Pickup included</span>
+                  <span className="text-sm">{t('activities.pickupIncluded')}</span>
                 </div>
               </div>
               

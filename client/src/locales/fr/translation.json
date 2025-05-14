@@ -187,6 +187,10 @@
     "notFound": "Activité Non Trouvée",
     "notFoundMessage": "L'activité que vous recherchez n'existe pas ou a été supprimée.",
     "whatsIncluded": "Ce qui est inclus",
+    "fullDayTour": "Excursion d'une journée",
+    "smallGroups": "Petits groupes",
+    "availableDaily": "Disponible tous les jours",
+    "pickupIncluded": "Prise en charge incluse",
     "agafay": {
       "included": {
         "tour": "Visite guidée professionnelle du désert d'Agafay"
