@@ -25,7 +25,8 @@
     "received": "Réservation Reçue",
     "cancelled": "Réservation Annulée",
     "pending": "Les détails de votre réservation ont été envoyés à notre équipe via WhatsApp. Vous recevrez un message de confirmation sous peu.",
-    "confirmed": "Votre réservation a été confirmée. Nous avons hâte de vous accueillir !",
+    "confirmed": "Réservation Confirmée !",
+    "confirmedMessage": "Votre réservation a été confirmée. Nous avons hâte de vous accueillir !",
     "cancelledMessage": "Cette réservation a été annulée. Si vous avez des questions, veuillez nous contacter.",
     "fullName": "Nom Complet *",
     "phoneNumber": "Numéro de Téléphone *",
@@ -44,9 +45,12 @@
     "totalPrice": "Prix Total :",
     "perPerson": "par personne",
     "bookingConfirmed": "Réservation Confirmée !",
+    "confirmBooking": "Confirmer la Réservation",
     "teamNotified": "Notre équipe a été notifiée et vous contactera bientôt via WhatsApp.",
     "bookingFailed": "Échec de la Réservation",
-    "tryAgain": "Un problème est survenu lors du traitement de votre réservation. Veuillez réessayer."
+    "tryAgain": "Un problème est survenu lors du traitement de votre réservation. Veuillez réessayer.",
+    "onlyNSpotsLeft": "Seulement {{count}} places restantes pour cette date. Veuillez sélectionner moins de personnes ou choisir une autre date.",
+    "whatsAppConfirmation": "Vous recevrez une confirmation par WhatsApp de la part de notre équipe (Nadia, Ahmed et Yahia)"
   },
   "activities": {
     "featured": "Activités en Vedette",
