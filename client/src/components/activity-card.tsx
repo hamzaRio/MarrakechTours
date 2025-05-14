@@ -51,7 +51,7 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
               {activity.maxGroupSize && (
                 <div className="flex items-center text-xs text-gray-500 mt-1">
                   <Users className="h-3 w-3 mr-1" />
-                  <span>{t('activities.max')}: {activity.maxGroupSize}</span>
+                  <span>{t('activities.max')} {activity.maxGroupSize}</span>
                 </div>
               )}
             </div>
