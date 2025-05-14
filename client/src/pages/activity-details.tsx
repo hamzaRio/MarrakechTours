@@ -303,9 +303,9 @@ export default function ActivityDetailsPage() {
                       <div className="flex justify-between items-center py-3">
                         <span className="text-gray-700 font-medium flex items-center">
                           <Wallet className="mr-2 h-5 w-5 text-terracotta" /> 
-                          Payment
+                          {t('booking.paymentMethod')}
                         </span>
-                        <span className="font-bold">Cash on arrival</span>
+                        <span className="font-bold">{t('booking.cashOnArrival')}</span>
                       </div>
                     </div>
                     
