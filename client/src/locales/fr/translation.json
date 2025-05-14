@@ -162,5 +162,98 @@
       "saturday": "Samedi",
       "sunday": "Dimanche"
     }
+  },
+  "activities": {
+    "title": "Nos Activités",
+    "subtitle": "Découvrez nos excursions populaires",
+    "viewDetails": "Voir les Détails",
+    "bookNow": "Réserver Maintenant",
+    "price": "Prix",
+    "perPerson": "par personne",
+    "duration": "Durée",
+    "hours": "heures",
+    "days": "jours",
+    "includes": "Inclus",
+    "food": "Repas",
+    "transportation": "Transport",
+    "maxGroupSize": "Taille maximale du groupe",
+    "people": "personnes",
+    "description": "Description",
+    "details": "Détails",
+    "availability": "Disponibilité",
+    "seeAll": "Voir toutes les activités",
+    "1": {
+      "title": "Montgolfière (Vol en Ballon)",
+      "description": "Vivez des vues à couper le souffle de Marrakech et des montagnes de l'Atlas depuis une montgolfière au lever du soleil. Flottez paisiblement au-dessus du magnifique paysage marocain alors que le soleil commence à illuminer le désert et les montagnes."
+    },
+    "2": {
+      "title": "Combo Agafay",
+      "description": "Découvrez le désert de pierre d'Agafay avec des balades à dos de chameau, du quad et un authentique dîner berbère sous les étoiles. Découvrez le mode de vie du désert marocain et profitez de vues à couper le souffle sur les montagnes de l'Atlas."
+    },
+    "3": {
+      "title": "Excursion d'une Journée à Essaouira",
+      "description": "Visitez la charmante ville côtière d'Essaouira avec ses bâtiments bord de mer peints en bleu, sa médina historique et ses belles plages. Découvrez l'atmosphère unique de ce site classé au patrimoine mondial de l'UNESCO."
+    },
+    "4": {
+      "title": "Excursion d'une Journée aux Cascades d'Ouzoud",
+      "description": "Explorez les magnifiques cascades d'Ouzoud, l'une des merveilles naturelles les plus spectaculaires du Maroc avec des chutes d'eau en cascade et des paysages verdoyants. Repérez les macaques de Barbarie sauvages et profitez de points de vue à couper le souffle tout au long de cette excursion panoramique d'une journée."
+    },
+    "5": {
+      "title": "Excursion d'une Journée à la Vallée de l'Ourika",
+      "description": "Voyagez à la belle vallée de l'Ourika avec ses ruisseaux cristallins, les montagnes de l'Atlas enneigées et les villages berbères authentiques. Découvrez la culture locale, profitez de vues panoramiques et connectez-vous avec la nature dans ce paradis verdoyant."
+    }
+  },
+  "about": {
+    "title": "À Propos de Nous",
+    "subtitle": "Votre partenaire de confiance pour découvrir le Maroc",
+    "description": "MarrakechDeserts est une agence locale spécialisée dans les expériences authentiques au Maroc. Notre équipe passionnée est composée de guides locaux experts qui partagent la beauté, la culture et l'hospitalité marocaines avec des voyageurs du monde entier.",
+    "ourValues": "Nos Valeurs",
+    "authenticity": "Authenticité",
+    "authenticityText": "Nous proposons des expériences authentiques qui mettent en valeur la véritable essence du Maroc.",
+    "sustainability": "Durabilité",
+    "sustainabilityText": "Nous nous engageons à protéger les communautés locales et l'environnement dans toutes nos activités.",
+    "excellence": "Excellence",
+    "excellenceText": "Nous nous efforçons de fournir un service de la plus haute qualité à tous nos clients.",
+    "ourTeam": "Notre Équipe",
+    "teamMember1": "Ahmed - Guide en Chef",
+    "teamMember1Bio": "Expert en histoire et culture marocaines avec plus de 10 ans d'expérience.",
+    "teamMember2": "Nadia - Directrice des Opérations",
+    "teamMember2Bio": "Organisatrice exceptionnelle assurant que chaque voyage se déroule parfaitement.",
+    "teamMember3": "Yahia - Spécialiste des Aventures",
+    "teamMember3Bio": "Passionné de plein air et expert en activités d'aventure dans le désert et les montagnes."
+  },
+  "photos": {
+    "title": "Galerie de Photos",
+    "subtitle": "Explorez la beauté du Maroc à travers notre collection de photos",
+    "backToHome": "Retour à l'Accueil"
+  },
+  "contact": {
+    "title": "Contactez-Nous",
+    "subtitle": "Nous sommes là pour répondre à toutes vos questions",
+    "name": "Votre Nom",
+    "email": "Votre Email",
+    "message": "Votre Message",
+    "send": "Envoyer",
+    "address": "Adresse",
+    "phone": "Téléphone",
+    "email": "Email",
+    "addressDetails": "123 Rue Principale, Marrakech, Maroc",
+    "callUs": "Appelez-nous",
+    "emailUs": "Envoyez-nous un email",
+    "formSuccess": "Message envoyé avec succès !",
+    "formError": "Une erreur s'est produite. Veuillez réessayer."
+  },
+  "capacity": {
+    "available": "{{count}} places disponibles",
+    "available_plural": "{{count}} places disponibles",
+    "limited": "Seulement {{count}} place restante !",
+    "limited_plural": "Seulement {{count}} places restantes !",
+    "full": "Complet",
+    "spaces": "places",
+    "left": "restantes"
+  },
+  "booking": {
+    "cashPaymentOnly": "Paiement en espèces uniquement",
+    "notesPlaceholder": "Questions spéciales ou besoins particuliers"
   }
 }
