@@ -19,6 +19,7 @@ interface ActivityCardProps {
 }
 
 export default function ActivityCard({ activity, onBookNow }: ActivityCardProps) {
+  const { t } = useTranslation();
   // Use today's date for capacity display
   const today = new Date();
   return (
@@ -51,12 +52,12 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
             </div>
             <div className="flex flex-col items-end">
               <span className="bg-terracotta/90 text-white px-3 py-1 rounded text-sm">
-                {formatPrice(activity.price)}/person
+                {formatPrice(activity.price)}/{t('activities.people')}
               </span>
               {activity.maxGroupSize && (
                 <div className="flex items-center text-xs text-gray-500 mt-1">
                   <Users className="h-3 w-3 mr-1" />
-                  <span>Max: {activity.maxGroupSize}</span>
+                  <span>{t('activities.max')}: {activity.maxGroupSize}</span>
                 </div>
               )}
             </div>
@@ -78,13 +79,14 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
               onClick={() => onBookNow(activity.id)}
               className="flex-1 bg-terracotta hover:bg-terracotta/90 text-white"
             >
-              Book Now <ArrowRight className="ml-1 h-4 w-4" />
+              {t('activities.booknow')} <ArrowRight className="ml-1 h-4 w-4" />
             </Button>
             
             <Button 
               variant="outline"
               className="border-terracotta text-terracotta hover:bg-terracotta/10"
               onClick={() => window.location.href = `/activity/${activity.id}`}
+              title={t('activities.details')}
             >
               <Info className="h-4 w-4" />
             </Button>

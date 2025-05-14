@@ -37,6 +37,7 @@
     "food": "Food",
     "transportation": "Transportation",
     "people": "people",
+    "max": "Max",
     "loadError": "Unable to Load Activities",
     "tryAgain": "We're having trouble loading our activities. Please refresh the page or try again later.",
     "capacity": {
