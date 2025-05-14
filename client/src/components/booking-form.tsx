@@ -5,10 +5,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { constructWhatsAppUrl, whatsAppContacts, getActivityIdByName, getActivityPriceById, formatPrice } from "@/lib/utils";
-import { CalendarIcon, Users, ArrowRight, Banknote } from "lucide-react";
+import { CalendarIcon, Users, ArrowRight, Banknote, AlertTriangle } from "lucide-react";
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import AvailabilityCalendar from "@/components/availability-calendar";
+import { CapacityBadge, CapacityDisplay } from "@/components/capacity-display";
 import { format } from "date-fns";
 
 import {
@@ -35,6 +36,8 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [totalPrice, setTotalPrice] = useState<number | null>(null);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [capacityError, setCapacityError] = useState<string | null>(null);
 
   const { data: activities } = useQuery<Activity[]>({
     queryKey: ["/api/activities"],
@@ -51,6 +54,20 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
       people: 1,
       notes: "",
     },
+  });
+
+  // Query capacity data for selected activity and date
+  const formActivityId = parseInt(form.watch("activity") || "0");
+  const activityId = formActivityId || selectedActivityId || 0;
+  const formDate = form.watch("date");
+  
+  const { data: capacityData } = useQuery({
+    queryKey: ["/api/capacity/activity", activityId, formDate],
+    queryFn: () => {
+      if (!activityId || !formDate) return null;
+      return apiRequest("GET", `/api/capacity/activity/${activityId}/${formDate}`).then(res => res.json());
+    },
+    enabled: !!activityId && !!formDate,
   });
 
   // Calculate total price when activity or number of people changes
@@ -75,7 +92,22 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
     } else {
       setTotalPrice(null);
     }
-  }, [selectedActivityId, form.watch("activity"), form.watch("people"), activities, form]);
+    
+    // Reset capacity error when activity or date changes
+    setCapacityError(null);
+  }, [selectedActivityId, form.watch("activity"), form.watch("people"), form.watch("date"), activities, form]);
+  
+  // Check capacity constraints
+  useEffect(() => {
+    if (!capacityData || !form.watch("people")) return;
+    
+    const people = form.watch("people");
+    if (capacityData.remainingSpots !== undefined && people > capacityData.remainingSpots) {
+      setCapacityError(`Only ${capacityData.remainingSpots} spots left for this date. Please select fewer people or choose another date.`);
+    } else {
+      setCapacityError(null);
+    }
+  }, [capacityData, form.watch("people")]);
 
   const bookingMutation = useMutation({
     mutationFn: async (data: BookingFormData) => {
@@ -152,12 +184,28 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
     // Format date to YYYY-MM-DD for the form value
     const formattedDate = format(date, 'yyyy-MM-dd');
     form.setValue('date', formattedDate);
+    setSelectedDate(formattedDate);
   };
 
   const onSubmit = async (data: BookingFormData) => {
+    // Check capacity before submission
+    if (capacityError) {
+      toast({
+        title: "Booking Failed",
+        description: capacityError,
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
-    await bookingMutation.mutateAsync(data);
-    setIsSubmitting(false);
+    try {
+      await bookingMutation.mutateAsync(data);
+    } catch (error) {
+      console.error("Booking error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -300,6 +348,26 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
               </div>
               
               <div className="p-5">
+                {form.getValues("date") && parseInt(form.getValues("activity")) > 0 && (
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">Availability for {new Date(form.getValues("date")).toLocaleDateString()}</h4>
+                    <CapacityDisplay 
+                      activityId={parseInt(form.getValues("activity"))} 
+                      date={form.getValues("date")}
+                      className="mb-3" 
+                    />
+                  </div>
+                )}
+                
+                {capacityError && (
+                  <div className="mb-4 p-3 border border-red-200 bg-red-50 rounded-md">
+                    <div className="flex items-start">
+                      <AlertTriangle className="h-5 w-5 text-red-500 mr-2 mt-0.5" />
+                      <p className="text-red-700 text-sm">{capacityError}</p>
+                    </div>
+                  </div>
+                )}
+                
                 <div className="mb-4">
                   <div className="flex justify-between items-center mb-2">
                     <span className="flex items-center text-gray-800 font-medium">
