@@ -327,7 +327,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                 >
                   <FormControl>
                     <SelectTrigger className="bg-white border border-gray-300 text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta h-12 p-3 w-full">
-                      <SelectValue placeholder="Select number of people" />
+                      <SelectValue placeholder={t('booking.selectPeople')} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -346,13 +346,13 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
           <div className="mb-6 w-full">
             <div className="bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
               <div className="bg-gray-100 px-4 py-3 border-b border-gray-300">
-                <h3 className="text-gray-800 font-semibold">Booking Summary</h3>
+                <h3 className="text-gray-800 font-semibold">{t('booking.summary')}</h3>
               </div>
               
               <div className="p-5">
                 {form.getValues("date") && parseInt(form.getValues("activity")) > 0 && (
                   <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-700 mb-2">Availability for {new Date(form.getValues("date")).toLocaleDateString()}</h4>
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">{t('booking.availabilityFor')} {new Date(form.getValues("date")).toLocaleDateString()}</h4>
                     <CapacityDisplay 
                       activityId={parseInt(form.getValues("activity"))} 
                       date={form.getValues("date")}
@@ -374,10 +374,10 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                   <div className="flex justify-between items-center mb-2">
                     <span className="flex items-center text-gray-800 font-medium">
                       <Banknote className="h-4 w-4 mr-2 text-gray-600" />
-                      Payment Method:
+                      {t('booking.paymentMethod')}:
                     </span>
                     <span className="bg-gray-100 px-3 py-1 rounded text-gray-900 font-medium text-sm">
-                      Cash on Arrival
+                      {t('booking.cashOnArrival')}
                     </span>
                   </div>
                   <p className="text-xs text-gray-600">We currently accept cash payment only</p>
@@ -409,10 +409,10 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
           name="notes"
           render={({ field }) => (
             <FormItem className="mb-6 w-full">
-              <FormLabel className="text-gray-800 font-medium mb-2 block">Additional Notes</FormLabel>
+              <FormLabel className="text-gray-800 font-medium mb-2 block">{t('booking.additionalNotes')}</FormLabel>
               <FormControl>
                 <Textarea 
-                  placeholder="Any special requirements or questions?" 
+                  placeholder={t('booking.notesPlaceholder')} 
                   {...field} 
                   value={field.value || ''}
                   className="bg-white border border-gray-300 text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta min-h-[100px] p-4 w-full" 
