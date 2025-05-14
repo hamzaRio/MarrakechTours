@@ -23,6 +23,7 @@ import { CalendarDays, Clock, Users, MapPin, ArrowRight, Globe, Wallet } from "l
 import { Helmet } from "react-helmet";
 import { SocialSharePopover } from "@/components/social-share";
 import AvailabilityCalendar from "@/components/availability-calendar";
+import { CapacityDisplay, CapacityBadge } from "@/components/capacity-display";
 
 export default function ActivityDetailsPage() {
   const [, params] = useRoute("/activity/:id");
@@ -31,6 +32,7 @@ export default function ActivityDetailsPage() {
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [bookingData, setBookingData] = useState<BookingFormData | undefined>();
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const { data: activities } = useQuery<ActivityWithImageUrl[]>({
     queryKey: ["/api/activities"],
@@ -115,6 +117,11 @@ export default function ActivityDetailsPage() {
                 <div className="flex items-center bg-gray-100 px-3 py-2 rounded-md">
                   <Users className="h-4 w-4 mr-2 text-terracotta" />
                   <span className="text-sm">Small groups</span>
+                  {activity.id && activity.maxGroupSize && (
+                    <span className="text-xs text-gray-500 ml-1">
+                      (max {activity.maxGroupSize})
+                    </span>
+                  )}
                 </div>
                 <div className="flex items-center bg-gray-100 px-3 py-2 rounded-md">
                   <CalendarDays className="h-4 w-4 mr-2 text-terracotta" />
@@ -125,6 +132,17 @@ export default function ActivityDetailsPage() {
                   <span className="text-sm">Pickup included</span>
                 </div>
               </div>
+              
+              {activity.id && (
+                <div className="mb-6">
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">Availability for today</h3>
+                  <CapacityDisplay 
+                    activityId={activity.id} 
+                    date={selectedDate}
+                    className="mb-4" 
+                  />
+                </div>
+              )}
               
               <div className="prose max-w-none">
                 <h2 className="text-xl font-medium text-gray-800 mb-4">Description</h2>
@@ -239,10 +257,22 @@ export default function ActivityDetailsPage() {
                   <AvailabilityCalendar 
                     onDateSelect={(date) => {
                       console.log("Selected date:", date);
+                      setSelectedDate(date);
                       setShowBookingForm(true);
                     }}
                   />
                 </div>
+                
+                {activity.id && !showBookingForm && (
+                  <div className="mb-4">
+                    <h3 className="text-sm font-medium text-gray-700 mb-2">Availability for {selectedDate.toLocaleDateString()}</h3>
+                    <CapacityDisplay 
+                      activityId={activity.id} 
+                      date={selectedDate}
+                      className="mt-1" 
+                    />
+                  </div>
+                )}
                 
                 {!showBookingForm ? (
                   <>

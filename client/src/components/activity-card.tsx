@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatPrice } from "@/lib/utils";
 import { Activity } from "@shared/schema";
-import { ArrowRight, Info } from "lucide-react";
+import { ArrowRight, Info, Users } from "lucide-react";
+import { CapacityBadge } from "./capacity-display";
 
 // Extended type to handle both image property variants
 interface ActivityWithImageUrl extends Activity {
@@ -17,6 +18,8 @@ interface ActivityCardProps {
 }
 
 export default function ActivityCard({ activity, onBookNow }: ActivityCardProps) {
+  // Use today's date for capacity display
+  const today = new Date();
   return (
     <Card className="overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 bg-white">
       <div 
@@ -45,11 +48,29 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
             >
               <h3 className="text-xl font-medium text-gray-800">{activity.title}</h3>
             </div>
-            <span className="bg-terracotta/90 text-white px-3 py-1 rounded text-sm">
-              {formatPrice(activity.price)}/person
-            </span>
+            <div className="flex flex-col items-end">
+              <span className="bg-terracotta/90 text-white px-3 py-1 rounded text-sm">
+                {formatPrice(activity.price)}/person
+              </span>
+              {activity.maxGroupSize && (
+                <div className="flex items-center text-xs text-gray-500 mt-1">
+                  <Users className="h-3 w-3 mr-1" />
+                  <span>Max: {activity.maxGroupSize}</span>
+                </div>
+              )}
+            </div>
           </div>
-          <p className="text-gray-600 text-sm mb-4 line-clamp-3">{activity.description}</p>
+          <p className="text-gray-600 text-sm mb-2 line-clamp-3">{activity.description}</p>
+          
+          {activity.id && (
+            <div className="mb-3">
+              <CapacityBadge
+                activityId={activity.id}
+                date={today}
+                compact={true}
+              />
+            </div>
+          )}
           
           <div className="flex gap-2">
             <Button 
