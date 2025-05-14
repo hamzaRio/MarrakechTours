@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Booking, { IBooking } from '../models/Booking';
 import { z } from 'zod';
 import { syncBookingWithCrm } from '../utils/crmIntegration';
+import { checkActivityCapacity } from '../utils/capacityManager';
 
 // Zod schema for validating booking data
 const bookingSchema = z.object({
@@ -20,6 +21,22 @@ export const createBooking = async (req: Request, res: Response) => {
   try {
     // Validate the request body
     const validatedData = bookingSchema.parse(req.body);
+    
+    // Check if there's enough capacity for this booking
+    const capacityCheck = await checkActivityCapacity(
+      validatedData.selectedActivity,
+      validatedData.preferredDate,
+      validatedData.numberOfPeople
+    );
+    
+    // If there isn't enough capacity, return an error
+    if (!capacityCheck.hasCapacity) {
+      return res.status(400).json({ 
+        message: "Not enough capacity for this booking", 
+        details: capacityCheck.message,
+        remainingSpots: capacityCheck.remainingSpots || 0
+      });
+    }
     
     // Create a new booking document
     const newBooking = new Booking({
