@@ -1,5 +1,6 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import ActivityCard from "./activity-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Activity } from "@shared/schema";
@@ -9,6 +10,7 @@ interface ActivitySectionProps {
 }
 
 export default function ActivitySection({ onBookActivity }: ActivitySectionProps) {
+  const { t } = useTranslation();
   const { data: activities, isLoading, error } = useQuery<Activity[]>({
     queryKey: ["/api/activities"],
   });
@@ -23,9 +25,9 @@ export default function ActivitySection({ onBookActivity }: ActivitySectionProps
       <section id="activities" className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-medium text-gray-800">Featured Activities</h2>
+            <h2 className="text-3xl font-medium text-gray-800">{t('activities.featured')}</h2>
             <div className="h-1 w-16 bg-terracotta mx-auto mt-3"></div>
-            <p className="mt-4 text-gray-600">Explore our most popular Moroccan experiences</p>
+            <p className="mt-4 text-gray-600">{t('activities.subtitle')}</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -54,10 +56,10 @@ export default function ActivitySection({ onBookActivity }: ActivitySectionProps
       <section id="activities" className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-medium text-gray-800 mb-4">
-            Unable to Load Activities
+            {t('activities.loadError')}
           </h2>
           <p className="text-gray-600">
-            We're having trouble loading our activities. Please refresh the page or try again later.
+            {t('activities.tryAgain')}
           </p>
         </div>
       </section>
@@ -68,9 +70,9 @@ export default function ActivitySection({ onBookActivity }: ActivitySectionProps
     <section id="activities" className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-medium text-gray-800">Featured Activities</h2>
+          <h2 className="text-3xl font-medium text-gray-800">{t('activities.featured')}</h2>
           <div className="h-1 w-16 bg-terracotta mx-auto mt-3"></div>
-          <p className="mt-4 text-gray-600">Explore our most popular Moroccan experiences</p>
+          <p className="mt-4 text-gray-600">{t('activities.subtitle')}</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

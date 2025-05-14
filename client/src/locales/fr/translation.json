@@ -28,6 +28,7 @@
   },
   "activities": {
     "featured": "Activités en Vedette",
+    "subtitle": "Explorez nos expériences marocaines les plus populaires",
     "all": "Toutes les Activités",
     "price": "Prix",
     "duration": "Durée",
@@ -36,6 +37,8 @@
     "food": "Repas",
     "transportation": "Transport",
     "people": "personnes",
+    "loadError": "Impossible de Charger les Activités",
+    "tryAgain": "Nous avons du mal à charger nos activités. Veuillez rafraîchir la page ou réessayer plus tard.",
     "capacity": {
       "available": "Disponible",
       "limited": "Places Limitées",

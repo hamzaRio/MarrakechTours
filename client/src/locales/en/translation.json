@@ -28,6 +28,7 @@
   },
   "activities": {
     "featured": "Featured Activities",
+    "subtitle": "Explore our most popular Moroccan experiences",
     "all": "All Activities",
     "price": "Price",
     "duration": "Duration",
@@ -36,6 +37,8 @@
     "food": "Food",
     "transportation": "Transportation",
     "people": "people",
+    "loadError": "Unable to Load Activities",
+    "tryAgain": "We're having trouble loading our activities. Please refresh the page or try again later.",
     "capacity": {
       "available": "Available",
       "limited": "Limited Spots",
