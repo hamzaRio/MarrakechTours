@@ -91,6 +91,12 @@ function generateToken(user: {id: number, username: string, role: string}, remem
  * Verify and decode a JWT token
  */
 function verifyToken(token: string): TokenPayload | null {
+  // Check if token is blacklisted
+  if (isTokenBlacklisted(token)) {
+    console.log('Token is blacklisted');
+    return null;
+  }
+  
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as TokenPayload;
     return decoded;
@@ -262,6 +268,13 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/logout", (req, res) => {
+    // Handle JWT token logout
+    const token = extractToken(req);
+    if (token) {
+      // Blacklist the token
+      blacklistToken(token);
+    }
+    
     if (req.user) {
       // Create an audit log for the logout
       storage.createAuditLog({
@@ -269,10 +282,14 @@ export function setupAuth(app: Express) {
         action: "LOGOUT",
         entityType: "user",
         entityId: (req.user as any).id,
-        details: { username: (req.user as any).username }
+        details: { 
+          username: (req.user as any).username,
+          usingJwt: !!token
+        }
       });
     }
     
+    // Handle session logout
     req.logout((err: any) => {
       if (err) {
         return res.status(500).json({ 
@@ -283,7 +300,8 @@ export function setupAuth(app: Express) {
       
       res.status(200).json({ 
         success: true, 
-        message: "Logged out successfully" 
+        message: "Logged out successfully",
+        tokenInvalidated: !!token
       });
     });
   });
