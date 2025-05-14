@@ -158,9 +158,9 @@ export default function ActivityDetailsPage() {
                       <li>{t('activities.agafay.included.tea')}</li>
                       <li>{t('activities.agafay.included.camelRide')}</li>
                       <li>{t('activities.agafay.included.quadBiking')}</li>
-                      <li>Authentic Berber dinner under the stars</li>
-                      <li>Hotel pickup and drop-off in air-conditioned vehicle</li>
-                      <li>Bottled water throughout the tour</li>
+                      <li>{t('activities.agafay.included.dinner')}</li>
+                      <li>{t('activities.agafay.included.transport')}</li>
+                      <li>{t('activities.agafay.included.water')}</li>
                     </ul>
                     
                     {/* Agafay Gallery */}

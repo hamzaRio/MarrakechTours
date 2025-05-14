@@ -95,7 +95,13 @@
     "availabilityForToday": "Availability for today",
     "agafay": {
       "included": {
-        "tour": "Professional guided tour of the Agafay desert"
+        "tour": "Professional guided tour of the Agafay desert",
+        "tea": "Traditional Moroccan mint tea with local Berber family",
+        "camelRide": "Camel ride through the stunning stone desert",
+        "quadBiking": "Optional quad biking experience (additional fee)",
+        "dinner": "Authentic Berber dinner under the stars",
+        "transport": "Hotel pickup and drop-off in air-conditioned vehicle",
+        "water": "Bottled water throughout the tour"
       }
     }
   },

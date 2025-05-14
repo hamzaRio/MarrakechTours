@@ -196,7 +196,13 @@
     "availabilityForToday": "Disponibilité pour aujourd'hui",
     "agafay": {
       "included": {
-        "tour": "Visite guidée professionnelle du désert d'Agafay"
+        "tour": "Visite guidée professionnelle du désert d'Agafay",
+        "tea": "Thé à la menthe marocain traditionnel avec une famille berbère locale",
+        "camelRide": "Balade à dos de chameau à travers le magnifique désert de pierre",
+        "quadBiking": "Expérience optionnelle de quad (frais supplémentaires)",
+        "dinner": "Dîner berbère authentique sous les étoiles",
+        "transport": "Prise en charge et retour à l'hôtel en véhicule climatisé",
+        "water": "Eau en bouteille tout au long de la visite"
       }
     },
     "1": {
