@@ -94,6 +94,7 @@ export class MemStorage implements IStorage {
         price: 1100,
         image: "/attached_assets/montgolfiere-marrakech.jpg",
         featured: true,
+        maxGroupSize: 8,
       },
       {
         title: "Agafay Combo",
@@ -101,6 +102,7 @@ export class MemStorage implements IStorage {
         price: 450,
         image: "/attached_assets/agafaypack.jpeg",
         featured: true,
+        maxGroupSize: 15,
       },
       {
         title: "Essaouira Day Trip",
@@ -108,6 +110,7 @@ export class MemStorage implements IStorage {
         price: 200,
         image: "/attached_assets/Essaouira day trip 4.jpg",
         featured: true,
+        maxGroupSize: 20,
       },
       {
         title: "Ouzoud Waterfalls Day Trip",
@@ -115,6 +118,7 @@ export class MemStorage implements IStorage {
         price: 200,
         image: "/attached_assets/Ouzoud-Waterfalls.jpg",
         featured: true,
+        maxGroupSize: 16,
       },
       {
         title: "Ourika Valley Day Trip",
@@ -122,6 +126,7 @@ export class MemStorage implements IStorage {
         price: 150,
         image: "/attached_assets/ourika-valley-marrakech.jpg",
         featured: true,
+        maxGroupSize: 24,
       }
     ];
 
