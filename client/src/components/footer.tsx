@@ -1,15 +1,10 @@
 import React from "react";
 import { Link } from "wouter";
 import { MapPin, Phone, Mail, Instagram, Send, Image } from "lucide-react";
-
-const quickLinks = [
-  { name: "Home", href: "#home" },
-  { name: "Activities", href: "#activities" },
-  { name: "About Us", href: "#about" },
-  { name: "Contact", href: "#contact" },
-];
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation();
   const scrollToSection = (sectionId: string) => {
     const element = document.querySelector(sectionId);
     if (element) {
@@ -35,9 +30,14 @@ export default function Footer() {
           </div>
           
           <div>
-            <h3 className="text-xl font-medium mb-4">Quick Links</h3>
+            <h3 className="text-xl font-medium mb-4">{t('footer.quickLinks')}</h3>
             <ul className="space-y-2">
-              {quickLinks.map((link, index) => (
+              {[
+                { name: t('navigation.home'), href: "#home" },
+                { name: t('navigation.activities'), href: "#activities" },
+                { name: t('navigation.about'), href: "#about" },
+                { name: t('navigation.contact'), href: "#contact" }
+              ].map((link, index) => (
                 <li key={index}>
                   <a 
                     href={link.href}
@@ -56,7 +56,7 @@ export default function Footer() {
                   href="/photos"
                   className="text-gray-400 hover:text-terracotta transition-colors flex items-center"
                 >
-                  <Image className="h-4 w-4 mr-1" /> Photo Gallery
+                  <Image className="h-4 w-4 mr-1" /> {t('footer.photoGallery')}
                 </Link>
               </li>
               <li>
@@ -65,14 +65,14 @@ export default function Footer() {
                   onClick={handleAdminClick}
                   className="text-gray-400 hover:text-terracotta transition-colors"
                 >
-                  Admin Login
+                  {t('admin.login')}
                 </a>
               </li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-xl font-medium mb-4">Contact Info</h3>
+            <h3 className="text-xl font-medium mb-4">{t('footer.contact')}</h3>
             <ul className="space-y-3">
               <li className="flex items-center">
                 <MapPin className="h-5 w-5 mr-3 text-terracotta" />
@@ -95,7 +95,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-gray-700 mt-10 pt-6 text-center">
-          <p className="text-gray-500">&copy; {new Date().getFullYear()} MarrakechDeserts. All rights reserved.</p>
+          <p className="text-gray-500">&copy; {new Date().getFullYear()} MarrakechDeserts. {t('footer.rights')}</p>
         </div>
       </div>
     </footer>

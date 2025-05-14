@@ -48,7 +48,9 @@
   "footer": {
     "rights": "Tous droits réservés",
     "address": "123 Jardins Majorelle, Marrakech, Maroc",
-    "contact": "Contactez-nous"
+    "contact": "Contactez-nous",
+    "quickLinks": "Liens Rapides",
+    "photoGallery": "Galerie Photos"
   },
   "admin": {
     "login": "Connexion Admin",
@@ -56,6 +58,7 @@
     "activities": "Activités",
     "bookings": "Réservations",
     "logout": "Déconnexion",
+    "backToSite": "Retour au Site",
     "status": {
       "pending": "En Attente",
       "confirmed": "Confirmée",

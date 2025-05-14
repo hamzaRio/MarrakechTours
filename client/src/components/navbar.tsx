@@ -45,7 +45,7 @@ export default function Navbar() {
             <LanguageSwitcher />
             <Link href="/">
               <span className="text-gray-600 hover:text-terracotta transition-colors">
-                {t('admin.backToSite')}
+                {t('admin.backToSite') || 'Back to Site'}
               </span>
             </Link>
           </div>

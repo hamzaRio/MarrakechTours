@@ -48,7 +48,9 @@
   "footer": {
     "rights": "All rights reserved",
     "address": "123 Majorelle Gardens, Marrakech, Morocco",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+    "quickLinks": "Quick Links",
+    "photoGallery": "Photo Gallery"
   },
   "admin": {
     "login": "Admin Login",
@@ -56,6 +58,7 @@
     "activities": "Activities",
     "bookings": "Bookings",
     "logout": "Logout",
+    "backToSite": "Back to Site",
     "status": {
       "pending": "Pending",
       "confirmed": "Confirmed",
