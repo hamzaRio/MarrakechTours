@@ -8,6 +8,7 @@ export interface IBooking extends Document {
   preferredDate: Date;
   numberOfPeople: number;
   notes?: string;
+  status: string; // 'pending', 'confirmed', or 'cancelled'
   createdAt: Date;
   crmReference?: string; // Reference ID in the CRM system
 }
@@ -38,6 +39,12 @@ const BookingSchema: Schema = new Schema({
   notes: { 
     type: String, 
     required: false 
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'confirmed', 'cancelled'],
+    default: 'pending',
+    required: true
   },
   createdAt: { 
     type: Date, 

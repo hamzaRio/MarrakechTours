@@ -162,6 +162,52 @@ export const updateBooking = async (req: Request, res: Response) => {
   }
 };
 
+// Update booking status
+export const updateBookingStatus = async (req: Request, res: Response) => {
+  try {
+    const bookingId = req.params.id;
+    const { status } = req.body;
+    
+    // Validate status value
+    if (!['pending', 'confirmed', 'cancelled'].includes(status)) {
+      return res.status(400).json({ 
+        message: 'Invalid status value. Must be one of: pending, confirmed, cancelled' 
+      });
+    }
+    
+    // Update the booking status
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      bookingId,
+      { status },
+      { new: true, runValidators: true }
+    );
+    
+    if (!updatedBooking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+    
+    // If using in-memory storage as fallback, also update there
+    try {
+      const { storage } = await import('../storage');
+      const numericId = parseInt(bookingId);
+      if (!isNaN(numericId)) {
+        await storage.updateBooking(numericId, { status });
+      }
+    } catch (storageError) {
+      console.warn('Failed to update status in memory storage:', storageError);
+    }
+    
+    res.json({ 
+      success: true, 
+      message: `Booking status updated to ${status}`, 
+      booking: updatedBooking 
+    });
+  } catch (error) {
+    console.error('Error updating booking status:', error);
+    res.status(500).json({ message: 'Failed to update booking status' });
+  }
+};
+
 export const deleteBooking = async (req: Request, res: Response) => {
   try {
     const bookingId = req.params.id;
