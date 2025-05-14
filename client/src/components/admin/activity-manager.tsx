@@ -376,15 +376,37 @@ export default function ActivityManager({ className }: ActivityManagerProps) {
                       control={form.control}
                       name="maxGroupSize"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="col-span-2">
                           <FormLabel>Max Group Size</FormLabel>
                           <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="10"
-                              {...field}
-                            />
+                            <div className="relative">
+                              <Input
+                                type="number"
+                                placeholder="10"
+                                className="pl-8 border-amber-300 focus:border-amber-500"
+                                {...field}
+                              />
+                              <svg 
+                                xmlns="http://www.w3.org/2000/svg" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                strokeWidth="2" 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round" 
+                                className="absolute left-2 top-2.5 h-4 w-4 text-amber-600"
+                              >
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                              </svg>
+                            </div>
                           </FormControl>
+                          <FormDescription className="text-amber-700">
+                            This field is required for capacity management. It determines the maximum number 
+                            of people that can book this activity on a single day.
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -427,6 +449,7 @@ export default function ActivityManager({ className }: ActivityManagerProps) {
                 <TableRow>
                   <TableHead className="w-[300px]">Activity</TableHead>
                   <TableHead>Price</TableHead>
+                  <TableHead>Capacity</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -443,6 +466,16 @@ export default function ActivityManager({ className }: ActivityManagerProps) {
                     </TableCell>
                     <TableCell>
                       {formatPrice(activity.price, activity.priceType)}
+                    </TableCell>
+                    <TableCell>
+                      {activity.maxGroupSize ? (
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{activity.maxGroupSize}</span>
+                          <span className="text-xs text-gray-500">people max</span>
+                        </div>
+                      ) : (
+                        <span className="text-xs text-gray-500">Not set</span>
+                      )}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end space-x-2">
