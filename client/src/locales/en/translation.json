@@ -79,7 +79,18 @@
       "spotsLeft": "{{count}} spots left"
     },
     "booknow": "Book Now",
-    "details": "View Details"
+    "bookNow": "Book Now",
+    "bookThisTour": "Book This Tour",
+    "details": "View Details",
+    "description": "Description",
+    "whatsIncluded": "What's Included",
+    "notFound": "Activity Not Found",
+    "notFoundMessage": "The activity you're looking for doesn't exist or has been removed.",
+    "agafay": {
+      "included": {
+        "tour": "Professional guided tour of the Agafay desert"
+      }
+    }
   },
   "footer": {
     "rights": "All rights reserved",

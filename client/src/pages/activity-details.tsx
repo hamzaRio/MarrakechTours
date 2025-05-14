@@ -61,13 +61,13 @@ export default function ActivityDetailsPage() {
         <Navbar />
         <div className="container mx-auto px-4 py-12 min-h-[70vh] flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-medium text-gray-800 mb-4">Activity Not Found</h1>
-            <p className="text-gray-600 mb-6">The activity you're looking for doesn't exist or has been removed.</p>
+            <h1 className="text-2xl font-medium text-gray-800 mb-4">{t('activities.notFound')}</h1>
+            <p className="text-gray-600 mb-6">{t('activities.notFoundMessage')}</p>
             <Button 
               onClick={() => window.history.back()}
               className="bg-terracotta hover:bg-terracotta/90 text-white"
             >
-              Go Back
+              {t('common.goBack')}
             </Button>
           </div>
         </div>
@@ -147,14 +147,14 @@ export default function ActivityDetailsPage() {
               )}
               
               <div className="prose max-w-none">
-                <h2 className="text-xl font-medium text-gray-800 mb-4">Description</h2>
+                <h2 className="text-xl font-medium text-gray-800 mb-4">{t('activities.description')}</h2>
                 <p className="text-gray-600">{activity.description}</p>
                 
                 {isAgafayCombo && (
                   <>
-                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">What's Included</h2>
+                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">{t('activities.whatsIncluded')}</h2>
                     <ul className="list-disc pl-5 text-gray-600 space-y-1">
-                      <li>Professional guided tour of the Agafay desert</li>
+                      <li>{t('activities.agafay.included.tour')}</li>
                       <li>Traditional Moroccan mint tea with local Berber family</li>
                       <li>Camel ride through the stunning stone desert</li>
                       <li>Optional quad biking experience (additional fee)</li>
@@ -251,7 +251,7 @@ export default function ActivityDetailsPage() {
                       <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
                       <circle cx="12" cy="10" r="3"></circle>
                     </svg>
-                    Book This Tour
+                    {t('activities.bookThisTour')}
                   </h2>
                 </div>
                 

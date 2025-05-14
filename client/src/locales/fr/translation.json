@@ -182,6 +182,16 @@
     "details": "Détails",
     "availability": "Disponibilité",
     "seeAll": "Voir toutes les activités",
+    "featured": "Activités en Vedette",
+    "bookThisTour": "Réserver Cette Excursion",
+    "notFound": "Activité Non Trouvée",
+    "notFoundMessage": "L'activité que vous recherchez n'existe pas ou a été supprimée.",
+    "whatsIncluded": "Ce qui est inclus",
+    "agafay": {
+      "included": {
+        "tour": "Visite guidée professionnelle du désert d'Agafay"
+      }
+    },
     "1": {
       "title": "Montgolfière (Vol en Ballon)",
       "description": "Vivez des vues à couper le souffle de Marrakech et des montagnes de l'Atlas depuis une montgolfière au lever du soleil. Flottez paisiblement au-dessus du magnifique paysage marocain alors que le soleil commence à illuminer le désert et les montagnes."
