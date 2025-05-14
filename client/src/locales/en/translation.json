@@ -103,7 +103,8 @@
   },
   "language": {
     "english": "English",
-    "french": "French"
+    "french": "French",
+    "switchLanguage": "Switch Language"
   },
   "hero": {
     "title": "Discover the Magic of Morocco",

@@ -41,8 +41,10 @@ export default function Navbar() {
               <span className="text-moroccan-brown">Marrakech</span>Deserts
             </span>
           </Link>
-          <div className="flex items-center gap-4">
-            <LanguageSwitcher />
+          <div className="flex items-center gap-6">
+            <div>
+              <LanguageSwitcher />
+            </div>
             <Link href="/">
               <span className="text-gray-600 hover:text-terracotta transition-colors">
                 {t('admin.backToSite') || 'Back to Site'}
@@ -65,47 +67,53 @@ export default function Navbar() {
           </Link>
         </div>
         
-        <div className="hidden md:flex items-center space-x-4">
-          {links.map((link) => (
-            link.isPage ? (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="font-medium text-gray-700 hover:text-terracotta transition-colors"
-              >
-                {link.name}
-              </Link>
-            ) : (
-              link.name === t('navigation.home') ? (
+        <div className="hidden md:flex items-center space-x-6">
+          <div className="flex items-center space-x-4">
+            {links.map((link) => (
+              link.isPage ? (
                 <Link
                   key={link.name}
-                  href="/"
+                  href={link.href}
                   className="font-medium text-gray-700 hover:text-terracotta transition-colors"
                 >
                   {link.name}
                 </Link>
               ) : (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(link.href);
-                  }}
-                  className="font-medium text-gray-700 hover:text-terracotta transition-colors"
-                >
-                  {link.name}
-                </a>
+                link.name === t('navigation.home') ? (
+                  <Link
+                    key={link.name}
+                    href="/"
+                    className="font-medium text-gray-700 hover:text-terracotta transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(link.href);
+                    }}
+                    className="font-medium text-gray-700 hover:text-terracotta transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                )
               )
-            )
-          ))}
+            ))}
+          </div>
           
           {/* Language Switcher */}
-          <LanguageSwitcher />
+          <div className="pl-2 border-l border-gray-200">
+            <LanguageSwitcher />
+          </div>
         </div>
         
-        <div className="md:hidden flex items-center gap-2">
-          <LanguageSwitcher />
+        <div className="md:hidden flex items-center gap-4">
+          <div>
+            <LanguageSwitcher />
+          </div>
           <Button
             variant="ghost"
             size="sm"
