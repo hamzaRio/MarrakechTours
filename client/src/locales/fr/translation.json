@@ -82,7 +82,8 @@
       "unavailable": "Complet",
       "spotsLeft": "{{count}} restantes"
     },
-    "booknow": "Réserver",
+    "bookNow": "Réserver",
+    "bookThisTour": "Réserver cette Excursion",
     "details": "Voir les Détails"
   },
   "footer": {
