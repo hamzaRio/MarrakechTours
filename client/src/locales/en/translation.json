@@ -1,0 +1,69 @@
+{
+  "navigation": {
+    "home": "Home",
+    "activities": "Activities",
+    "booking": "Book Now",
+    "about": "About Us",
+    "contact": "Contact"
+  },
+  "header": {
+    "tagline": "Experience the Magic of Morocco",
+    "subTagline": "Unforgettable tours and activities in and around Marrakech"
+  },
+  "booking": {
+    "title": "Book Your Experience",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "activity": "Select Activity",
+    "date": "Preferred Date",
+    "people": "Number of People",
+    "notes": "Additional Notes",
+    "submit": "Book Now",
+    "confirmation": "Booking Confirmed!",
+    "received": "Booking Received",
+    "cancelled": "Booking Cancelled",
+    "pending": "Your booking details have been sent to our team via WhatsApp. You'll receive a confirmation message shortly.",
+    "confirmed": "Your booking has been confirmed. We look forward to seeing you!",
+    "cancelledMessage": "This booking has been cancelled. If you have any questions, please contact us."
+  },
+  "activities": {
+    "featured": "Featured Activities",
+    "all": "All Activities",
+    "price": "Price",
+    "duration": "Duration",
+    "hours": "hours",
+    "includes": "Includes",
+    "food": "Food",
+    "transportation": "Transportation",
+    "people": "people",
+    "capacity": {
+      "available": "Available",
+      "limited": "Limited Spots",
+      "unavailable": "Fully Booked",
+      "spotsLeft": "{{count}} spots left"
+    },
+    "booknow": "Book Now",
+    "details": "View Details"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "address": "123 Majorelle Gardens, Marrakech, Morocco",
+    "contact": "Contact Us"
+  },
+  "admin": {
+    "login": "Admin Login",
+    "dashboard": "Dashboard",
+    "activities": "Activities",
+    "bookings": "Bookings",
+    "logout": "Logout",
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "language": {
+    "english": "English",
+    "french": "French"
+  }
+}

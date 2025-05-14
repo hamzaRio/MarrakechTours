@@ -1,0 +1,69 @@
+{
+  "navigation": {
+    "home": "Accueil",
+    "activities": "Activités",
+    "booking": "Réserver",
+    "about": "À Propos",
+    "contact": "Contact"
+  },
+  "header": {
+    "tagline": "Découvrez la Magie du Maroc",
+    "subTagline": "Excursions et activités inoubliables à Marrakech et ses environs"
+  },
+  "booking": {
+    "title": "Réservez Votre Expérience",
+    "name": "Nom Complet",
+    "phone": "Numéro de Téléphone",
+    "activity": "Sélectionnez une Activité",
+    "date": "Date Préférée",
+    "people": "Nombre de Personnes",
+    "notes": "Notes Supplémentaires",
+    "submit": "Réserver Maintenant",
+    "confirmation": "Réservation Confirmée !",
+    "received": "Réservation Reçue",
+    "cancelled": "Réservation Annulée",
+    "pending": "Les détails de votre réservation ont été envoyés à notre équipe via WhatsApp. Vous recevrez un message de confirmation sous peu.",
+    "confirmed": "Votre réservation a été confirmée. Nous avons hâte de vous accueillir !",
+    "cancelledMessage": "Cette réservation a été annulée. Si vous avez des questions, veuillez nous contacter."
+  },
+  "activities": {
+    "featured": "Activités en Vedette",
+    "all": "Toutes les Activités",
+    "price": "Prix",
+    "duration": "Durée",
+    "hours": "heures",
+    "includes": "Comprend",
+    "food": "Repas",
+    "transportation": "Transport",
+    "people": "personnes",
+    "capacity": {
+      "available": "Disponible",
+      "limited": "Places Limitées",
+      "unavailable": "Complet",
+      "spotsLeft": "{{count}} places restantes"
+    },
+    "booknow": "Réserver",
+    "details": "Voir les Détails"
+  },
+  "footer": {
+    "rights": "Tous droits réservés",
+    "address": "123 Jardins Majorelle, Marrakech, Maroc",
+    "contact": "Contactez-nous"
+  },
+  "admin": {
+    "login": "Connexion Admin",
+    "dashboard": "Tableau de Bord",
+    "activities": "Activités",
+    "bookings": "Réservations",
+    "logout": "Déconnexion",
+    "status": {
+      "pending": "En Attente",
+      "confirmed": "Confirmée",
+      "cancelled": "Annulée"
+    }
+  },
+  "language": {
+    "english": "Anglais",
+    "french": "Français"
+  }
+}
