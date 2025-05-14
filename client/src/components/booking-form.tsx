@@ -376,7 +376,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                   <div className="flex justify-between items-center mb-2">
                     <span className="flex items-center text-gray-800 font-medium">
                       <Banknote className="h-4 w-4 mr-2 text-gray-600" />
-                      {t('booking.paymentMethod')}:
+                      {t('booking.paymentMethod')}
                     </span>
                     <span className="bg-gray-100 px-3 py-1 rounded text-gray-900 font-medium text-sm">
                       {t('booking.cashOnArrival')}

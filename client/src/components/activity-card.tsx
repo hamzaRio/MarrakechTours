@@ -69,16 +69,13 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
           )}
           
           <div className="flex gap-2">
-            <Button 
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onBookNow(activity.id);
-              }}
-              className="flex-1 bg-terracotta hover:bg-terracotta/90 text-white"
-            >
-              {t('activities.booknow')} <ArrowRight className="ml-1 h-4 w-4" />
-            </Button>
+            <Link href={`/activity/${activity.id}`} className="flex-1">
+              <Button 
+                className="w-full bg-terracotta hover:bg-terracotta/90 text-white"
+              >
+                {t('activities.booknow')} <ArrowRight className="ml-1 h-4 w-4" />
+              </Button>
+            </Link>
             
             <Link href={`/activity/${activity.id}`}>
               <Button 
