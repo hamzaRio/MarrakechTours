@@ -91,6 +91,8 @@
     "max": "max",
     "availableDaily": "Available daily",
     "pickupIncluded": "Pickup included",
+    "person": "person",
+    "availabilityForToday": "Availability for today",
     "agafay": {
       "included": {
         "tour": "Professional guided tour of the Agafay desert"

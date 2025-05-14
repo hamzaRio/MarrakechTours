@@ -102,7 +102,7 @@ export default function ActivityDetailsPage() {
                   }}
                 />
                 <div className="absolute top-4 right-4 bg-terracotta text-white px-4 py-2 rounded-md font-medium">
-                  {formatPrice(activity.price)}/person
+                  {formatPrice(activity.price)}/{t('activities.person')}
                 </div>
               </div>
               
@@ -137,7 +137,7 @@ export default function ActivityDetailsPage() {
               
               {activity.id && (
                 <div className="mb-6">
-                  <h3 className="text-sm font-medium text-gray-700 mb-2">Availability for today</h3>
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">{t('activities.availabilityForToday')}</h3>
                   <CapacityDisplay 
                     activityId={activity.id} 
                     date={selectedDate}
@@ -155,9 +155,9 @@ export default function ActivityDetailsPage() {
                     <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">{t('activities.whatsIncluded')}</h2>
                     <ul className="list-disc pl-5 text-gray-600 space-y-1">
                       <li>{t('activities.agafay.included.tour')}</li>
-                      <li>Traditional Moroccan mint tea with local Berber family</li>
-                      <li>Camel ride through the stunning stone desert</li>
-                      <li>Optional quad biking experience (additional fee)</li>
+                      <li>{t('activities.agafay.included.tea')}</li>
+                      <li>{t('activities.agafay.included.camelRide')}</li>
+                      <li>{t('activities.agafay.included.quadBiking')}</li>
                       <li>Authentic Berber dinner under the stars</li>
                       <li>Hotel pickup and drop-off in air-conditioned vehicle</li>
                       <li>Bottled water throughout the tour</li>

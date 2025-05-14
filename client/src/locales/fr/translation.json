@@ -189,8 +189,11 @@
     "whatsIncluded": "Ce qui est inclus",
     "fullDayTour": "Excursion d'une journée",
     "smallGroups": "Petits groupes",
+    "max": "max",
     "availableDaily": "Disponible tous les jours",
     "pickupIncluded": "Prise en charge incluse",
+    "person": "personne",
+    "availabilityForToday": "Disponibilité pour aujourd'hui",
     "agafay": {
       "included": {
         "tour": "Visite guidée professionnelle du désert d'Agafay"
