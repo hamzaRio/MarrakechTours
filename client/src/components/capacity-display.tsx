@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { Users, AlertCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
@@ -11,6 +12,7 @@ interface CapacityDisplayProps {
 }
 
 export function CapacityDisplay({ activityId, date, className = '' }: CapacityDisplayProps) {
+  const { t } = useTranslation();
   // Convert date to the right format if it's a Date object
   const formattedDate = typeof date === 'string' ? date : format(date, 'yyyy-MM-dd');
   
@@ -25,7 +27,7 @@ export function CapacityDisplay({ activityId, date, className = '' }: CapacityDi
     return (
       <div className={`flex items-center text-sm ${className}`}>
         <Users className="mr-2 h-4 w-4 text-gray-400" />
-        <span className="text-gray-500">Checking availability...</span>
+        <span className="text-gray-500">{t('activities.checkingAvailability')}</span>
       </div>
     );
   }
@@ -39,7 +41,7 @@ export function CapacityDisplay({ activityId, date, className = '' }: CapacityDi
     return (
       <div className={`flex items-center text-sm ${className}`}>
         <Users className="mr-2 h-4 w-4 text-green-500" />
-        <span className="text-green-600">Spots available</span>
+        <span className="text-green-600">{t('activities.spotsAvailable')}</span>
       </div>
     );
   }
@@ -49,7 +51,7 @@ export function CapacityDisplay({ activityId, date, className = '' }: CapacityDi
     return (
       <div className={`flex items-center text-sm ${className}`}>
         <AlertCircle className="mr-2 h-4 w-4 text-red-500" />
-        <span className="text-red-600 font-medium">Fully booked</span>
+        <span className="text-red-600 font-medium">{t('activities.fullyBooked')}</span>
       </div>
     );
   }
@@ -86,6 +88,7 @@ interface CapacityBadgeProps {
 }
 
 export function CapacityBadge({ activityId, date, compact = false }: CapacityBadgeProps) {
+  const { t } = useTranslation();
   // Convert date to the right format if it's a Date object
   const formattedDate = typeof date === 'string' ? date : format(date, 'yyyy-MM-dd');
   
