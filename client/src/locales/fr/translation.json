@@ -15,6 +15,8 @@
     "name": "Nom Complet",
     "phone": "Numéro de Téléphone",
     "activity": "Sélectionnez une Activité",
+    "selectedActivity": "Activité Sélectionnée",
+    "chooseActivity": "Choisissez une activité",
     "date": "Date Préférée",
     "people": "Nombre de Personnes",
     "notes": "Notes Supplémentaires",
@@ -24,7 +26,27 @@
     "cancelled": "Réservation Annulée",
     "pending": "Les détails de votre réservation ont été envoyés à notre équipe via WhatsApp. Vous recevrez un message de confirmation sous peu.",
     "confirmed": "Votre réservation a été confirmée. Nous avons hâte de vous accueillir !",
-    "cancelledMessage": "Cette réservation a été annulée. Si vous avez des questions, veuillez nous contacter."
+    "cancelledMessage": "Cette réservation a été annulée. Si vous avez des questions, veuillez nous contacter.",
+    "fullName": "Nom Complet *",
+    "phoneNumber": "Numéro de Téléphone *",
+    "preferredDate": "Date Préférée *",
+    "numberOfPeople": "Nombre de Personnes *",
+    "additionalNotes": "Notes Supplémentaires",
+    "yourFullName": "Votre nom complet",
+    "anyRequirements": "Exigences spéciales ou questions ?",
+    "selectPeople": "Sélectionnez le nombre de personnes",
+    "person": "personne",
+    "summary": "Résumé de la Réservation",
+    "availabilityFor": "Disponibilité pour le {{date}}",
+    "paymentMethod": "Moyen de Paiement :",
+    "cashOnArrival": "Paiement en Espèces à l'Arrivée",
+    "cashOnly": "Nous acceptons uniquement les paiements en espèces",
+    "totalPrice": "Prix Total :",
+    "perPerson": "par personne",
+    "bookingConfirmed": "Réservation Confirmée !",
+    "teamNotified": "Notre équipe a été notifiée et vous contactera bientôt via WhatsApp.",
+    "bookingFailed": "Échec de la Réservation",
+    "tryAgain": "Un problème est survenu lors du traitement de votre réservation. Veuillez réessayer."
   },
   "activities": {
     "featured": "Activités en Vedette",
@@ -52,7 +74,7 @@
       "available": "Disponible",
       "limited": "Places Limitées",
       "unavailable": "Complet",
-      "spotsLeft": "{{count}} places restantes"
+      "spotsLeft": "{{count}} restantes"
     },
     "booknow": "Réserver",
     "details": "Voir les Détails"
@@ -66,16 +88,30 @@
   },
   "admin": {
     "login": "Connexion Admin",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "loginButton": "Se Connecter",
+    "enterUsername": "Entrez votre nom d'utilisateur",
+    "enterPassword": "Entrez votre mot de passe",
     "dashboard": "Tableau de Bord",
     "activities": "Activités",
     "bookings": "Réservations",
     "logout": "Déconnexion",
     "backToSite": "Retour au Site",
+    "bookingManagement": "Gestion des Réservations",
+    "activityManagement": "Gestion des Activités",
+    "exportCSV": "Exporter en CSV",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "all": "Tous",
+    "analytics": "Analytiques",
     "status": {
       "pending": "En Attente",
       "confirmed": "Confirmée",
       "cancelled": "Annulée"
-    }
+    },
+    "changeStatus": "Changer le statut",
+    "lastLogin": "Dernière connexion"
   },
   "language": {
     "english": "Anglais",
@@ -85,5 +121,41 @@
     "title": "Découvrez la Magie du Maroc",
     "subtitle": "Expériences authentiques du désert et circuits au départ de Marrakech à des prix abordables",
     "bookButton": "Réservez Votre Aventure"
+  },
+  "errors": {
+    "required": "Ce champ est requis",
+    "invalidPhone": "Numéro de téléphone invalide",
+    "tooLong": "Ce texte est trop long",
+    "invalidNumber": "Veuillez entrer un nombre valide",
+    "invalidDate": "Veuillez sélectionner une date valide",
+    "capacityError": "Seulement {{count}} places restantes pour cette date. Veuillez sélectionner moins de personnes ou choisir une autre date."
+  },
+  "dates": {
+    "today": "Aujourd'hui",
+    "tomorrow": "Demain",
+    "selectDate": "Sélectionner une date",
+    "month": {
+      "january": "Janvier",
+      "february": "Février",
+      "march": "Mars",
+      "april": "Avril",
+      "may": "Mai",
+      "june": "Juin",
+      "july": "Juillet",
+      "august": "Août",
+      "september": "Septembre",
+      "october": "Octobre",
+      "november": "Novembre",
+      "december": "Décembre"
+    },
+    "day": {
+      "monday": "Lundi",
+      "tuesday": "Mardi",
+      "wednesday": "Mercredi",
+      "thursday": "Jeudi",
+      "friday": "Vendredi",
+      "saturday": "Samedi",
+      "sunday": "Dimanche"
+    }
   }
 }

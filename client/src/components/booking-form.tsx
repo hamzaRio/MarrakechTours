@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 import { constructWhatsAppUrl, whatsAppContacts, getActivityIdByName, getActivityPriceById, formatPrice } from "@/lib/utils";
 import { CalendarIcon, Users, ArrowRight, Banknote, AlertTriangle } from "lucide-react";
 import PhoneInput from 'react-phone-number-input';
@@ -32,6 +33,7 @@ interface BookingFormProps {
 }
 
 export default function BookingForm({ selectedActivityId, onSuccess }: BookingFormProps) {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [totalPrice, setTotalPrice] = useState<number | null>(null);
@@ -217,10 +219,10 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             name="name"
             render={({ field }) => (
               <FormItem className="mb-6 w-full">
-                <FormLabel className="text-gray-800 font-medium mb-2 block">Full Name *</FormLabel>
+                <FormLabel className="text-gray-800 font-medium mb-2 block">{t('booking.fullName')}</FormLabel>
                 <FormControl>
                   <Input 
-                    placeholder="Your full name" 
+                    placeholder={t('booking.yourFullName')} 
                     {...field} 
                     className="bg-white border border-gray-300 text-gray-900 font-medium placeholder:text-gray-500 focus:ring-terracotta focus:border-terracotta h-12 px-4 w-full p-3" 
                   />
@@ -235,7 +237,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             name="phone"
             render={({ field }) => (
               <FormItem className="mb-6 w-full">
-                <FormLabel className="text-gray-800 font-medium mb-2 block">Phone Number *</FormLabel>
+                <FormLabel className="text-gray-800 font-medium mb-2 block">{t('booking.phoneNumber')}</FormLabel>
                 <FormControl>
                   <div className="w-full phone-container">
                     <PhoneInput
@@ -263,7 +265,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             render={({ field }) => (
               <FormItem className="mb-6 w-full">
                 <FormLabel className="text-gray-800 font-medium mb-2 block">
-                  {selectedActivityId ? "Selected Activity" : "Select Activity *"}
+                  {selectedActivityId ? t('booking.selectedActivity') : t('booking.activity') + ' *'}
                 </FormLabel>
                 <Select 
                   defaultValue={field.value}
@@ -274,7 +276,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                     <SelectTrigger 
                       className={`bg-white border border-gray-300 text-gray-900 font-medium focus:ring-terracotta focus:border-terracotta h-12 p-3 w-full ${selectedActivityId ? 'cursor-not-allowed opacity-80' : ''}`}
                     >
-                      <SelectValue placeholder={selectedActivityId ? selectedActivity?.title : "Choose an activity"} />
+                      <SelectValue placeholder={selectedActivityId ? selectedActivity?.title : t('booking.chooseActivity')} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="max-h-[300px]">
@@ -295,7 +297,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             name="date"
             render={({ field }) => (
               <FormItem className="mb-6 w-full">
-                <FormLabel className="text-gray-800 font-medium mb-2 block">Preferred Date *</FormLabel>
+                <FormLabel className="text-gray-800 font-medium mb-2 block">{t('booking.preferredDate')}</FormLabel>
                 <FormControl>
                   <input 
                     type="hidden" 
@@ -318,7 +320,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
             name="people"
             render={({ field }) => (
               <FormItem className="mb-6 w-full">
-                <FormLabel className="text-gray-800 font-medium mb-2 block">Number of People *</FormLabel>
+                <FormLabel className="text-gray-800 font-medium mb-2 block">{t('booking.numberOfPeople')}</FormLabel>
                 <Select 
                   value={String(field.value)}
                   onValueChange={(value) => field.onChange(parseInt(value))}
