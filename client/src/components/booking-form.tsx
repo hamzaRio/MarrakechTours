@@ -105,7 +105,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
     
     const people = form.watch("people");
     if (capacityData.remainingSpots !== undefined && people > capacityData.remainingSpots) {
-      setCapacityError(`Only ${capacityData.remainingSpots} spots left for this date. Please select fewer people or choose another date.`);
+      setCapacityError(t('booking.onlyNSpotsLeft', { count: capacityData.remainingSpots }));
     } else {
       setCapacityError(null);
     }
@@ -166,16 +166,16 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
       onSuccess(formData);
       
       toast({
-        title: "Booking Confirmed!",
-        description: "Our team has been notified and will contact you soon via WhatsApp.",
+        title: t('booking.confirmed'),
+        description: t('booking.teamNotified'),
       });
       
       form.reset();
     },
     onError: () => {
       toast({
-        title: "Booking Failed",
-        description: "There was a problem processing your booking. Please try again.",
+        title: t('booking.failed'),
+        description: t('booking.tryAgain'),
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -193,7 +193,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
     // Check capacity before submission
     if (capacityError) {
       toast({
-        title: "Booking Failed",
+        title: t('booking.failed'),
         description: capacityError,
         variant: "destructive",
       });
@@ -380,13 +380,13 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                       {t('booking.cashOnArrival')}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-600">We currently accept cash payment only</p>
+                  <p className="text-xs text-gray-600">{t('booking.cashPaymentOnly')}</p>
                 </div>
                 
                 {totalPrice && (
                   <div className="mt-4 pt-3 border-t border-gray-200">
                     <div className="flex flex-wrap justify-between items-center">
-                      <span className="text-gray-800 font-medium">Total Price:</span>
+                      <span className="text-gray-800 font-medium">{t('booking.totalPrice')}:</span>
                       <span className="text-2xl font-bold text-terracotta">
                         {formatPrice(totalPrice)} MAD
                       </span>
@@ -394,7 +394,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                     
                     {selectedActivity && (
                       <div className="text-sm text-gray-600 text-right mt-1">
-                        ({formatPrice(selectedActivity.price)} MAD per person × {form.watch("people")} {form.watch("people") === 1 ? 'person' : 'people'})
+                        ({formatPrice(selectedActivity.price)} MAD {t('booking.perPerson')} × {form.watch("people")} {form.watch("people") === 1 ? t('booking.person') : t('booking.people')})
                       </div>
                     )}
                   </div>
