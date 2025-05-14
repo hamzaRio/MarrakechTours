@@ -11,6 +11,7 @@ import { log } from "./vite";
 import mongoBookingRoutes from './routes/mongoBookingRoutes';
 import mongoActivityRoutes from './routes/mongoActivityRoutes';
 import { isMongoConnected } from './config/database';
+import { getActivityCapacity, getDateCapacity } from './controllers/capacityController';
 import { setupAuth, requireAuth, requireAdmin, requireSuperAdmin } from './auth';
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -420,6 +421,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/bookings", async (req, res) => {
     try {
       const validatedData = insertBookingSchema.parse(req.body);
+      
+      // Check if there's enough capacity for this booking
+      const { checkActivityCapacity } = await import('./utils/capacityManager');
+      const date = new Date(validatedData.date);
+      const capacityCheck = await checkActivityCapacity(
+        validatedData.activityId,
+        date,
+        validatedData.people
+      );
+      
+      // If there isn't enough capacity, return an error
+      if (!capacityCheck.hasCapacity) {
+        return res.status(400).json({ 
+          message: "Not enough capacity for this booking", 
+          details: capacityCheck.message,
+          remainingSpots: capacityCheck.remainingSpots || 0
+        });
+      }
+      
       let booking = await storage.createBooking(validatedData);
       
       // Get activity name from ID
@@ -638,6 +658,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to fetch activity availability" });
     }
   });
+  
+  // Capacity management routes
+  app.get("/api/capacity/activity/:activityId/:date", getActivityCapacity);
+  app.get("/api/capacity/date/:date", getDateCapacity);
 
   const httpServer = createServer(app);
   return httpServer;
