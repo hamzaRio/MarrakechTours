@@ -207,6 +207,50 @@
         "water": "Eau en bouteille tout au long de la visite"
       }
     },
+    "essaouira": {
+      "included": {
+        "tour": "Excursion guidée d'une journée complète à Essaouira",
+        "medina": "Exploration du port historique et de la médina classée au patrimoine mondial de l'UNESCO",
+        "market": "Visite du marché aux poissons animé et de la Skala du Port",
+        "freeTime": "Temps libre pour flâner dans les charmantes rues bleues et blanches",
+        "lunch": "Déjeuner optionnel de fruits de mer dans un restaurant local (frais supplémentaires)",
+        "transport": "Prise en charge et retour à l'hôtel en véhicule climatisé",
+        "guide": "Guide professionnel et eau en bouteille tout au long de la visite"
+      }
+    },
+    "balloon": {
+      "included": {
+        "flight": "Vol en montgolfière au lever du soleil au-dessus de Marrakech",
+        "views": "Vues aériennes spectaculaires des montagnes de l'Atlas et du paysage désertique",
+        "breakfast": "Petit-déjeuner berbère traditionnel après l'atterrissage",
+        "certificate": "Certificat de vol commémoratif",
+        "transport": "Transport aller-retour depuis votre hôtel à Marrakech",
+        "pilot": "Pilote professionnel expérimenté et équipe au sol",
+        "safety": "Briefing de sécurité et équipement"
+      }
+    },
+    "ouzoud": {
+      "included": {
+        "tour": "Excursion guidée d'une journée complète aux magnifiques cascades d'Ouzoud",
+        "monkeys": "Possibilité d'observer des macaques de Barbarie sauvages",
+        "boat": "Promenade en bateau à la base des cascades (optionnel, frais supplémentaires)",
+        "hiking": "Expérience de randonnée panoramique avec des points de vue à couper le souffle",
+        "lunch": "Option de déjeuner traditionnel berbère dans un restaurant local (frais supplémentaires)",
+        "transport": "Prise en charge et retour à l'hôtel en véhicule climatisé",
+        "guide": "Guide professionnel et eau en bouteille tout au long de la visite"
+      }
+    },
+    "ourika": {
+      "included": {
+        "tour": "Excursion guidée d'une journée complète dans la magnifique vallée de l'Ourika",
+        "villages": "Visite des villages berbères traditionnels avec artisanat local et aperçus culturels",
+        "walk": "Promenade guidée vers des ruisseaux de montagne rafraîchissants et de petites cascades",
+        "home": "Opportunité de visiter une maison berbère traditionnelle et d'en apprendre sur la vie locale",
+        "garden": "Visite optionnelle d'un jardin aromatique avec herbes et épices (saisonnier)",
+        "transport": "Prise en charge et retour à l'hôtel en véhicule climatisé",
+        "guide": "Guide professionnel et eau en bouteille tout au long de la visite"
+      }
+    },
     "1": {
       "title": "Montgolfière (Vol en Ballon)",
       "description": "Vivez des vues à couper le souffle de Marrakech et des montagnes de l'Atlas depuis une montgolfière au lever du soleil. Flottez paisiblement au-dessus du magnifique paysage marocain alors que le soleil commence à illuminer le désert et les montagnes."

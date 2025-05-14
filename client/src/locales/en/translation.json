@@ -107,6 +107,50 @@
         "transport": "Hotel pickup and drop-off in air-conditioned vehicle",
         "water": "Bottled water throughout the tour"
       }
+    },
+    "essaouira": {
+      "included": {
+        "tour": "Full-day guided tour of Essaouira",
+        "medina": "Explore the historic port and UNESCO World Heritage medina",
+        "market": "Visit to the vibrant fish market and Skala du Port",
+        "freeTime": "Free time to wander through the charming blue and white streets",
+        "lunch": "Optional seafood lunch at a local restaurant (additional fee)",
+        "transport": "Hotel pickup and drop-off in air-conditioned vehicle",
+        "guide": "Professional guide and bottled water throughout the tour"
+      }
+    },
+    "balloon": {
+      "included": {
+        "flight": "Sunrise hot air balloon flight over Marrakech",
+        "views": "Spectacular aerial views of the Atlas Mountains and desert landscape",
+        "breakfast": "Traditional Berber breakfast after landing",
+        "certificate": "Commemorative flight certificate",
+        "transport": "Round-trip transportation from your hotel in Marrakech",
+        "pilot": "Professional, experienced pilot and ground crew",
+        "safety": "Safety briefing and equipment"
+      }
+    },
+    "ouzoud": {
+      "included": {
+        "tour": "Full-day guided tour to the magnificent Ouzoud Waterfalls",
+        "monkeys": "Opportunity to spot wild Barbary macaque monkeys",
+        "boat": "Boat ride at the base of the falls (optional, additional fee)",
+        "hiking": "Scenic hiking experience with breathtaking viewpoints",
+        "lunch": "Traditional Berber lunch option at a local restaurant (additional fee)",
+        "transport": "Hotel pickup and drop-off in air-conditioned vehicle",
+        "guide": "Professional guide and bottled water throughout the tour"
+      }
+    },
+    "ourika": {
+      "included": {
+        "tour": "Full-day guided tour of the beautiful Ourika Valley",
+        "villages": "Visit to traditional Berber villages with local crafts and cultural insights",
+        "walk": "Guided walk to refreshing mountain streams and small waterfalls",
+        "home": "Opportunity to visit a traditional Berber home and learn about local life",
+        "garden": "Optional aromatic garden visit with herbs and spices (seasonal)",
+        "transport": "Hotel pickup and drop-off in air-conditioned vehicle",
+        "guide": "Professional guide and bottled water throughout the tour"
+      }
     }
   },
   "footer": {

@@ -170,15 +170,15 @@ export default function ActivityDetailsPage() {
                 
                 {isEssaouira && (
                   <>
-                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">What's Included</h2>
+                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">{t('activities.whatsIncluded')}</h2>
                     <ul className="list-disc pl-5 text-gray-600 space-y-1">
-                      <li>Full-day guided tour of Essaouira</li>
-                      <li>Explore the historic port and UNESCO World Heritage medina</li>
-                      <li>Visit to the vibrant fish market and Skala du Port</li>
-                      <li>Free time to wander through the charming blue and white streets</li>
-                      <li>Optional seafood lunch at a local restaurant (additional fee)</li>
-                      <li>Hotel pickup and drop-off in air-conditioned vehicle</li>
-                      <li>Professional guide and bottled water throughout the tour</li>
+                      <li>{t('activities.essaouira.included.tour')}</li>
+                      <li>{t('activities.essaouira.included.medina')}</li>
+                      <li>{t('activities.essaouira.included.market')}</li>
+                      <li>{t('activities.essaouira.included.freeTime')}</li>
+                      <li>{t('activities.essaouira.included.lunch')}</li>
+                      <li>{t('activities.essaouira.included.transport')}</li>
+                      <li>{t('activities.essaouira.included.guide')}</li>
                     </ul>
                     
                     {/* Essaouira Gallery */}
@@ -188,15 +188,15 @@ export default function ActivityDetailsPage() {
                 
                 {isBalloonRide && (
                   <>
-                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">What's Included</h2>
+                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">{t('activities.whatsIncluded')}</h2>
                     <ul className="list-disc pl-5 text-gray-600 space-y-1">
-                      <li>Sunrise hot air balloon flight over Marrakech</li>
-                      <li>Spectacular aerial views of the Atlas Mountains and desert landscape</li>
-                      <li>Traditional Berber breakfast after landing</li>
-                      <li>Commemorative flight certificate</li>
-                      <li>Round-trip transportation from your hotel in Marrakech</li>
-                      <li>Professional, experienced pilot and ground crew</li>
-                      <li>Safety briefing and equipment</li>
+                      <li>{t('activities.balloon.included.flight')}</li>
+                      <li>{t('activities.balloon.included.views')}</li>
+                      <li>{t('activities.balloon.included.breakfast')}</li>
+                      <li>{t('activities.balloon.included.certificate')}</li>
+                      <li>{t('activities.balloon.included.transport')}</li>
+                      <li>{t('activities.balloon.included.pilot')}</li>
+                      <li>{t('activities.balloon.included.safety')}</li>
                     </ul>
                     
                     {/* Hot Air Balloon Gallery */}

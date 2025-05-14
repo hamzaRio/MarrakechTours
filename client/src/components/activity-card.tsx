@@ -26,7 +26,10 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
     <Card className="overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 bg-white">
       <div 
         className="cursor-pointer"
-        onClick={() => window.location.href = `/activity/${activity.id}`}
+        onClick={(e) => {
+          e.preventDefault();
+          window.location.href = `/activity/${activity.id}`;
+        }}
       >
         <div className="relative">
           <img 
@@ -46,7 +49,11 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
           <div className="flex justify-between items-center mb-2">
             <div 
               className="cursor-pointer hover:text-terracotta transition-colors"
-              onClick={() => window.location.href = `/activity/${activity.id}`}  
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.location.href = `/activity/${activity.id}`;
+              }}  
             >
               <h3 className="text-xl font-medium text-gray-800">{activity.title}</h3>
             </div>
@@ -76,7 +83,11 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
           
           <div className="flex gap-2">
             <Button 
-              onClick={() => onBookNow(activity.id)}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onBookNow(activity.id);
+              }}
               className="flex-1 bg-terracotta hover:bg-terracotta/90 text-white"
             >
               {t('activities.booknow')} <ArrowRight className="ml-1 h-4 w-4" />
@@ -85,7 +96,11 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
             <Button 
               variant="outline"
               className="border-terracotta text-terracotta hover:bg-terracotta/10"
-              onClick={() => window.location.href = `/activity/${activity.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.location.href = `/activity/${activity.id}`;
+              }}
               title={t('activities.details')}
             >
               <Info className="h-4 w-4" />
