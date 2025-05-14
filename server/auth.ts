@@ -11,6 +11,20 @@ const JWT_SECRET = process.env.JWT_SECRET || 'marrakechdeserts_jwt_secret';
 const JWT_EXPIRY = '24h'; // Default to 24 hours
 const JWT_REMEMBER_ME_EXPIRY = '30d'; // 30 days for "Remember Me"
 
+// Simple token blacklist for invalidated tokens
+// In a production environment, this would be stored in Redis or database
+const tokenBlacklist = new Set<string>();
+
+// Add token to blacklist
+function blacklistToken(token: string) {
+  tokenBlacklist.add(token);
+}
+
+// Check if token is blacklisted
+function isTokenBlacklisted(token: string): boolean {
+  return tokenBlacklist.has(token);
+}
+
 // Extend Express.User interface with our user properties
 declare global {
   namespace Express {
@@ -197,8 +211,8 @@ export function setupAuth(app: Express) {
         const token = generateToken(user, !!rememberMe);
         const expiresIn = rememberMe ? JWT_REMEMBER_ME_EXPIRY : JWT_EXPIRY;
         
-        // Store last login date
-        storage.updateUser(user.id, { lastLogin: new Date() });
+        // Store last login date - set to any to bypass type checking temporarily
+        storage.updateUser(user.id, { lastLogin: new Date() } as any);
         
         // Return both the session and JWT authentication
         return res.status(200).json({ 

@@ -54,11 +54,13 @@ export const users = pgTable("users", {
   password: text("password").notNull(),
   role: text("role").notNull(), // admin or superadmin
   createdAt: timestamp("created_at").defaultNow(),
+  lastLogin: timestamp("last_login"),
 });
 
 export const insertUserSchema = createInsertSchema(users).omit({ 
   id: true, 
-  createdAt: true 
+  createdAt: true,
+  lastLogin: true
 });
 
 // Define an audit log for admin actions
