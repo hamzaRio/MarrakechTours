@@ -206,15 +206,15 @@ export default function ActivityDetailsPage() {
                 
                 {isOuzoud && (
                   <>
-                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">What's Included</h2>
+                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">{t('activities.whatsIncluded')}</h2>
                     <ul className="list-disc pl-5 text-gray-600 space-y-1">
-                      <li>Full-day guided tour to the magnificent Ouzoud Waterfalls</li>
-                      <li>Opportunity to spot wild Barbary macaque monkeys</li>
-                      <li>Boat ride at the base of the falls (optional, additional fee)</li>
-                      <li>Scenic hiking experience with breathtaking viewpoints</li>
-                      <li>Traditional Berber lunch option at a local restaurant (additional fee)</li>
-                      <li>Hotel pickup and drop-off in air-conditioned vehicle</li>
-                      <li>Professional guide and bottled water throughout the tour</li>
+                      <li>{t('activities.ouzoud.included.tour')}</li>
+                      <li>{t('activities.ouzoud.included.monkeys')}</li>
+                      <li>{t('activities.ouzoud.included.boat')}</li>
+                      <li>{t('activities.ouzoud.included.hiking')}</li>
+                      <li>{t('activities.ouzoud.included.lunch')}</li>
+                      <li>{t('activities.ouzoud.included.transport')}</li>
+                      <li>{t('activities.ouzoud.included.guide')}</li>
                     </ul>
                     
                     {/* Ouzoud Waterfalls Gallery */}
@@ -224,15 +224,15 @@ export default function ActivityDetailsPage() {
                 
                 {isOurika && (
                   <>
-                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">What's Included</h2>
+                    <h2 className="text-xl font-medium text-gray-800 mt-6 mb-3">{t('activities.whatsIncluded')}</h2>
                     <ul className="list-disc pl-5 text-gray-600 space-y-1">
-                      <li>Full-day guided tour of the beautiful Ourika Valley</li>
-                      <li>Visit to traditional Berber villages with local crafts and cultural insights</li>
-                      <li>Guided walk to refreshing mountain streams and small waterfalls</li>
-                      <li>Opportunity to visit a traditional Berber home and learn about local life</li>
-                      <li>Optional aromatic garden visit with herbs and spices (seasonal)</li>
-                      <li>Hotel pickup and drop-off in air-conditioned vehicle</li>
-                      <li>Professional guide and bottled water throughout the tour</li>
+                      <li>{t('activities.ourika.included.tour')}</li>
+                      <li>{t('activities.ourika.included.villages')}</li>
+                      <li>{t('activities.ourika.included.walk')}</li>
+                      <li>{t('activities.ourika.included.home')}</li>
+                      <li>{t('activities.ourika.included.garden')}</li>
+                      <li>{t('activities.ourika.included.transport')}</li>
+                      <li>{t('activities.ourika.included.guide')}</li>
                     </ul>
                     
                     {/* Ourika Valley Gallery */}
