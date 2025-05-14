@@ -68,5 +68,10 @@
   "language": {
     "english": "Anglais",
     "french": "Français"
+  },
+  "hero": {
+    "title": "Découvrez la Magie du Maroc",
+    "subtitle": "Expériences authentiques du désert et circuits au départ de Marrakech à des prix abordables",
+    "bookButton": "Réservez Votre Aventure"
   }
 }

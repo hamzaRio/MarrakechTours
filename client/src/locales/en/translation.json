@@ -68,5 +68,10 @@
   "language": {
     "english": "English",
     "french": "French"
+  },
+  "hero": {
+    "title": "Discover the Magic of Morocco",
+    "subtitle": "Authentic desert experiences and tours from Marrakech at affordable prices",
+    "bookButton": "Book Your Adventure"
   }
 }
