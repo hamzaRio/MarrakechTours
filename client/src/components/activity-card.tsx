@@ -80,18 +80,15 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
               {t('activities.booknow')} <ArrowRight className="ml-1 h-4 w-4" />
             </Button>
             
-            <Button 
-              variant="outline"
-              className="border-terracotta text-terracotta hover:bg-terracotta/10"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                window.location.href = `/activity/${activity.id}`;
-              }}
-              title={t('activities.details')}
-            >
-              <Info className="h-4 w-4" />
-            </Button>
+            <Link href={`/activity/${activity.id}`}>
+              <Button 
+                variant="outline"
+                className="border-terracotta text-terracotta hover:bg-terracotta/10"
+                title={t('activities.details')}
+              >
+                <Info className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
       </CardContent>
