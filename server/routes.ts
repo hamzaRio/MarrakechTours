@@ -510,6 +510,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Update booking status specifically
+  app.patch("/api/bookings/:id/status", requireAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { status } = req.body;
+      
+      // Validate status
+      if (!status || !['pending', 'confirmed', 'cancelled'].includes(status)) {
+        return res.status(400).json({ 
+          message: "Invalid status value. Must be one of: pending, confirmed, cancelled" 
+        });
+      }
+      
+      const oldBooking = await storage.getBooking(id);
+      
+      if (!oldBooking) {
+        return res.status(404).json({ message: "Booking not found" });
+      }
+      
+      // Only update the status field
+      const updatedBooking = await storage.updateBooking(id, { status });
+      
+      // Create audit log
+      if (req.session.userId) {
+        await storage.createAuditLog({
+          userId: req.session.userId,
+          action: "UPDATE_STATUS",
+          entityType: "booking",
+          entityId: id,
+          details: { 
+            old: { status: oldBooking.status }, 
+            new: { status }
+          }
+        });
+      }
+      
+      res.json({
+        success: true,
+        message: `Booking status updated to ${status}`,
+        booking: updatedBooking
+      });
+    } catch (error) {
+      console.error('Error updating booking status:', error);
+      res.status(500).json({ message: "Failed to update booking status" });
+    }
+  });
+  
   app.patch("/api/bookings/:id", requireAuth, async (req, res) => {
     try {
       const id = parseInt(req.params.id);

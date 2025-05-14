@@ -97,6 +97,27 @@ export default function BookingManager({ className }: BookingManagerProps) {
     },
   });
   
+  // Mutation for updating booking status
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ bookingId, status }: { bookingId: number, status: string }) => {
+      return apiRequest(`/api/bookings/${bookingId}/status`, 'PATCH', { status });
+    },
+    onSuccess: (data: any) => {
+      queryClient.invalidateQueries({ queryKey: ['/api/bookings'] });
+      toast({
+        title: 'Status Updated',
+        description: data && data.message ? data.message : 'Booking status has been updated',
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'Status Update Failed',
+        description: error instanceof Error ? error.message : 'Unknown error occurred',
+        variant: 'destructive',
+      });
+    },
+  });
+  
   // Mutation for syncing booking with CRM
   const crmSyncMutation = useMutation({
     mutationFn: async (bookingId: number) => {
@@ -170,6 +191,11 @@ export default function BookingManager({ className }: BookingManagerProps) {
   // Handle syncing booking with CRM
   const handleCrmSync = (bookingId: number) => {
     crmSyncMutation.mutate(bookingId);
+  };
+  
+  // Handle updating booking status
+  const handleStatusUpdate = (bookingId: number, newStatus: string) => {
+    updateStatusMutation.mutate({ bookingId, status: newStatus });
   };
   
   // Reset all filters
@@ -357,17 +383,59 @@ export default function BookingManager({ className }: BookingManagerProps) {
                     </TableCell>
                     <TableCell className="text-center">
                       <div className="flex flex-wrap justify-center items-center gap-2">
-                        <Badge className={
-                          booking.status === 'confirmed' ? 'bg-green-100 text-green-800 hover:bg-green-200' :
-                          booking.status === 'cancelled' ? 'bg-red-100 text-red-800 hover:bg-red-200' :
-                          ''
-                        } variant={
-                          booking.status === 'confirmed' ? 'outline' :
-                          booking.status === 'cancelled' ? 'destructive' :
-                          'outline'
-                        }>
-                          {booking.status || 'pending'}
-                        </Badge>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Badge 
+                              className={`cursor-pointer ${
+                                booking.status === 'confirmed' ? 'bg-green-100 text-green-800 hover:bg-green-200' :
+                                booking.status === 'cancelled' ? 'bg-red-100 text-red-800 hover:bg-red-200' :
+                                'bg-blue-100 text-blue-800 hover:bg-blue-200'
+                              }`} 
+                              variant={
+                                booking.status === 'confirmed' ? 'outline' :
+                                booking.status === 'cancelled' ? 'destructive' :
+                                'outline'
+                              }
+                            >
+                              {updateStatusMutation.isPending && 
+                               updateStatusMutation.variables?.bookingId === booking.id ? (
+                                <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+                              ) : null}
+                              {booking.status || 'pending'}
+                            </Badge>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-40 p-1">
+                            <div className="flex flex-col gap-1">
+                              <Button 
+                                size="sm" 
+                                variant="ghost" 
+                                className={`justify-start text-xs ${booking.status === 'pending' ? 'bg-muted' : ''}`}
+                                disabled={booking.status === 'pending' || updateStatusMutation.isPending}
+                                onClick={() => handleStatusUpdate(booking.id, 'pending')}
+                              >
+                                ⏳ Pending
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="ghost" 
+                                className={`justify-start text-xs ${booking.status === 'confirmed' ? 'bg-muted' : ''}`}
+                                disabled={booking.status === 'confirmed' || updateStatusMutation.isPending}
+                                onClick={() => handleStatusUpdate(booking.id, 'confirmed')}
+                              >
+                                ✅ Confirmed
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="ghost" 
+                                className={`justify-start text-xs ${booking.status === 'cancelled' ? 'bg-muted' : ''}`}
+                                disabled={booking.status === 'cancelled' || updateStatusMutation.isPending}
+                                onClick={() => handleStatusUpdate(booking.id, 'cancelled')}
+                              >
+                                ❌ Cancelled
+                              </Button>
+                            </div>
+                          </PopoverContent>
+                        </Popover>
                         
                         {booking.crmReference && (
                           <Badge variant="outline" className="bg-slate-100 border-slate-200">

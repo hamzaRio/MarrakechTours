@@ -43,8 +43,7 @@ export const bookings = pgTable("bookings", {
 
 export const insertBookingSchema = createInsertSchema(bookings).omit({ 
   id: true, 
-  createdAt: true, 
-  status: true 
+  createdAt: true
 });
 
 // Define users table (for admin authentication)
