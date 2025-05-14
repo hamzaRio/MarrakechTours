@@ -138,7 +138,9 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
           body: JSON.stringify({
             fullName: data.name,
             phoneNumber: data.phone,
-            selectedActivity: activities?.find(a => a.id === parseInt(data.activity))?.title || data.activity,
+            selectedActivity: t('activities.' + (parseInt(data.activity) || 1) + '.title', {
+              defaultValue: activities?.find(a => a.id === parseInt(data.activity))?.title || data.activity
+            }),
             preferredDate: data.date,
             numberOfPeople: data.people,
             notes: data.notes || "",
@@ -333,7 +335,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
                   <SelectContent>
                     {[...Array(20)].map((_, i) => (
                       <SelectItem key={i + 1} value={String(i + 1)}>
-                        {i + 1} {i === 0 ? 'person' : 'people'}
+                        {i + 1} {i === 0 ? t('booking.person') : t('booking.people')}
                       </SelectItem>
                     ))}
                   </SelectContent>

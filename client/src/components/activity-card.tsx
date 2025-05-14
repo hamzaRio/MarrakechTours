@@ -24,13 +24,7 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
   const today = new Date();
   return (
     <Card className="overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 bg-white">
-      <div 
-        className="cursor-pointer"
-        onClick={(e) => {
-          e.preventDefault();
-          window.location.href = `/activity/${activity.id}`;
-        }}
-      >
+      <Link href={`/activity/${activity.id}`} className="cursor-pointer">
         <div className="relative">
           <img 
             src={activity.image || activity.imageUrl} 
@@ -43,20 +37,13 @@ export default function ActivityCard({ activity, onBookNow }: ActivityCardProps)
             }}
           />
         </div>
-      </div>
+      </Link>
       <CardContent className="p-5">
         <div className="flex flex-col mb-2">
           <div className="flex justify-between items-center mb-2">
-            <div 
-              className="cursor-pointer hover:text-terracotta transition-colors"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                window.location.href = `/activity/${activity.id}`;
-              }}  
-            >
+            <Link href={`/activity/${activity.id}`} className="cursor-pointer hover:text-terracotta transition-colors">
               <h3 className="text-xl font-medium text-gray-800">{activity.title}</h3>
-            </div>
+            </Link>
             <div className="flex flex-col items-end">
               <span className="bg-terracotta/90 text-white px-3 py-1 rounded text-sm">
                 {formatPrice(activity.price)}/{t('activities.people')}

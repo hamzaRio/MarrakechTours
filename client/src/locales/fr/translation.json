@@ -322,7 +322,6 @@
     "left": "restantes"
   },
   "booking": {
-    "cashPaymentOnly": "Paiement en espèces uniquement",
     "notesPlaceholder": "Questions spéciales ou besoins particuliers"
   }
 }
