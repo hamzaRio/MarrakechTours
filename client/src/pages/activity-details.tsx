@@ -148,7 +148,9 @@ export default function ActivityDetailsPage() {
               
               <div className="prose max-w-none">
                 <h2 className="text-xl font-medium text-gray-800 mb-4">{t('activities.description')}</h2>
-                <p className="text-gray-600">{activity.description}</p>
+                <p className="text-gray-600">
+                  {activity.id && t(`activities.${activity.id}.description`)}
+                </p>
                 
                 {isAgafayCombo && (
                   <>
