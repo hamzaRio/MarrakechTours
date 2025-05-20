@@ -5,6 +5,7 @@ import path from "path";
 import connectToDatabase from './config/database';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import type { CorsOptions, CorsRequest } from 'cors';
 
 // Load environment variables
 dotenv.config();
@@ -21,7 +22,7 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-  origin: function(origin, callback) {
+  origin: function(origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
     // Allow requests with no origin (like mobile apps, curl requests)
     if (!origin) return callback(null, true);
     
@@ -33,6 +34,11 @@ app.use(cors({
   },
   credentials: true
 }));
+
+// Health check endpoint for Railway deployment
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
 // Serve static files from the project root
 app.use('/attached_assets', express.static(path.join(process.cwd(), 'attached_assets')));
