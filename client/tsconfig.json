@@ -1,24 +1,25 @@
 {
-  "include": ["src/**/*", "../shared/**/*"],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
   "compilerOptions": {
-    "incremental": true,
-    "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
-    "noEmit": true,
+    "target": "ESNext",
     "module": "ESNext",
-    "strict": true,
-    "lib": ["esnext", "dom", "dom.iterable"],
-    "jsx": "preserve",
+    "moduleResolution": "bundler",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
-    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo",
+    "jsx": "preserve",
     "baseUrl": ".",
-    "types": ["vite/client"],
+    "types": ["vite/client", "node"],
     "paths": {
-      "@/*": ["./src/*"],
-      "@shared/*": ["../shared/*"],
-      "@assets/*": ["../attached_assets/*"]
+      "@/*": ["src/*"],
+      "@shared/*": ["shared/*"]
     }
-  }
+  },
+  "include": ["src", "shared", "server"],
+  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"]
 }
