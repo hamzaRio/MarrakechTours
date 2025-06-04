@@ -1,7 +1,10 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
-import { createServer as createViteServer, createLogger, type ServerOptions } from "vite";
+import * as vite from "vite";
+const createViteServer = vite.createServer;
+const createLogger = vite.createLogger;
+type ServerOptions = vite.ServerOptions;
 import { type Server } from "http";
 import viteConfig from "../vite.config";
 import { nanoid } from "nanoid";
