@@ -5,6 +5,14 @@ import { Users, AlertCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 
+interface CapacityInfo {
+  activityId: string | number;
+  date: string;
+  hasCapacity: boolean;
+  remainingSpots?: number | null;
+  maxGroupSize?: number | null;
+}
+
 interface CapacityDisplayProps {
   activityId: number;
   date: Date | string;
@@ -17,7 +25,7 @@ export function CapacityDisplay({ activityId, date, className = '' }: CapacityDi
   const formattedDate = typeof date === 'string' ? date : format(date, 'yyyy-MM-dd');
   
   // Fetch capacity information
-  const { data: capacityInfo, isLoading, error } = useQuery({
+  const { data: capacityInfo, isLoading, error } = useQuery<CapacityInfo>({
     queryKey: [`/api/capacity/activity/${activityId}/${formattedDate}`],
     enabled: !!activityId && !!formattedDate
   });
@@ -47,7 +55,7 @@ export function CapacityDisplay({ activityId, date, className = '' }: CapacityDi
   }
   
   // If there are no spots left
-  if (capacityInfo.remainingSpots <= 0) {
+  if ((capacityInfo.remainingSpots ?? 0) <= 0) {
     return (
       <div className={`flex items-center text-sm ${className}`}>
         <AlertCircle className="mr-2 h-4 w-4 text-red-500" />
@@ -57,16 +65,18 @@ export function CapacityDisplay({ activityId, date, className = '' }: CapacityDi
   }
   
   // If there are few spots left (less than 20% of capacity)
-  const isLimitedAvailability = capacityInfo.remainingSpots <= (capacityInfo.maxGroupSize * 0.2);
+  const remaining = capacityInfo.remainingSpots ?? Infinity;
+  const maxSize = capacityInfo.maxGroupSize ?? Infinity;
+  const isLimitedAvailability = remaining <= (maxSize * 0.2);
   
   if (isLimitedAvailability) {
     return (
       <div className={`flex items-center text-sm ${className}`}>
         <Users className="mr-2 h-4 w-4 text-amber-500" />
         <Badge variant="warning" className="bg-amber-100 text-amber-800 hover:bg-amber-200">
-          {capacityInfo.remainingSpots === 1 
-            ? t('activities.spotLeft', { count: capacityInfo.remainingSpots }) 
-            : t('activities.spotsLeft', { count: capacityInfo.remainingSpots })}
+          {(capacityInfo.remainingSpots ?? 0) === 1
+            ? t('activities.spotLeft', { count: capacityInfo.remainingSpots ?? 0 })
+            : t('activities.spotsLeft', { count: capacityInfo.remainingSpots ?? 0 })}
         </Badge>
       </div>
     );
@@ -77,9 +87,9 @@ export function CapacityDisplay({ activityId, date, className = '' }: CapacityDi
     <div className={`flex items-center text-sm ${className}`}>
       <Users className="mr-2 h-4 w-4 text-green-500" />
       <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 hover:bg-green-100">
-        {capacityInfo.remainingSpots === 1 
-          ? `${capacityInfo.remainingSpots} ${t('activities.spotAvailable')}` 
-          : t('activities.spotsAvailableCount', { count: capacityInfo.remainingSpots })}
+        {(capacityInfo.remainingSpots ?? 0) === 1
+          ? `${capacityInfo.remainingSpots ?? 0} ${t('activities.spotAvailable')}`
+          : t('activities.spotsAvailableCount', { count: capacityInfo.remainingSpots ?? 0 })}
       </Badge>
     </div>
   );
@@ -97,7 +107,7 @@ export function CapacityBadge({ activityId, date, compact = false }: CapacityBad
   const formattedDate = typeof date === 'string' ? date : format(date, 'yyyy-MM-dd');
   
   // Fetch capacity information
-  const { data: capacityInfo, isLoading, error } = useQuery({
+  const { data: capacityInfo, isLoading, error } = useQuery<CapacityInfo>({
     queryKey: [`/api/capacity/activity/${activityId}/${formattedDate}`],
     enabled: !!activityId && !!formattedDate
   });
@@ -112,7 +122,7 @@ export function CapacityBadge({ activityId, date, compact = false }: CapacityBad
   }
   
   // If there are no spots left
-  if (capacityInfo.remainingSpots <= 0) {
+  if ((capacityInfo.remainingSpots ?? 0) <= 0) {
     return (
       <Badge variant="destructive" className="ml-2">
         {compact ? t('activities.full') : t('activities.fullyBooked')}
@@ -121,25 +131,27 @@ export function CapacityBadge({ activityId, date, compact = false }: CapacityBad
   }
   
   // If there are few spots left (less than 20% of capacity)
-  const isLimitedAvailability = capacityInfo.remainingSpots <= (capacityInfo.maxGroupSize * 0.2);
+  const remaining = capacityInfo.remainingSpots ?? Infinity;
+  const maxSize = capacityInfo.maxGroupSize ?? Infinity;
+  const isLimitedAvailability = remaining <= (maxSize * 0.2);
   
   if (isLimitedAvailability) {
     return (
       <Badge variant="secondary" className="bg-amber-100 text-amber-800 hover:bg-amber-200 ml-2">
-        {compact 
-          ? `${capacityInfo.remainingSpots} ${t('activities.capacity.spotsLeft')}` 
-          : (capacityInfo.remainingSpots === 1 
-              ? t('activities.spotLeft', { count: capacityInfo.remainingSpots }) 
-              : t('activities.spotsLeft', { count: capacityInfo.remainingSpots }))}
+        {compact
+          ? `${capacityInfo.remainingSpots ?? 0} ${t('activities.capacity.spotsLeft')}`
+          : (capacityInfo.remainingSpots === 1
+              ? t('activities.spotLeft', { count: capacityInfo.remainingSpots ?? 0 })
+              : t('activities.spotsLeft', { count: capacityInfo.remainingSpots ?? 0 }))}
       </Badge>
     );
   }
   
   return compact ? null : (
     <Badge variant="secondary" className="bg-green-50 text-green-700 hover:bg-green-100 ml-2">
-      {capacityInfo.remainingSpots === 1 
-        ? `${capacityInfo.remainingSpots} ${t('activities.spotAvailable')}` 
-        : t('activities.spotsAvailableCount', { count: capacityInfo.remainingSpots })}
+      {capacityInfo.remainingSpots === 1
+        ? `${capacityInfo.remainingSpots ?? 0} ${t('activities.spotAvailable')}`
+        : t('activities.spotsAvailableCount', { count: capacityInfo.remainingSpots ?? 0 })}
     </Badge>
   );
 }

@@ -28,7 +28,7 @@ export default function AuditLogTable() {
   const [actionTypeFilter, setActionTypeFilter] = useState<string | null>(null);
   const [userFilter, setUserFilter] = useState<string>("");
   const [dateFilter, setDateFilter] = useState<string>("");
-  const { users } = useAuth();
+  const { user } = useAuth();
 
   const { data: auditLogs, isLoading, refetch } = useQuery<AuditLog[]>({
     queryKey: ["/api/admin/audit-logs"],
@@ -63,10 +63,7 @@ export default function AuditLogTable() {
   };
 
   // Get username by user id
-  const getUserNameById = (userId: number) => {
-    const user = users?.find(u => u.id === userId);
-    return user ? user.username : `User #${userId}`;
-  };
+  const getUserNameById = (userId: number) => `User #${userId}`;
 
   const filteredLogs = (auditLogs || []).filter((log) => {
     // Filter by action type if selected

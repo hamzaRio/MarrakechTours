@@ -148,7 +148,7 @@ export default function AdminBookings() {
   const openEditModal = (booking: Booking) => {
     setCurrentBooking(booking);
     setFormData({
-      status: booking.status,
+      status: booking.status || "",
     });
     setIsEditModalOpen(true);
   };
@@ -273,7 +273,7 @@ export default function AdminBookings() {
                         <TableCell>{getActivityName(booking.activityId)}</TableCell>
                         <TableCell>{booking.date}</TableCell>
                         <TableCell>{booking.people}</TableCell>
-                        <TableCell>{getStatusBadge(booking.status)}</TableCell>
+                        <TableCell>{getStatusBadge(booking.status ?? "pending")}</TableCell>
                         <TableCell>
                           <Button 
                             onClick={() => openEditModal(booking)} 

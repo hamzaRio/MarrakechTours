@@ -15,6 +15,7 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
+  isAuthenticated: boolean;
   isLoading: boolean;
   error: Error | null;
   loginMutation: UseMutationResult<{ success: boolean; user: User; token?: string }, Error, LoginData>;
@@ -91,22 +92,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const tokenExpiresAt = getTokenExpiry();
   const tokenValid = isTokenValid();
 
+  interface MeResponse {
+    success: boolean;
+    user?: User;
+    tokenValid?: boolean;
+    message?: string;
+  }
+
   const {
     data: userData,
     error,
     isLoading,
-  } = useQuery({
+  } = useQuery<MeResponse | null>({
     queryKey: ["/api/me"],
-    queryFn: getQueryFn({ 
+    queryFn: getQueryFn<MeResponse | null>({
       on401: "returnNull",
-      extraHeaders: storedToken ? { 
-        Authorization: `Bearer ${storedToken}` 
+      extraHeaders: storedToken ? {
+        Authorization: `Bearer ${storedToken}`
       } : undefined
     }),
   });
 
   // Default to null if userData is undefined or doesn't have success flag
-  const user = userData && userData.success === true ? userData.user : null;
+  const user: User | null =
+    userData && userData.success === true ? userData.user ?? null : null;
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginData) => {
@@ -176,6 +185,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
+        isAuthenticated: !!user,
         isLoading,
         error,
         loginMutation,

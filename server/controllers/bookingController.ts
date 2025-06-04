@@ -73,7 +73,7 @@ export const createBooking = async (req: Request, res: Response) => {
     try {
       // Adapt the MongoDB document to the format expected by the CRM integration
       const bookingForCrm = {
-        id: savedBooking._id.toString(),
+        id: String(savedBooking._id),
         name: savedBooking.fullName,
         phone: savedBooking.phoneNumber,
         date: savedBooking.preferredDate.toISOString().split('T')[0],
@@ -82,7 +82,10 @@ export const createBooking = async (req: Request, res: Response) => {
       };
       
       // Sync booking with CRM
-      const crmResult = await syncBookingWithCrm(bookingForCrm, validatedData.selectedActivity);
+      const crmResult = await syncBookingWithCrm(
+        bookingForCrm as any,
+        validatedData.selectedActivity
+      );
       
       if (crmResult.success) {
         console.log(`MongoDB booking synced with CRM: ${crmResult.message}`);

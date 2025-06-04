@@ -7,17 +7,7 @@ import { storage } from '../storage';
 const JWT_SECRET = process.env.JWT_SECRET || 'marrakechdeserts-secret-key';
 
 // Extend Express Request type to include user data
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        id: string | number;
-        username: string;
-        role: string;
-      };
-    }
-  }
-}
+
 
 /**
  * Middleware to check if user is authenticated
@@ -32,22 +22,24 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
         
         if (admin) {
           req.user = {
-            id: admin._id,
+            id: admin._id as any,
             username: admin.username,
-            role: admin.role
+            role: admin.role,
+            createdAt: admin.createdAt ?? null
           };
           return next();
         }
       }
       
       // If MongoDB not connected or user not found, try memory storage
-      const user = storage.getUser(req.session.userId);
+        const user = await storage.getUser(req.session.userId);
       
       if (user) {
         req.user = {
           id: user.id,
           username: user.username,
-          role: user.role || 'admin'
+          role: user.role || 'admin',
+          createdAt: user.createdAt ?? null
         };
         return next();
       }
@@ -67,22 +59,24 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
           
           if (admin) {
             req.user = {
-              id: admin._id,
+              id: admin._id as any,
               username: admin.username,
-              role: admin.role
+              role: admin.role,
+              createdAt: admin.createdAt ?? null
             };
             return next();
           }
         }
         
         // If MongoDB not connected or user not found, try memory storage
-        const user = storage.getUser(Number(decoded.id));
+          const user = await storage.getUser(Number(decoded.id));
         
         if (user) {
           req.user = {
             id: user.id,
             username: user.username,
-            role: user.role || 'admin'
+            role: user.role || 'admin',
+            createdAt: user.createdAt ?? null
           };
           return next();
         }

@@ -33,11 +33,11 @@ export default function AdminActivities() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [currentActivity, setCurrentActivity] = useState<Activity | null>(null);
-  const [formData, setFormData] = useState<Partial<InsertActivity>>({
+  const [formData, setFormData] = useState<Partial<InsertActivity> & { image?: string }>({
     title: "",
     description: "",
     price: 0,
-    imageUrl: "",
+    image: "",
     featured: true,
   });
 
@@ -160,7 +160,7 @@ export default function AdminActivities() {
       title: activity.title,
       description: activity.description,
       price: activity.price,
-      imageUrl: activity.imageUrl,
+      image: (activity as any).imageUrl || activity.image,
       featured: activity.featured,
     });
     setIsEditModalOpen(true);
@@ -176,7 +176,7 @@ export default function AdminActivities() {
       title: "",
       description: "",
       price: 0,
-      imageUrl: "",
+      image: "",
       featured: true,
     });
   };
@@ -308,11 +308,11 @@ export default function AdminActivities() {
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="imageUrl" className="text-right">Image URL</Label>
+                  <Label htmlFor="image" className="text-right">Image URL</Label>
                   <Input
-                    id="imageUrl"
-                    name="imageUrl"
-                    value={formData.imageUrl}
+                    id="image"
+                    name="image"
+                    value={formData.image}
                     onChange={handleInputChange}
                     className="col-span-3"
                     required
@@ -325,7 +325,7 @@ export default function AdminActivities() {
                       id="featured"
                       name="featured"
                       type="checkbox"
-                      checked={formData.featured}
+                      checked={!!formData.featured}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4"
                     />
@@ -390,11 +390,11 @@ export default function AdminActivities() {
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="edit-imageUrl" className="text-right">Image URL</Label>
+                  <Label htmlFor="edit-image" className="text-right">Image URL</Label>
                   <Input
-                    id="edit-imageUrl"
-                    name="imageUrl"
-                    value={formData.imageUrl}
+                    id="edit-image"
+                    name="image"
+                    value={formData.image}
                     onChange={handleInputChange}
                     className="col-span-3"
                     required
@@ -407,7 +407,7 @@ export default function AdminActivities() {
                       id="edit-featured"
                       name="featured"
                       type="checkbox"
-                      checked={formData.featured}
+                      checked={!!formData.featured}
                       onChange={handleCheckboxChange}
                       className="h-4 w-4"
                     />

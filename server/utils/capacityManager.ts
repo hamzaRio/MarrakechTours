@@ -79,17 +79,18 @@ export const checkActivityCapacity = async (
       const allBookings = await storage.getAllBookings();
       
       // Filter bookings for this activity on this date
-      const bookingsForActivityOnDate = allBookings.filter(booking => {
-        // Handle difference between MongoDB and storage models
-        const bookingDate = booking.date || 
-          (booking.preferredDate instanceof Date ? 
-           booking.preferredDate.toISOString().split('T')[0] : 
-           String(booking.preferredDate));
-        
-        const bookingActivityId = booking.activityId || 
-          (typeof booking.selectedActivity === 'string' ? 
-           booking.selectedActivity : 
-           String(booking.selectedActivity));
+        const bookingsForActivityOnDate = allBookings.filter(booking => {
+          // Handle difference between MongoDB and storage models
+          const b: any = booking;
+          const bookingDate = booking.date ||
+            (b.preferredDate instanceof Date ?
+             b.preferredDate.toISOString().split('T')[0] :
+             String(b.preferredDate));
+
+          const bookingActivityId = booking.activityId ||
+            (typeof b.selectedActivity === 'string' ?
+             b.selectedActivity :
+             String(b.selectedActivity));
         
         return bookingActivityId === activityId.toString() && bookingDate === dateString;
       });
@@ -97,10 +98,10 @@ export const checkActivityCapacity = async (
       // Calculate total people booked
       currentBookings = bookingsForActivityOnDate.reduce(
         (total, booking) => {
-          // Handle difference between MongoDB and storage models
-          const people = booking.people || booking.numberOfPeople || 1;
+          const b: any = booking;
+          const people = booking.people || b.numberOfPeople || 1;
           return total + people;
-        }, 
+        },
         0
       );
     }
