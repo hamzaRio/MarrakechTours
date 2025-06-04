@@ -2,9 +2,12 @@ import express, { type Express, Request, Response, NextFunction } from "express"
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import { 
-  insertActivitySchema, insertBookingSchema, loginSchema,
-  Activity, Booking, User
+import {
+  insertActivitySchema,
+  insertBookingSchema,
+  Activity,
+  Booking,
+  User
 } from "@shared/schema";
 import path from "path";
 import { log } from "./vite";
@@ -74,96 +77,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Middleware to check authentication
-  const requireAuth = (req: Request, res: Response, next: NextFunction) => {
-    // Check for session authentication
-    if (req.session && req.session.userId) {
-      return next();
-    }
+  // Authentication middleware and helpers come from auth.ts
 
-    // Check for JWT token
-    const authHeader = req.headers.authorization;
-    if (authHeader && authHeader.startsWith("Bearer ")) {
-      const token = authHeader.substring(7);
-      try {
-        const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
-        req.session.userId = decoded.userId;
-        return next();
-      } catch (err) {
-        return res.status(401).json({ message: "Invalid token" });
-      }
-    }
-
-    return res.status(401).json({ message: "Unauthorized" });
-  };
-
-  // Middleware to check for superadmin role
-  const requireSuperAdmin = async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.session.userId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    const user = await storage.getUser(req.session.userId);
-    if (!user || user.role !== "superadmin") {
-      return res.status(403).json({ message: "Forbidden: Requires superadmin privileges" });
-    }
-
-    next();
-  };
-
-  // Authentication routes
-  app.post("/api/auth/login", async (req, res) => {
-    try {
-      const validatedData = loginSchema.parse(req.body);
-      const user = await storage.getUserByUsername(validatedData.username);
-      
-      if (!user || user.password !== validatedData.password) {
-        return res.status(401).json({ message: "Invalid username or password" });
-      }
-
-      // Create session
-      req.session.userId = user.id;
-      req.session.userRole = user.role;
-
-      // Create JWT token
-      const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
-        expiresIn: "24h"
-      });
-      
-      // Create audit log for login
-      await storage.createAuditLog({
-        userId: user.id,
-        action: "LOGIN",
-        entityType: "user",
-        entityId: user.id,
-        details: { username: user.username, timestamp: new Date() }
-      });
-
-      // Return user info and token
-      return res.json({
-        user: {
-          id: user.id,
-          username: user.username,
-          role: user.role
-        },
-        token
-      });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: error.errors });
-      }
-      return res.status(500).json({ message: "Internal server error" });
-    }
-  });
-
-  app.post("/api/auth/logout", (req, res) => {
-    req.session.destroy((err) => {
-      if (err) {
-        return res.status(500).json({ message: "Failed to logout" });
-      }
-      res.json({ message: "Logged out successfully" });
-    });
-  });
+  // Authentication is handled in auth.ts
 
   // Activities routes
   app.get("/api/activities", async (req, res) => {
@@ -194,11 +110,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertActivitySchema.parse(req.body);
       const activity = await storage.createActivity(validatedData);
-      
+
       // Create audit log
-      if (req.session.userId) {
+      if (req.user?.id) {
         await storage.createAuditLog({
-          userId: req.session.userId,
+          userId: req.user.id,
           action: "CREATE",
           entityType: "activity",
           entityId: activity.id,
@@ -228,9 +144,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const updatedActivity = await storage.updateActivity(id, validatedData);
       
       // Create audit log
-      if (req.session.userId) {
+      if (req.user?.id) {
         await storage.createAuditLog({
-          userId: req.session.userId,
+          userId: req.user.id,
           action: "UPDATE",
           entityType: "activity",
           entityId: id,
@@ -262,9 +178,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const success = await storage.deleteActivity(id);
       
       // Create audit log
-      if (success && req.session.userId) {
+      if (success && req.user?.id) {
         await storage.createAuditLog({
-          userId: req.session.userId,
+          userId: req.user.id,
           action: "DELETE",
           entityType: "activity",
           entityId: id,
@@ -330,7 +246,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           
           // Create audit log for CRM sync
           await storage.createAuditLog({
-            userId: req.session?.userId || 0,
+            userId: req.user?.id || 0,
             action: "MANUAL_CRM_SYNC",
             entityType: "booking",
             entityId: bookingId,
@@ -373,24 +289,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Get activity name for the booking
       const activity = booking.activityId ? await storage.getActivity(booking.activityId) : null;
-      const activityName = booking.selectedActivity || (activity?.title || `Activity #${booking.activityId}`);
+      const activityName = 'selectedActivity' in booking
+        ? (booking as any).selectedActivity
+        : activity?.title || `Activity #${booking.activityId}`;
       
       // Resend WhatsApp notification
       try {
         const { sendBookingNotification } = await import('./utils/sendWhatsApp');
         const result = await sendBookingNotification({
-          fullName: booking.fullName || booking.name,
-          phoneNumber: booking.phoneNumber || booking.phone,
+          fullName: 'fullName' in booking ? (booking as any).fullName : booking.name,
+          phoneNumber: 'phoneNumber' in booking ? (booking as any).phoneNumber : booking.phone,
           selectedActivity: activityName,
-          preferredDate: booking.preferredDate || booking.date,
-          numberOfPeople: booking.numberOfPeople || booking.people || 1,
+          preferredDate: 'preferredDate' in booking ? String((booking as any).preferredDate) : booking.date,
+          numberOfPeople: 'numberOfPeople' in booking ? (booking as any).numberOfPeople : booking.people || 1,
           notes: booking.notes || ''
         });
         
         // Log the resend action as an audit log
-        if (req.session.userId) {
+        if (req.user?.id) {
           await storage.createAuditLog({
-            userId: req.session.userId,
+            userId: req.user.id,
             action: "RESEND_WHATSAPP",
             entityType: "booking",
             entityId: bookingId,
@@ -450,14 +368,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       try {
         const { sendBookingNotification } = await import('./utils/sendWhatsApp');
         
-        await sendBookingNotification({
-          fullName: booking.name,
-          phoneNumber: booking.phone,
-          selectedActivity: activityName,
-          preferredDate: booking.date,
-          numberOfPeople: booking.people,
-          notes: booking.notes
-        });
+          await sendBookingNotification({
+            fullName: booking.name,
+            phoneNumber: booking.phone,
+            selectedActivity: activityName,
+            preferredDate: booking.date,
+            numberOfPeople: booking.people,
+            notes: booking.notes || undefined
+          });
       } catch (notificationError) {
         // Log error but don't fail the booking creation
         console.error('Failed to send WhatsApp notification:', notificationError);
@@ -483,7 +401,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             
             // Create audit log for CRM sync
             await storage.createAuditLog({
-              userId: req.session?.userId || 0,
+              userId: req.user?.id || 0,
               action: "CRM_SYNC",
               entityType: "booking",
               entityId: booking.id,
@@ -533,14 +451,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const updatedBooking = await storage.updateBooking(id, { status });
       
       // Create audit log
-      if (req.session.userId) {
+      if (req.user?.id) {
         await storage.createAuditLog({
-          userId: req.session.userId,
+          userId: req.user.id,
           action: "UPDATE_STATUS",
           entityType: "booking",
           entityId: id,
-          details: { 
-            old: { status: oldBooking.status }, 
+          details: {
+            old: { status: oldBooking.status },
             new: { status }
           }
         });
@@ -570,15 +488,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const updatedBooking = await storage.updateBooking(id, validatedData);
       
       // Create audit log
-      if (req.session.userId) {
+      if (req.user?.id) {
         await storage.createAuditLog({
-          userId: req.session.userId,
+          userId: req.user.id,
           action: "UPDATE",
           entityType: "booking",
           entityId: id,
-          details: { 
-            old: oldBooking, 
-            new: updatedBooking 
+          details: {
+            old: oldBooking,
+            new: updatedBooking
           }
         });
       }
@@ -604,9 +522,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const success = await storage.deleteBooking(id);
       
       // Create audit log
-      if (success && req.session.userId) {
+      if (success && req.user?.id) {
         await storage.createAuditLog({
-          userId: req.session.userId,
+          userId: req.user.id,
           action: "DELETE",
           entityType: "booking",
           entityId: id,
@@ -633,11 +551,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Current user route
   app.get("/api/me", requireAuth, async (req, res) => {
     try {
-      if (!req.session.userId) {
+      if (!req.user?.id) {
         return res.status(401).json({ message: "Not authenticated" });
       }
-      
-      const user = await storage.getUser(req.session.userId);
+
+      const user = await storage.getUser(req.user.id);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }

@@ -33,17 +33,18 @@ export const registerAdmin = async (req: Request, res: Response) => {
 
     // Create new admin
     const admin = await (Admin as any).createWithHashedPassword(username, password, role);
+    const adminId = String(admin._id);
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: admin._id, username: admin.username, role: admin.role },
+      { id: adminId, username: admin.username, role: admin.role },
       JWT_SECRET,
       { expiresIn: '7d' }
     );
 
     // Set user session
     if (req.session) {
-      req.session.userId = admin._id;
+      req.session.userId = adminId;
       req.session.username = admin.username;
       req.session.userRole = admin.role;
     }
@@ -52,7 +53,7 @@ export const registerAdmin = async (req: Request, res: Response) => {
       success: true,
       message: 'Admin user created successfully',
       admin: {
-        id: admin._id,
+        id: adminId,
         username: admin.username,
         role: admin.role,
         createdAt: admin.createdAt
@@ -80,16 +81,17 @@ export const loginAdmin = async (req: Request, res: Response) => {
       const admin = await Admin.findOne({ username });
       
       if (admin && await admin.validatePassword(password)) {
+        const adminId = String(admin._id);
         // Generate JWT token
         const token = jwt.sign(
-          { id: admin._id, username: admin.username, role: admin.role },
+          { id: adminId, username: admin.username, role: admin.role },
           JWT_SECRET,
           { expiresIn: '7d' }
         );
 
         // Set user session
         if (req.session) {
-          req.session.userId = admin._id;
+          req.session.userId = adminId;
           req.session.username = admin.username;
           req.session.userRole = admin.role;
         }
@@ -98,7 +100,7 @@ export const loginAdmin = async (req: Request, res: Response) => {
           success: true,
           message: 'Login successful',
           admin: {
-            id: admin._id,
+            id: adminId,
             username: admin.username,
             role: admin.role,
           },
@@ -163,10 +165,11 @@ export const getCurrentUser = async (req: Request, res: Response) => {
       // Try to get user from MongoDB if connected
       if (mongoose.connection.readyState) {
         const admin = await Admin.findById(req.session.userId);
-        
+
         if (admin) {
+          const adminId = String(admin._id);
           return res.json({
-            id: admin._id,
+            id: adminId,
             username: admin.username,
             role: admin.role,
           });
@@ -174,7 +177,7 @@ export const getCurrentUser = async (req: Request, res: Response) => {
       }
       
       // If MongoDB not connected or user not found, try memory storage
-      const user = storage.getUser(req.session.userId);
+      const user = await storage.getUser(Number(req.session.userId));
       
       if (user) {
         return res.json({
@@ -196,10 +199,11 @@ export const getCurrentUser = async (req: Request, res: Response) => {
         // Try to get user from MongoDB if connected
         if (mongoose.connection.readyState) {
           const admin = await Admin.findById(decoded.id);
-          
+
           if (admin) {
+            const adminId = String(admin._id);
             return res.json({
-              id: admin._id,
+              id: adminId,
               username: admin.username,
               role: admin.role,
             });
@@ -207,7 +211,7 @@ export const getCurrentUser = async (req: Request, res: Response) => {
         }
         
         // If MongoDB not connected or user not found, try memory storage
-        const user = storage.getUser(Number(decoded.id));
+        const user = await storage.getUser(Number(decoded.id));
         
         if (user) {
           return res.json({

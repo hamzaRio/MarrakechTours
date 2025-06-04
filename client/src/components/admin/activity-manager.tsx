@@ -117,10 +117,10 @@ export default function ActivityManager({ className }: ActivityManagerProps) {
         description: editingActivity.description,
         price: editingActivity.price,
         image: editingActivity.image || '',
-        durationHours: editingActivity.durationHours,
-        includesFood: editingActivity.includesFood,
-        includesTransportation: editingActivity.includesTransportation,
-        maxGroupSize: editingActivity.maxGroupSize,
+        durationHours: editingActivity.durationHours ?? undefined,
+        includesFood: editingActivity.includesFood ?? undefined,
+        includesTransportation: editingActivity.includesTransportation ?? undefined,
+        maxGroupSize: editingActivity.maxGroupSize ?? undefined,
       });
     }
   }, [isAddDialogOpen, editingActivity, form]);
@@ -465,7 +465,7 @@ export default function ActivityManager({ className }: ActivityManagerProps) {
                       </div>
                     </TableCell>
                     <TableCell>
-                      {formatPrice(activity.price, activity.priceType)}
+                        {formatPrice(activity.price, activity.priceType ?? undefined)}
                     </TableCell>
                     <TableCell>
                       {activity.maxGroupSize ? (

@@ -9,15 +9,9 @@ import { ArrowRight, Info, Users } from "lucide-react";
 import { CapacityBadge } from "./capacity-display";
 
 // Extended type to handle both image property variants
-interface ActivityWithImageUrl extends Activity {
-  image: string | undefined;
-  title: string | undefined;
-  price: number;
-  maxGroupSize: React.JSX.Element;
-  description: React.ReactNode;
-  id: number; // Ensure 'id' exists
+type ActivityWithImageUrl = Activity & {
   imageUrl?: string;
-}
+};
 
 interface ActivityCardProps {
   activity: ActivityWithImageUrl;
