@@ -32,7 +32,8 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
       }
       
       // If MongoDB not connected or user not found, try memory storage
-        const user = await storage.getUser(req.session.userId);
+      const sessionId = typeof req.session.userId === 'string' ? parseInt(req.session.userId, 10) : req.session.userId;
+      const user = await storage.getUser(sessionId);
       
       if (user) {
         req.user = {
