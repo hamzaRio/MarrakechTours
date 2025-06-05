@@ -17,9 +17,9 @@
     "types": ["vite/client", "node"],
     "paths": {
       "@/*": ["src/*"],
-      "@shared/*": ["shared/*"]
+      "@shared/*": ["../shared/*"]
     }
   },
-  "include": ["src", "shared", "server"],
+  "include": ["src", "../shared", "../server"],
   "exclude": ["node_modules", "build", "dist", "**/*.test.ts"]
 }

@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { Resolver } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { apiRequest } from '@/lib/queryClient';
-import { Activity } from '@shared/schema';
+import {
+  Activity,
+  activitySchema,
+  ActivityFormData,
+  ExtendedActivity,
+} from '@shared/schema';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
 
@@ -48,25 +53,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
 import { Pencil, Plus, Trash2, Image, Calendar, DollarSign } from 'lucide-react';
 
-// Schema for activity form
-const activitySchema = z.object({
-  title: z.string().min(3, 'Title must be at least 3 characters'),
-  description: z.string().min(10, 'Description must be at least 10 characters'),
-  price: z.coerce.number().positive('Price must be a positive number'),
-  image: z.string().url('Must be a valid URL to an image'),
-  durationHours: z.coerce.number().positive('Duration must be positive').optional(),
-  includesFood: z.boolean().optional(),
-  includesTransportation: z.boolean().optional(),
-  maxGroupSize: z.coerce.number().positive('Group size must be positive').optional(),
-});
-
-type ActivityFormData = z.infer<typeof activitySchema>;
-
-// Extended activity interface for form
-interface ExtendedActivity extends Activity {
-  // No need to extend as the Activity type from schema now includes all these fields
-}
-
 interface ActivityManagerProps {
   className?: string;
 }
@@ -85,7 +71,7 @@ export default function ActivityManager({ className }: ActivityManagerProps) {
 
   // Form setup
   const form = useForm<ActivityFormData>({
-    resolver: zodResolver(activitySchema),
+    resolver: zodResolver(activitySchema) as Resolver<ActivityFormData>,
     defaultValues: {
       title: '',
       description: '',

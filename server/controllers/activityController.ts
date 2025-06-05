@@ -2,21 +2,9 @@ import { Request, Response } from 'express';
 import { z } from 'zod';
 import Activity, { IActivity } from '../models/Activity';
 import { isMongoConnected } from '../config/database';
+import { activitySchema, ActivityFormData } from '@shared/schema';
 
-// Validation schema for creating/updating activities
-const activitySchema = z.object({
-  title: z.string().min(3, 'Title must be at least 3 characters'),
-  description: z.string().min(10, 'Description must be at least 10 characters'),
-  price: z.number().positive('Price must be a positive number'),
-  image: z.string().url('Must be a valid URL to an image'),
-  durationHours: z.number().positive('Duration must be positive').optional(),
-  includesFood: z.boolean().optional(),
-  includesTransportation: z.boolean().optional(),
-  maxGroupSize: z.number().positive('Group size must be positive').optional(),
-  priceType: z.enum(['fixed', 'per_person']).optional()
-});
-
-type ActivityData = z.infer<typeof activitySchema>;
+type ActivityData = ActivityFormData;
 
 // Get all activities
 export const getAllActivities = async (_req: Request, res: Response) => {
