@@ -91,6 +91,26 @@ export type InsertUser = z.infer<typeof insertUserSchema>;
 export type AuditLog = typeof auditLogs.$inferSelect;
 export type InsertAuditLog = z.infer<typeof insertAuditLogSchema>;
 
+// Extended types used on the frontend
+export type ActivityWithImageUrl = Activity & { imageUrl?: string };
+
+export type ExtendedActivity = ActivityWithImageUrl;
+
+// Validation schema for creating or updating activities
+export const activitySchema = z.object({
+  title: z.string().min(3, 'Title must be at least 3 characters'),
+  description: z.string().min(10, 'Description must be at least 10 characters'),
+  price: z.coerce.number().positive('Price must be a positive number'),
+  image: z.string().url('Must be a valid URL to an image'),
+  durationHours: z.coerce.number().positive('Duration must be positive').optional(),
+  includesFood: z.boolean().optional(),
+  includesTransportation: z.boolean().optional(),
+  maxGroupSize: z.coerce.number().positive('Group size must be positive').optional(),
+  priceType: z.enum(['fixed', 'per_person']).optional(),
+});
+
+export type ActivityFormData = z.infer<typeof activitySchema>;
+
 // Extended schemas for validation
 export const bookingFormSchema = insertBookingSchema.extend({
   activity: z.string().min(1, "Please select an activity"),

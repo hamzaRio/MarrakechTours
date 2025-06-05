@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -46,7 +46,7 @@ export default function BookingForm({ selectedActivityId, onSuccess }: BookingFo
   });
 
   const form = useForm<BookingFormData>({
-    resolver: zodResolver(bookingFormSchema),
+    resolver: zodResolver(bookingFormSchema) as Resolver<BookingFormData>,
     defaultValues: {
       name: "",
       phone: "+212",
