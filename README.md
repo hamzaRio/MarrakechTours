@@ -86,6 +86,10 @@ For production deployment:
 
 This will serve the static client files and the API from a single Express server.
 
+## Deploying to Vercel
+
+A serverless handler is provided at `api/[...route].ts` which wraps the Express application for Vercel's Node.js runtime. After running `npm run build` in the `server` directory, deploy the repository root on Vercel and the API will be available under `/api/*`. The client can still be deployed separately from the `client` folder using its own `vercel.json`.
+
 ## Credits
 
-Built for a local Moroccan tour agency to showcase their authentic experiences and streamline their booking process.
+Built for a local Moroccan tour agency to showcase their authentic experiences and streamline their booking process
