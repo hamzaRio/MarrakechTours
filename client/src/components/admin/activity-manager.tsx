@@ -71,7 +71,7 @@ export default function ActivityManager({ className }: ActivityManagerProps) {
 
   // Form setup
   const form = useForm<ActivityFormData>({
-    resolver: zodResolver(activitySchema) as Resolver<ActivityFormData>,
+    resolver: zodResolver(activitySchema),
     defaultValues: {
       title: '',
       description: '',
