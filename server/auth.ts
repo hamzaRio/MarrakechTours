@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Express, Request, Response, NextFunction } from "express";
 import session from "express-session";
+import lusca from "lusca";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { storage } from "./storage";
@@ -135,6 +136,7 @@ export function setupAuth(app: Express) {
 
   // Initialize session middleware
   app.use(session(sessionSettings));
+  app.use(lusca.csrf());
   app.use(passport.initialize());
   app.use(passport.session());
 
