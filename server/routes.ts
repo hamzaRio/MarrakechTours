@@ -1,4 +1,5 @@
 import express, { type Express, Request, Response, NextFunction } from "express";
+import rateLimit from "express-rate-limit";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
@@ -571,7 +572,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Get all users (only for superadmin)
-  app.get("/api/admin/users", requireAuth, requireSuperAdmin, async (req, res) => {
+  const userRateLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 50, // Limit each superadmin to 50 requests per windowMs
+  });
+
+  app.get("/api/admin/users", requireAuth, requireSuperAdmin, userRateLimiter, async (req, res) => {
     try {
       // Get all users from storage - this would be implemented in a real storage solution
       // For memory storage, we need to get all users from the map
