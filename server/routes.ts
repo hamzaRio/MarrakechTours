@@ -540,7 +540,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Audit logs route (superadmin only)
-  app.get("/api/admin/audit-logs", requireAuth, requireSuperAdmin, async (req, res) => {
+  const auditLogsRateLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 50, // Limit each superadmin to 50 requests per windowMs
+  });
+
+  app.get("/api/admin/audit-logs", requireAuth, requireSuperAdmin, auditLogsRateLimiter, async (req, res) => {
     try {
       const logs = await storage.getAuditLogs();
       res.json(logs);
