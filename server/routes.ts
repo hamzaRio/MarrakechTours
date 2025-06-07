@@ -18,6 +18,15 @@ import { isMongoConnected } from './config/database';
 import { getActivityCapacity, getDateCapacity } from './controllers/capacityController';
 import { setupAuth, requireAuth, requireAdmin, requireSuperAdmin } from './auth';
 
+const userRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 50, // Limit each user to 50 requests per windowMs
+  keyGenerator: (req: Request): string => {
+    const user = req.user as Express.User | undefined;
+    return user?.id ? String(user.id) : req.ip || "";
+  }
+});
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication (includes session configuration)
   setupAuth(app);
@@ -107,7 +116,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/activities", requireAuth, async (req, res) => {
+  app.post("/api/activities", requireAuth, userRateLimiter, async (req, res) => {
     try {
       const validatedData = insertActivitySchema.parse(req.body);
       const activity = await storage.createActivity(validatedData);
@@ -132,7 +141,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/activities/:id", requireAuth, async (req, res) => {
+  app.patch("/api/activities/:id", requireAuth, userRateLimiter, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const oldActivity = await storage.getActivity(id);
@@ -167,7 +176,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/activities/:id", requireAuth, async (req, res) => {
+  app.delete("/api/activities/:id", requireAuth, userRateLimiter, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const activity = await storage.getActivity(id);
@@ -196,7 +205,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Booking routes
-  app.get("/api/bookings", requireAuth, async (req, res) => {
+  app.get("/api/bookings", requireAuth, userRateLimiter, async (req, res) => {
     try {
       const bookings = await storage.getAllBookings();
       res.json(bookings);
@@ -205,7 +214,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/bookings/:id", requireAuth, async (req, res) => {
+  app.get("/api/bookings/:id", requireAuth, userRateLimiter, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const booking = await storage.getBooking(id);
@@ -221,7 +230,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Endpoint to manually sync a booking with CRM
-  app.post("/api/bookings/:id/sync-crm", requireAuth, async (req, res) => {
+  app.post("/api/bookings/:id/sync-crm", requireAuth, userRateLimiter, async (req, res) => {
     try {
       const bookingId = parseInt(req.params.id);
       const booking = await storage.getBooking(bookingId);
@@ -279,7 +288,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Endpoint to resend WhatsApp notification for a specific booking
-  app.post("/api/bookings/:id/resend-whatsapp", requireAuth, async (req, res) => {
+  app.post("/api/bookings/:id/resend-whatsapp", requireAuth, userRateLimiter, async (req, res) => {
     try {
       const bookingId = parseInt(req.params.id);
       const booking = await storage.getBooking(bookingId);
@@ -430,7 +439,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update booking status specifically
-  app.patch("/api/bookings/:id/status", requireAuth, async (req, res) => {
+  app.patch("/api/bookings/:id/status", requireAuth, userRateLimiter, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const { status } = req.body;
@@ -476,7 +485,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  app.patch("/api/bookings/:id", requireAuth, async (req, res) => {
+  app.patch("/api/bookings/:id", requireAuth, userRateLimiter, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const oldBooking = await storage.getBooking(id);
@@ -511,7 +520,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/bookings/:id", requireAuth, async (req, res) => {
+  app.delete("/api/bookings/:id", requireAuth, userRateLimiter, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const booking = await storage.getBooking(id);
@@ -545,7 +554,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     max: 50, // Limit each superadmin to 50 requests per windowMs
   });
 
-  app.get("/api/admin/audit-logs", requireAuth, requireSuperAdmin, auditLogsRateLimiter, async (req, res) => {
+  app.get("/api/admin/audit-logs", requireAuth, userRateLimiter, requireSuperAdmin, auditLogsRateLimiter, async (req, res) => {
     try {
       const logs = await storage.getAuditLogs();
       res.json(logs);
@@ -555,7 +564,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Current user route
-  app.get("/api/me", requireAuth, async (req, res) => {
+  app.get("/api/me", requireAuth, userRateLimiter, async (req, res) => {
     try {
       if (!req.user?.id) {
         return res.status(401).json({ message: "Not authenticated" });
@@ -577,11 +586,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Get all users (only for superadmin)
-  const userRateLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 50, // Limit each superadmin to 50 requests per windowMs
-  });
-
   app.get("/api/admin/users", requireAuth, requireSuperAdmin, userRateLimiter, async (req, res) => {
     try {
       // Get all users from storage - this would be implemented in a real storage solution
@@ -611,7 +615,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // WhatsApp notification stats endpoint (admin only)
-  app.get("/api/admin/notification-stats", requireAuth, async (req, res) => {
+  app.get("/api/admin/notification-stats", requireAuth, userRateLimiter, async (req, res) => {
     try {
       const { getNotificationStats } = await import('./utils/notificationStats');
       const stats = getNotificationStats();
