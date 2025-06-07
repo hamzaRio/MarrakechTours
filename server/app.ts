@@ -42,8 +42,8 @@ export async function createApp(): Promise<Express> {
     const reqPath = req.path;
     let captured: Record<string, any> | undefined;
 
-    const original = res.json.bind(res);
-    res.json = function(body, ...args) {
+    const original = res.json.bind(res) as (body?: any, ...args: any[]) => typeof res;
+    res.json = function (body?: any, ...args: any[]): typeof res {
       captured = body;
       return original(body, ...args);
     } as any;
