@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "name": "marrakech-tours-frontend",
+  "builds": [
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "client/dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "client/dist/index.html"
+    }
+  ],
+  "buildCommand": "cd client && npm run build",
+  "devCommand": "cd client && npm run dev",
+  "installCommand": "cd client && npm install",
+  "outputDirectory": "client/dist"
+}

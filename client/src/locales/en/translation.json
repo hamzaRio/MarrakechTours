@@ -1,0 +1,187 @@
+{
+  "navigation": {
+    "home": "Home",
+    "activities": "Activities",
+    "booking": "Book Now",
+    "about": "About Us",
+    "contact": "Contact"
+  },
+  "header": {
+    "tagline": "Experience the Magic of Morocco",
+    "subTagline": "Unforgettable tours and activities in and around Marrakech"
+  },
+  "booking": {
+    "title": "Book Your Experience",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "activity": "Select Activity",
+    "selectedActivity": "Selected Activity",
+    "chooseActivity": "Choose an activity",
+    "date": "Preferred Date",
+    "people": "Number of People",
+    "cashPaymentOnly": "Cash payment only",
+    "notesPlaceholder": "Any special requirements or questions?",
+    "notes": "Additional Notes",
+    "submit": "Book Now",
+    "confirmation": "Booking Confirmed!",
+    "received": "Booking Received",
+    "cancelled": "Booking Cancelled",
+    "pending": "Your booking details have been sent to our team via WhatsApp. You'll receive a confirmation message shortly.",
+    "confirmed": "Booking Confirmed!",
+    "cancelledMessage": "This booking has been cancelled. If you have any questions, please contact us.",
+    "fullName": "Full Name *",
+    "phoneNumber": "Phone Number *",
+    "preferredDate": "Preferred Date *",
+    "numberOfPeople": "Number of People *",
+    "additionalNotes": "Additional Notes",
+    "yourFullName": "Your full name",
+    "anyRequirements": "Any special requirements or questions?",
+    "selectPeople": "Select number of people",
+    "person": "person",
+    "people": "people",
+    "summary": "Booking Summary",
+    "availabilityFor": "Availability for {{date}}",
+    "paymentMethod": "Payment Method:",
+    "cashOnArrival": "Cash Payment on Arrival",
+    "cashOnly": "We accept cash payments only",
+    "totalPrice": "Total Price:",
+    "perPerson": "per person",
+    "confirmBooking": "Confirm Booking",
+    "processing": "Processing...",
+    "teamNotified": "Our team has been notified and will contact you soon via WhatsApp.",
+    "failed": "Booking Failed",
+    "tryAgain": "There was a problem processing your booking. Please try again.",
+    "onlyNSpotsLeft": "Only {{count}} spots left for this date. Please select fewer people or choose another date.",
+    "whatsAppConfirmation": "You will receive confirmation via WhatsApp from our team members (Nadia, Ahmed, and Yahia)"
+  },
+  "activities": {
+    "featured": "Featured Activities",
+    "subtitle": "Explore our most popular Moroccan experiences",
+    "all": "All Activities",
+    "price": "Price",
+    "duration": "Duration",
+    "hours": "hours",
+    "includes": "Includes",
+    "food": "Food",
+    "transportation": "Transportation",
+    "people": "people",
+    "max": "Max",
+    "loadError": "Unable to Load Activities",
+    "tryAgain": "We're having trouble loading our activities. Please refresh the page or try again later.",
+    "checkingAvailability": "Checking availability...",
+    "spotsAvailable": "Spots available",
+    "fullyBooked": "Fully booked",
+    "spotAvailable": "spot available",
+    "spotsAvailableCount": "{{count}} spots available",
+    "spotLeft": "Only {{count}} spot left!",
+    "spotsLeft": "Only {{count}} spots left!",
+    "full": "Full",
+    "capacity": {
+      "available": "Available",
+      "limited": "Limited Spots",
+      "unavailable": "Fully Booked",
+      "spotsLeft": "{{count}} spots left"
+    },
+    "bookNow": "Book Now",
+    "bookThisTour": "Book This Tour",
+    "details": "View Details",
+    "description": "Description",
+    "whatsIncluded": "What's Included",
+    "notFound": "Activity Not Found",
+    "notFoundMessage": "The activity you're looking for doesn't exist or has been removed.",
+    "fullDayTour": "Full day tour",
+    "smallGroups": "Small groups",
+    "max": "max",
+    "availableDaily": "Available daily",
+    "pickupIncluded": "Pickup included",
+    "person": "person",
+    "availabilityForToday": "Availability for today",
+    "agafay": {
+      "included": {
+        "tour": "Professional guided tour of the Agafay desert",
+        "tea": "Traditional Moroccan mint tea with local Berber family",
+        "camelRide": "Camel ride through the stunning stone desert",
+        "quadBiking": "Optional quad biking experience (additional fee)",
+        "dinner": "Authentic Berber dinner under the stars",
+        "transport": "Hotel pickup and drop-off in air-conditioned vehicle",
+        "water": "Bottled water throughout the tour"
+      }
+    },
+    "essaouira": {
+      "included": {
+        "tour": "Full-day guided tour of Essaouira",
+        "medina": "Explore the historic port and UNESCO World Heritage medina",
+        "market": "Visit to the vibrant fish market and Skala du Port",
+        "freeTime": "Free time to wander through the charming blue and white streets",
+        "lunch": "Optional seafood lunch at a local restaurant (additional fee)",
+        "transport": "Hotel pickup and drop-off in air-conditioned vehicle",
+        "guide": "Professional guide and bottled water throughout the tour"
+      }
+    },
+    "balloon": {
+      "included": {
+        "flight": "Sunrise hot air balloon flight over Marrakech",
+        "views": "Spectacular aerial views of the Atlas Mountains and desert landscape",
+        "breakfast": "Traditional Berber breakfast after landing",
+        "certificate": "Commemorative flight certificate",
+        "transport": "Round-trip transportation from your hotel in Marrakech",
+        "pilot": "Professional, experienced pilot and ground crew",
+        "safety": "Safety briefing and equipment"
+      }
+    },
+    "ouzoud": {
+      "included": {
+        "tour": "Full-day guided tour to the magnificent Ouzoud Waterfalls",
+        "monkeys": "Opportunity to spot wild Barbary macaque monkeys",
+        "boat": "Boat ride at the base of the falls (optional, additional fee)",
+        "hiking": "Scenic hiking experience with breathtaking viewpoints",
+        "lunch": "Traditional Berber lunch option at a local restaurant (additional fee)",
+        "transport": "Hotel pickup and drop-off in air-conditioned vehicle",
+        "guide": "Professional guide and bottled water throughout the tour"
+      }
+    },
+    "ourika": {
+      "included": {
+        "tour": "Full-day guided tour of the beautiful Ourika Valley",
+        "villages": "Visit to traditional Berber villages with local crafts and cultural insights",
+        "walk": "Guided walk to refreshing mountain streams and small waterfalls",
+        "home": "Opportunity to visit a traditional Berber home and learn about local life",
+        "garden": "Optional aromatic garden visit with herbs and spices (seasonal)",
+        "transport": "Hotel pickup and drop-off in air-conditioned vehicle",
+        "guide": "Professional guide and bottled water throughout the tour"
+      }
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "address": "123 Majorelle Gardens, Marrakech, Morocco",
+    "contact": "Contact Us",
+    "quickLinks": "Quick Links",
+    "photoGallery": "Photo Gallery"
+  },
+  "admin": {
+    "login": "Admin Login",
+    "dashboard": "Dashboard",
+    "activities": "Activities",
+    "bookings": "Bookings",
+    "logout": "Logout",
+    "backToSite": "Back to Site",
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "language": {
+    "english": "English",
+    "french": "French",
+    "arabic": "Arabic",
+    "languages": "Languages",
+    "switchLanguage": "Switch Language"
+  },
+  "hero": {
+    "title": "Discover the Magic of Morocco",
+    "subtitle": "Authentic desert experiences and tours from Marrakech at affordable prices",
+    "bookButton": "Book Your Adventure"
+  }
+}
