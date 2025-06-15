@@ -100,6 +100,7 @@ VITE_API_URL=https://your-backend-url.render.com
 - `npm run dev` - Start development server
 - `npm run build` - Build both client and server
 - `npm start` - Start production server
+- `npm test` - Run Vitest tests
 
 **Client:**
 - `npm run dev` - Start Vite dev server
@@ -119,6 +120,7 @@ VITE_API_URL=https://your-backend-url.render.com
 - **`/attached_assets`** - Static images and tour photos
 - **`vercel.json`** - Frontend deployment configuration
 - **`render.yaml`** - Backend deployment configuration
+- **`server/docs/openapi.yaml`** - OpenAPI specification for backend routes
 
 ## ✅ Ready for GitHub & Deployment
 

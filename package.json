@@ -10,7 +10,7 @@
     "check": "tsc",
     "lint": "npm --prefix client run lint",
     "db:push": "drizzle-kit push",
-    "test": "vitest"
+    "test": "vitest run"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
