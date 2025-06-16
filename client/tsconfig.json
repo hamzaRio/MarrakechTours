@@ -14,7 +14,7 @@
     "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo",
     "jsx": "preserve",
     "baseUrl": ".",
-    "types": ["vite", "node"],
+    "types": ["node"],
     "paths": {
       "@/*": ["src/*"],
       "@shared/*": ["../shared/*"]
