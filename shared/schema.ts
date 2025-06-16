@@ -1,99 +1,79 @@
-import { pgTable, text, serial, integer, boolean, timestamp, json } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod";
+import { z } from 'zod';
 
-// Define activities table
-export const activities = pgTable("activities", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  description: text("description").notNull(),
-  price: integer("price").notNull(), // Price in MAD
-  image: text("image").notNull(),
-  featured: boolean("featured").default(true),
-  available: boolean("available").default(true), // Whether the activity is available for booking
-  getYourGuidePrice: integer("get_your_guide_price"), // Optional reference price
-  durationHours: integer("duration_hours"),
-  includesFood: boolean("includes_food").default(false),
-  includesTransportation: boolean("includes_transportation").default(false),
-  maxGroupSize: integer("max_group_size"),
-  priceType: text("price_type").default("per_person"), // 'fixed' or 'per_person'
-  createdBy: text("created_by"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
+// Basic activity interface used across the app
+export interface Activity {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+  featured?: boolean | null;
+  available?: boolean | null;
+  getYourGuidePrice?: number | null;
+  durationHours?: number | null;
+  includesFood?: boolean | null;
+  includesTransportation?: boolean | null;
+  maxGroupSize?: number | null;
+  priceType?: 'fixed' | 'per_person' | null;
+  createdBy?: string | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 
-export const insertActivitySchema = createInsertSchema(activities).omit({ 
-  id: true,
-  createdAt: true,
-  updatedAt: true
-});
+// Type for creating a new activity
+export type InsertActivity = Omit<Activity, 'id' | 'createdAt' | 'updatedAt'>;
 
-// Define bookings table
-export const bookings = pgTable("bookings", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  phone: text("phone").notNull(),
-  activityId: integer("activity_id").notNull(),
-  date: text("date").notNull(),
-  people: integer("people").notNull(),
-  notes: text("notes"),
-  status: text("status").default("pending"), // pending, confirmed, cancelled
-  crmReference: text("crm_reference"), // Reference ID in the CRM system
-  createdAt: timestamp("created_at").defaultNow(),
-});
+// Booking interfaces
+export interface Booking {
+  id: number;
+  name: string;
+  phone: string;
+  activityId: number;
+  date: string;
+  people: number;
+  notes?: string | null;
+  status?: string;
+  crmReference?: string | null;
+  createdAt?: Date;
+}
 
-export const insertBookingSchema = createInsertSchema(bookings).omit({ 
-  id: true, 
-  createdAt: true
-});
+export type InsertBooking = Omit<Booking, 'id' | 'createdAt'>;
 
-// Define users table (for admin authentication)
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
-  role: text("role").notNull(), // admin or superadmin
-  createdAt: timestamp("created_at").defaultNow(),
-  lastLogin: timestamp("last_login"),
-});
+// User interfaces
+export interface User {
+  id: number;
+  username: string;
+  password: string;
+  role: string;
+  createdAt: Date | null;
+  lastLogin?: Date | null;
+}
 
-export const insertUserSchema = createInsertSchema(users).omit({ 
-  id: true, 
-  createdAt: true,
-  lastLogin: true
-});
+export type InsertUser = Omit<User, 'id' | 'createdAt' | 'lastLogin'>;
 
-// Define an audit log for admin actions
-export const auditLogs = pgTable("audit_logs", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
-  action: text("action").notNull(), // CREATE, UPDATE, DELETE, LOGIN
-  entityType: text("entity_type"), // activity, booking, user
-  entityId: integer("entity_id"),
-  details: json("details"), // Stores the details of what was changed
-  createdAt: timestamp("created_at").defaultNow(),
-});
+// Audit log interfaces
+export interface AuditLog {
+  id: number;
+  userId: number;
+  action: string;
+  entityType?: string | null;
+  entityId?: number | null;
+  details?: unknown;
+  createdAt?: Date;
+}
 
-export const insertAuditLogSchema = createInsertSchema(auditLogs).omit({ 
-  id: true, 
-  createdAt: true 
-});
-
-// Type definitions
-export type Activity = typeof activities.$inferSelect;
-export type InsertActivity = z.infer<typeof insertActivitySchema>;
-
-export type Booking = typeof bookings.$inferSelect;
-export type InsertBooking = z.infer<typeof insertBookingSchema>;
-
-export type User = typeof users.$inferSelect;
-export type InsertUser = z.infer<typeof insertUserSchema>;
-
-export type AuditLog = typeof auditLogs.$inferSelect;
-export type InsertAuditLog = z.infer<typeof insertAuditLogSchema>;
+export type InsertAuditLog = Omit<AuditLog, 'id' | 'createdAt'>;
 
 // Extended types used on the frontend
-export type ActivityWithImageUrl = Activity & { imageUrl?: string };
+export interface ActivityWithImageUrl {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+  maxGroupSize?: number;
+  imageUrl?: string;
+}
 
 export type ExtendedActivity = ActivityWithImageUrl;
 
@@ -112,33 +92,46 @@ export const activitySchema = z.object({
 
 export type ActivityFormData = z.infer<typeof activitySchema>;
 
-// Extended schemas for validation
+// Schemas for booking forms
+export const insertActivitySchema = activitySchema.omit({});
+
+export const insertBookingSchema = z.object({
+  name: z.string().min(1),
+  phone: z.string().min(1),
+  activityId: z.coerce.number(),
+  date: z.string().min(1),
+  people: z.coerce.number().int().positive(),
+  notes: z.string().optional(),
+  status: z.string().optional(),
+  crmReference: z.string().optional(),
+});
+
 export const bookingFormSchema = insertBookingSchema.extend({
-  activity: z.string().min(1, "Please select an activity"),
+  activity: z.string().min(1, 'Please select an activity'),
 });
 
 export type BookingFormData = z.infer<typeof bookingFormSchema>;
 
 // Login schema
 export const loginSchema = z.object({
-  username: z.string().min(1, "Username is required"),
-  password: z.string().min(1, "Password is required"),
+  username: z.string().min(1, 'Username is required'),
+  password: z.string().min(1, 'Password is required'),
 });
 
 export type LoginData = z.infer<typeof loginSchema>;
 
 // Availability types
 export enum AvailabilityStatus {
-  AVAILABLE = "available",
-  LIMITED = "limited",
-  UNAVAILABLE = "unavailable"
+  AVAILABLE = 'available',
+  LIMITED = 'limited',
+  UNAVAILABLE = 'unavailable',
 }
 
 export interface ActivityAvailability {
-  date: string;  // ISO format date string (YYYY-MM-DD)
+  date: string; // ISO format date string (YYYY-MM-DD)
   activityId: number;
   status: AvailabilityStatus;
-  spotsRemaining?: number;  // Optional field to show how many spots are left
+  spotsRemaining?: number; // Optional field to show how many spots are left
 }
 
 export interface DateAvailability {
