@@ -14,12 +14,12 @@
     "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo",
     "jsx": "preserve",
     "baseUrl": ".",
-    "types": ["vite/client", "node"],
+    "types": ["vite", "node"],
     "paths": {
       "@/*": ["src/*"],
       "@shared/*": ["../shared/*"]
     }
   },
-  "include": ["src", "../shared", "../server"],
+  "include": ["src", "src/vite-env.d.ts", "../shared", "../server"],
   "exclude": ["node_modules", "build", "dist", "**/*.test.ts"]
 }
