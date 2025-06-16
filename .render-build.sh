@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
+set -o errexit
 
-# Install dependencies for both client and server
+# Ensure both environments get all deps
 npm --prefix client install
-npm --prefix server install
+npm --prefix server install --include=dev
 
-# Build frontend and backend
-npm --prefix client run build
-npm --prefix server run build
+npm run build
