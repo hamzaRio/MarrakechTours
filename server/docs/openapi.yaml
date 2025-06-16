@@ -1,0 +1,479 @@
+openapi: 3.0.0
+info:
+  title: MarrakechTours API
+  version: 1.0.0
+  description: API documentation for MarrakechTours backend
+servers:
+  - url: http://localhost:5000
+paths:
+  /api/health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+  /api/login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                rememberMe:
+                  type: boolean
+      responses:
+        '200':
+          description: Login successful
+        '401':
+          description: Invalid credentials
+  /api/logout:
+    post:
+      summary: Logout
+      responses:
+        '200':
+          description: Logged out
+  /api/me:
+    get:
+      summary: Current user
+      responses:
+        '200':
+          description: Current user info
+        '401':
+          description: Not authenticated
+  /api/mongo/status:
+    get:
+      summary: MongoDB status
+      responses:
+        '200':
+          description: Connected
+        '503':
+          description: Not connected
+  /api/mongo/bookings:
+    post:
+      summary: Create booking (MongoDB)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+      responses:
+        '201':
+          description: Created
+    get:
+      summary: List bookings (MongoDB)
+      responses:
+        '200':
+          description: List of bookings
+  /api/mongo/bookings/{id}:
+    get:
+      summary: Get booking by id (MongoDB)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Booking info
+    put:
+      summary: Update booking (MongoDB)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+      responses:
+        '200':
+          description: Updated booking
+    delete:
+      summary: Delete booking (MongoDB)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deleted
+  /api/mongo/activities:
+    get:
+      summary: List activities (MongoDB)
+      responses:
+        '200':
+          description: Activity list
+    post:
+      summary: Create activity (MongoDB)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        '201':
+          description: Created
+  /api/mongo/activities/{id}:
+    get:
+      summary: Get activity by id (MongoDB)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Activity info
+    patch:
+      summary: Update activity (MongoDB)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        '200':
+          description: Updated activity
+    delete:
+      summary: Delete activity (MongoDB)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deleted
+  /api/mongo/activities/analytics:
+    get:
+      summary: Activity analytics (MongoDB)
+      responses:
+        '200':
+          description: Analytics data
+  /api/crm/status:
+    get:
+      summary: CRM status
+      responses:
+        '200':
+          description: Status info
+  /api/crm/test:
+    post:
+      summary: Test CRM connection
+      responses:
+        '200':
+          description: Test result
+  /api/activities:
+    get:
+      summary: List activities
+      responses:
+        '200':
+          description: Activity list
+    post:
+      summary: Create activity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        '201':
+          description: Created
+  /api/activities/{id}:
+    get:
+      summary: Get activity by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Activity info
+    patch:
+      summary: Update activity
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        '200':
+          description: Updated
+    delete:
+      summary: Delete activity
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Deleted
+  /api/bookings:
+    get:
+      summary: List bookings
+      responses:
+        '200':
+          description: Booking list
+    post:
+      summary: Create booking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+      responses:
+        '201':
+          description: Created
+  /api/bookings/{id}:
+    get:
+      summary: Get booking by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Booking info
+    patch:
+      summary: Update booking
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+      responses:
+        '200':
+          description: Updated
+    delete:
+      summary: Delete booking
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Deleted
+  /api/bookings/{id}/sync-crm:
+    post:
+      summary: Sync booking with CRM
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sync result
+  /api/bookings/{id}/resend-whatsapp:
+    post:
+      summary: Resend WhatsApp notification
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Notification result
+  /api/bookings/{id}/status:
+    patch:
+      summary: Update booking status
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+      responses:
+        '200':
+          description: Status updated
+  /api/admin/audit-logs:
+    get:
+      summary: Get audit logs
+      responses:
+        '200':
+          description: List of logs
+  /api/admin/users:
+    get:
+      summary: Get users
+      responses:
+        '200':
+          description: User list
+  /api/admin/notification-stats:
+    get:
+      summary: Notification stats
+      responses:
+        '200':
+          description: Stats data
+  /api/availability/date/{date}:
+    get:
+      summary: Date availability
+      parameters:
+        - in: path
+          name: date
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Availability for date
+  /api/availability/activity/{id}/{monthYear}:
+    get:
+      summary: Activity availability
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: monthYear
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Availability info
+  /api/capacity/activity/{activityId}/{date}:
+    get:
+      summary: Activity capacity
+      parameters:
+        - in: path
+          name: activityId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: date
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Capacity info
+  /api/capacity/date/{date}:
+    get:
+      summary: Date capacity for all activities
+      parameters:
+        - in: path
+          name: date
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Capacity list
+components:
+  schemas:
+    Booking:
+      type: object
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        activityId:
+          type: integer
+        date:
+          type: string
+        people:
+          type: integer
+        notes:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        crmReference:
+          type: string
+          nullable: true
+    Activity:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+        image:
+          type: string
+        durationHours:
+          type: integer
+        includesFood:
+          type: boolean
+        includesTransportation:
+          type: boolean
+        maxGroupSize:
+          type: integer
+        priceType:
+          type: string
