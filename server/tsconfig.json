@@ -1,0 +1,29 @@
+{
+  "include": ["**/*", "../shared/**/*"],
+  "exclude": ["node_modules", "build", "dist", "**/*.test.ts", "**/*.test.tsx"],
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
+    "noEmit": true,
+    "target": "ES2020",
+    "module": "ESNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true, // ✅ Add this
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "Node",
+    "baseUrl": ".",
+    "types": [
+      "node",
+      "express",
+      "cors",
+      "passport",
+      "passport-local",
+      "express-session"
+    ],
+    "paths": {
+      "@shared/*": ["../shared/*"]
+    }
+  }
+}
