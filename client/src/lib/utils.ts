@@ -65,3 +65,8 @@ export const contactInfo = {
   phone: "+212 600 623 630",
   address: "54 Riad Zitoun Lakdim, Marrakech 40000, Morocco"
 }
+
+export function constructWhatsAppUrl(phone: string, message: string) {
+  const encoded = encodeURIComponent(message)
+  return `https://wa.me/${phone}?text=${encoded}`
+}

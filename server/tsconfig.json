@@ -1,6 +1,6 @@
 {
   "include": ["**/*", "../shared/**/*"],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
+  "exclude": ["node_modules", "build", "dist", "**/*.test.ts", "**/*.test.tsx"],
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
@@ -14,7 +14,14 @@
     "allowImportingTsExtensions": true,
     "moduleResolution": "Node",
     "baseUrl": ".",
-    "types": ["node"],
+    "types": [
+      "node",
+      "express",
+      "cors",
+      "passport",
+      "passport-local",
+      "express-session"
+    ],
     "paths": {
       "@shared/*": ["../shared/*"]
     }

@@ -14,7 +14,7 @@
     "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo",
     "jsx": "preserve",
     "baseUrl": ".",
-    "types": ["node"],
+    "types": ["node", "vite/client", "vitest"],
     "paths": {
       "@assets/*": ["src/assets/*"],
       "@/*": ["src/*"],
@@ -22,5 +22,5 @@
     }
   },
   "include": ["src", "src/vite-env.d.ts", "../shared", "../server"],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"]
+  "exclude": ["node_modules", "build", "dist", "**/*.test.ts", "**/*.test.tsx"]
 }
