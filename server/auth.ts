@@ -153,75 +153,116 @@ export function setupAuth(app: Express) {
     }
   });
 
-  app.post("/api/login", (req, res, next) => {
-    const { rememberMe } = req.body;
-    passport.authenticate(
-      "local",
-      (err: any, user: Express.User | false, info: any) => {
-        if (err) return next(err);
-        if (!user)
-          return res
-            .status(401)
-            .json({ success: false, message: info?.message || "Login failed" });
+  app.post(
+    "/api/login",
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        const { rememberMe } = req.body;
+        passport.authenticate(
+          "local",
+          (err: any, user: Express.User | false, info: any) => {
+            if (err) {
+              next(err);
+              return;
+            }
+            if (!user) {
+              res
+                .status(401)
+                .json({
+                  success: false,
+                  message: info?.message || "Login failed",
+                });
+              return;
+            }
 
-        req.login(user, async (err) => {
-          if (err) return next(err);
-          const token = generateToken(user, rememberMe);
-          await storage.updateUser(user.id, { lastLogin: new Date() } as any);
-          storage.createAuditLog({
-            userId: user.id,
-            action: "LOGIN",
-            entityType: "user",
-            entityId: user.id,
-            details: { username: user.username, rememberMe, usingJwt: true },
-          });
+            req.login(user, async (err) => {
+              if (err) {
+                next(err);
+                return;
+              }
+              const token = generateToken(user, rememberMe);
+              await storage.updateUser(user.id, { lastLogin: new Date() } as any);
+              storage.createAuditLog({
+                userId: user.id,
+                action: "LOGIN",
+                entityType: "user",
+                entityId: user.id,
+                details: { username: user.username, rememberMe, usingJwt: true },
+              });
 
-          res.status(200).json({
-            success: true,
-            token,
-            expiresIn: rememberMe ? JWT_REMEMBER_ME_EXPIRY : JWT_EXPIRY,
-            user,
-          });
+              res.status(200).json({
+                success: true,
+                token,
+                expiresIn: rememberMe ? JWT_REMEMBER_ME_EXPIRY : JWT_EXPIRY,
+                user,
+              });
+              return;
+            });
+          },
+        )(req, res, next);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send("Server error");
+      }
+    },
+  );
+
+  app.get("/api/me", async (req: Request, res: Response): Promise<void> => {
+    try {
+      const token = extractToken(req);
+      const decoded = token ? verifyToken(token) : null;
+
+      if (decoded) {
+        res.json({ success: true, user: decoded, tokenValid: true });
+        return;
+      }
+
+      if (req.isAuthenticated()) {
+        res.json({ success: true, user: req.user });
+        return;
+      }
+
+      res.status(401).json({ success: false, message: "Not authenticated" });
+      return;
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Server error");
+    }
+  });
+
+  app.post("/api/logout", async (req: Request, res: Response): Promise<void> => {
+    try {
+      const token = extractToken(req);
+      if (token) blacklistToken(token);
+
+      if (req.user) {
+        await storage.createAuditLog({
+          userId: (req.user as any).id,
+          action: "LOGOUT",
+          entityType: "user",
+          entityId: (req.user as any).id,
+          details: { username: (req.user as any).username, usingJwt: !!token },
         });
       }
-    )(req, res, next);
-  });
 
-  app.get("/api/me", (req, res) => {
-    const token = extractToken(req);
-    const decoded = token ? verifyToken(token) : null;
-    if (decoded) {
-      return res.json({ success: true, user: decoded, tokenValid: true });
-    }
-    if (req.isAuthenticated()) {
-      return res.json({ success: true, user: req.user });
-    }
-    res.status(401).json({ success: false, message: "Not authenticated" });
-  });
+      req.logout((err) => {
+        if (err) {
+          console.error(err);
+          res.status(500).json({ success: false, message: "Logout failed" });
+          return;
+        }
 
-  app.post("/api/logout", (req, res) => {
-    const token = extractToken(req);
-    if (token) blacklistToken(token);
-    if (req.user) {
-      storage.createAuditLog({
-        userId: (req.user as any).id,
-        action: "LOGOUT",
-        entityType: "user",
-        entityId: (req.user as any).id,
-        details: { username: (req.user as any).username, usingJwt: !!token },
+        res.json({
+          success: true,
+          message: "Logged out",
+          tokenInvalidated: !!token,
+        });
+        return;
       });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Server error");
     }
-    req.logout((err) => {
-      if (err)
-        return res
-          .status(500)
-          .json({ success: false, message: "Logout failed" });
-      res.json({
-        success: true,
-        message: "Logged out",
-        tokenInvalidated: !!token,
-      });
-    });
   });
 }
 

@@ -79,14 +79,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Add MongoDB status endpoint
       app.get("/api/mongo/status", (req, res) => {
-        res.status(200).json({ connected: true });
+        try {
+          res.status(200).json({ connected: true });
+        } catch (error) {
+          console.error(error);
+          res.status(500).send("Server error");
+        }
       });
     } else {
       console.log("MongoDB routes not registered - database not connected");
 
       // Add MongoDB status endpoint (not connected)
       app.get("/api/mongo/status", (req, res) => {
-        res.status(503).json({ connected: false });
+        try {
+          res.status(503).json({ connected: false });
+        } catch (error) {
+          console.error(error);
+          res.status(500).send("Server error");
+        }
       });
     }
   } catch (error) {
@@ -94,26 +104,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     // Add MongoDB status endpoint (error)
     app.get("/api/mongo/status", (req, res) => {
-      res.status(500).json({ connected: false, error: String(error) });
+      try {
+        res.status(500).json({ connected: false, error: String(error) });
+      } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+      }
     });
   }
 
   // CRM integration routes
-  app.get("/api/crm/status", userRateLimiter, (req, res) => {
-    const { getCrmStatus } = require("./utils/crmStatus");
-    res.json(getCrmStatus());
-  });
+  app.get(
+    "/api/crm/status",
+    userRateLimiter,
+    async (req: Request, res: Response): Promise<void> => {
+      try {
+        const { getCrmStatus } = require("./utils/crmStatus");
+        res.json(getCrmStatus());
+        return;
+      } catch (error) {
+        console.error(error);
+        res.status(500).send("Server error");
+      }
+    },
+  );
 
   app.post(
     "/api/crm/test",
     requireAuth,
     requireAdmin,
     userRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const { testCrmConnection } = require("./utils/crmStatus");
         const result = await testCrmConnection();
         res.json(result);
+        return;
       } catch (error) {
         res.status(500).json({
           success: false,
@@ -131,35 +157,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication is handled in auth.ts
 
   // Activities routes
-  app.get("/api/activities", userRateLimiter, async (req, res) => {
-    try {
-      const activities = await storage.getAllActivities();
-      res.json(activities);
-    } catch (error) {
-      res.status(500).json({ message: "Failed to fetch activities" });
-    }
-  });
-
-  app.get("/api/activities/:id", userRateLimiter, async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const activity = await storage.getActivity(id);
-
-      if (!activity) {
-        return res.status(404).json({ message: "Activity not found" });
+  app.get(
+    "/api/activities",
+    userRateLimiter,
+    async (req: Request, res: Response): Promise<void> => {
+      try {
+        const activities = await storage.getAllActivities();
+        res.json(activities);
+        return;
+      } catch (error) {
+        res.status(500).json({ message: "Failed to fetch activities" });
+        return;
       }
+    },
+  );
 
-      res.json(activity);
-    } catch (error) {
-      res.status(500).json({ message: "Failed to fetch activity" });
-    }
-  });
+  app.get(
+    "/api/activities/:id",
+    userRateLimiter,
+    async (req: Request, res: Response): Promise<void> => {
+      try {
+        const id = parseInt(req.params.id);
+        const activity = await storage.getActivity(id);
+
+        if (!activity) {
+          res.status(404).json({ message: "Activity not found" });
+          return;
+        }
+
+        res.json(activity);
+        return;
+      } catch (error) {
+        res.status(500).json({ message: "Failed to fetch activity" });
+        return;
+      }
+    },
+  );
 
   app.post(
     "/api/activities",
     requireAuth,
     userRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const validatedData = insertActivitySchema.parse(req.body);
         const activity = await storage.createActivity(validatedData);
@@ -176,11 +215,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
 
         res.status(201).json(activity);
+        return;
       } catch (error) {
         if (error instanceof z.ZodError) {
-          return res.status(400).json({ message: error.errors });
+          res.status(400).json({ message: error.errors });
+          return;
         }
         res.status(500).json({ message: "Failed to create activity" });
+        return;
       }
     },
   );
@@ -189,13 +231,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     "/api/activities/:id",
     requireAuth,
     userRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const id = parseInt(req.params.id);
         const oldActivity = await storage.getActivity(id);
 
         if (!oldActivity) {
-          return res.status(404).json({ message: "Activity not found" });
+          res.status(404).json({ message: "Activity not found" });
+          return;
         }
 
         const validatedData = insertActivitySchema.partial().parse(req.body);
@@ -216,11 +259,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
 
         res.json(updatedActivity);
+        return;
       } catch (error) {
         if (error instanceof z.ZodError) {
-          return res.status(400).json({ message: error.errors });
+          res.status(400).json({ message: error.errors });
+          return;
         }
         res.status(500).json({ message: "Failed to update activity" });
+        return;
       }
     },
   );
@@ -229,13 +275,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     "/api/activities/:id",
     requireAuth,
     userRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const id = parseInt(req.params.id);
         const activity = await storage.getActivity(id);
 
         if (!activity) {
-          return res.status(404).json({ message: "Activity not found" });
+          res.status(404).json({ message: "Activity not found" });
+          return;
         }
 
         const success = await storage.deleteActivity(id);
@@ -252,38 +299,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
 
         res.json({ success });
+        return;
       } catch (error) {
         res.status(500).json({ message: "Failed to delete activity" });
+        return;
       }
     },
   );
 
   // Booking routes
-  app.get("/api/bookings", requireAuth, userRateLimiter, async (req, res) => {
-    try {
-      const bookings = await storage.getAllBookings();
-      res.json(bookings);
-    } catch (error) {
-      res.status(500).json({ message: "Failed to fetch bookings" });
-    }
-  });
+  app.get(
+    "/api/bookings",
+    requireAuth,
+    userRateLimiter,
+    async (req: Request, res: Response): Promise<void> => {
+      try {
+        const bookings = await storage.getAllBookings();
+        res.json(bookings);
+        return;
+      } catch (error) {
+        res.status(500).json({ message: "Failed to fetch bookings" });
+        return;
+      }
+    },
+  );
 
   app.get(
     "/api/bookings/:id",
     requireAuth,
     userRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const id = parseInt(req.params.id);
         const booking = await storage.getBooking(id);
 
         if (!booking) {
-          return res.status(404).json({ message: "Booking not found" });
+          res.status(404).json({ message: "Booking not found" });
+          return;
         }
 
         res.json(booking);
+        return;
       } catch (error) {
         res.status(500).json({ message: "Failed to fetch booking" });
+        return;
       }
     },
   );
@@ -293,13 +352,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     "/api/bookings/:id/sync-crm",
     requireAuth,
     userRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const bookingId = parseInt(req.params.id);
         const booking = await storage.getBooking(bookingId);
 
         if (!booking) {
-          return res.status(404).json({ message: "Booking not found" });
+          res.status(404).json({ message: "Booking not found" });
+          return;
         }
 
         // Get activity name for the booking
@@ -332,18 +392,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
               },
             });
 
-            return res.json({
+            res.json({
               success: true,
               message: crmResult.message,
               booking: updatedBooking || booking,
             });
+            return;
           }
         }
 
-        return res.json({
+        res.json({
           success: crmResult.success,
           message: crmResult.message || "Unknown error during CRM sync",
         });
+        return;
       } catch (error) {
         console.error("Error syncing booking with CRM:", error);
         res.status(500).json({
@@ -353,6 +415,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               ? error.message
               : "Failed to sync booking with CRM",
         });
+        return;
       }
     },
   );
@@ -362,13 +425,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     "/api/bookings/:id/resend-whatsapp",
     requireAuth,
     userRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const bookingId = parseInt(req.params.id);
         const booking = await storage.getBooking(bookingId);
 
         if (!booking) {
-          return res.status(404).json({ message: "Booking not found" });
+          res.status(404).json({ message: "Booking not found" });
+          return;
         }
 
         // Get activity name for the booking
@@ -415,30 +479,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
             });
           }
 
-          return res.status(200).json({
+          res.status(200).json({
             message: "WhatsApp notification resent",
             success: result.success,
             results: result.results,
           });
+          return;
         } catch (err) {
           log(`Failed to resend WhatsApp notification: ${err}`, "express");
-          return res.status(500).json({
+          res.status(500).json({
             message: "Failed to resend WhatsApp notification",
             error: err instanceof Error ? err.message : String(err),
           });
+          return;
         }
       } catch (error) {
         res.status(500).json({
           message: "Failed to process booking resend request",
           error: error instanceof Error ? error.message : String(error),
         });
+        return;
       }
     },
   );
 
-  app.post("/api/bookings", userRateLimiter, async (req, res) => {
-    try {
-      const validatedData = insertBookingSchema.parse(req.body);
+  app.post(
+    "/api/bookings",
+    userRateLimiter,
+    async (req: Request, res: Response): Promise<void> => {
+      try {
+        const validatedData = insertBookingSchema.parse(req.body);
 
       // Check if there's enough capacity for this booking
       const { checkActivityCapacity } = await import("./utils/capacityManager");
@@ -451,11 +521,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // If there isn't enough capacity, return an error
       if (!capacityCheck.hasCapacity) {
-        return res.status(400).json({
+        res.status(400).json({
           message: "Not enough capacity for this booking",
           details: capacityCheck.message,
           remainingSpots: capacityCheck.remainingSpots || 0,
         });
+        return;
       }
 
       let booking = await storage.createBooking(validatedData);
@@ -525,20 +596,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       res.status(201).json(booking);
+      return;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: error.errors });
+        res.status(400).json({ message: error.errors });
+        return;
       }
       res.status(500).json({ message: "Failed to create booking" });
+      return;
     }
-  });
+    },
+  );
 
   // Update booking status specifically
   app.patch(
     "/api/bookings/:id/status",
     requireAuth,
     userRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const id = parseInt(req.params.id);
         const { status } = req.body;
@@ -548,16 +623,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
           !status ||
           !["pending", "confirmed", "cancelled"].includes(status)
         ) {
-          return res.status(400).json({
+          res.status(400).json({
             message:
               "Invalid status value. Must be one of: pending, confirmed, cancelled",
           });
+          return;
         }
 
         const oldBooking = await storage.getBooking(id);
 
         if (!oldBooking) {
-          return res.status(404).json({ message: "Booking not found" });
+          res.status(404).json({ message: "Booking not found" });
+          return;
         }
 
         // Only update the status field
@@ -582,9 +659,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           message: `Booking status updated to ${status}`,
           booking: updatedBooking,
         });
+        return;
       } catch (error) {
         console.error("Error updating booking status:", error);
         res.status(500).json({ message: "Failed to update booking status" });
+        return;
       }
     },
   );
@@ -593,13 +672,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     "/api/bookings/:id",
     requireAuth,
     userRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const id = parseInt(req.params.id);
         const oldBooking = await storage.getBooking(id);
 
         if (!oldBooking) {
-          return res.status(404).json({ message: "Booking not found" });
+          res.status(404).json({ message: "Booking not found" });
+          return;
         }
 
         const validatedData = insertBookingSchema.partial().parse(req.body);
@@ -620,11 +700,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
 
         res.json(updatedBooking);
+        return;
       } catch (error) {
         if (error instanceof z.ZodError) {
-          return res.status(400).json({ message: error.errors });
+          res.status(400).json({ message: error.errors });
+          return;
         }
         res.status(500).json({ message: "Failed to update booking" });
+        return;
       }
     },
   );
@@ -633,13 +716,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     "/api/bookings/:id",
     requireAuth,
     userRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const id = parseInt(req.params.id);
         const booking = await storage.getBooking(id);
 
         if (!booking) {
-          return res.status(404).json({ message: "Booking not found" });
+          res.status(404).json({ message: "Booking not found" });
+          return;
         }
 
         const success = await storage.deleteBooking(id);
@@ -656,8 +740,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
 
         res.json({ success });
+        return;
       } catch (error) {
         res.status(500).json({ message: "Failed to delete booking" });
+        return;
       }
     },
   );
@@ -680,26 +766,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     requireSuperAdmin,
     adminRateLimiter,
     auditLogsRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const logs = await storage.getAuditLogs();
         res.json(logs);
+        return;
       } catch (error) {
         res.status(500).json({ message: "Failed to fetch audit logs" });
+        return;
       }
     },
   );
 
   // Current user route
-  app.get("/api/me", requireAuth, userRateLimiter, async (req, res) => {
-    try {
-      if (!req.user?.id) {
-        return res.status(401).json({ message: "Not authenticated" });
-      }
+  app.get(
+    "/api/me",
+    requireAuth,
+    userRateLimiter,
+    async (req: Request, res: Response): Promise<void> => {
+      try {
+        if (!req.user?.id) {
+          res.status(401).json({ message: "Not authenticated" });
+          return;
+        }
 
       const user = await storage.getUser(req.user.id);
       if (!user) {
-        return res.status(404).json({ message: "User not found" });
+        res.status(404).json({ message: "User not found" });
+        return;
       }
 
       res.json({
@@ -707,10 +801,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         username: user.username,
         role: user.role,
       });
+      return;
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch user" });
+      return;
     }
-  });
+    },
+  );
 
   // Get all users (only for superadmin)
   app.get(
@@ -718,7 +815,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     requireAuth,
     requireSuperAdmin,
     adminRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         // Get all users from storage - this would be implemented in a real storage solution
         // For memory storage, we need to get all users from the map
@@ -730,22 +827,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }));
 
         res.json(users);
+        return;
       } catch (error) {
         res.status(500).json({ message: "Failed to fetch users" });
+        return;
       }
     },
   );
 
   // Availability routes
-  app.get("/api/availability/date/:date", userRateLimiter, async (req, res) => {
-    try {
-      const date = req.params.date;
-      const availability = await storage.getAvailabilityForDate(date);
-      res.json(availability);
-    } catch (error) {
-      res.status(500).json({ message: "Failed to fetch availability" });
-    }
-  });
+  app.get(
+    "/api/availability/date/:date",
+    userRateLimiter,
+    async (req: Request, res: Response): Promise<void> => {
+      try {
+        const date = req.params.date;
+        const availability = await storage.getAvailabilityForDate(date);
+        res.json(availability);
+        return;
+      } catch (error) {
+        res.status(500).json({ message: "Failed to fetch availability" });
+        return;
+      }
+    },
+  );
 
   // WhatsApp notification stats endpoint (admin only)
   app.get(
@@ -753,18 +858,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     requireAuth,
     requireAdmin,
     adminRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const { getNotificationStats } = await import(
           "./utils/notificationStats"
         );
         const stats = getNotificationStats();
         res.json(stats);
+        return;
       } catch (error) {
         res.status(500).json({
           message: "Failed to fetch notification stats",
           error: error instanceof Error ? error.message : String(error),
         });
+        return;
       }
     },
   );
@@ -772,7 +879,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get(
     "/api/availability/activity/:id/:monthYear",
     userRateLimiter,
-    async (req, res) => {
+    async (req: Request, res: Response): Promise<void> => {
       try {
         const activityId = parseInt(req.params.id);
         const monthYear = req.params.monthYear;
@@ -781,10 +888,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           monthYear,
         );
         res.json(availability);
+        return;
       } catch (error) {
         res
           .status(500)
           .json({ message: "Failed to fetch activity availability" });
+        return;
       }
     },
   );

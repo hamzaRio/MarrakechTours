@@ -7,58 +7,84 @@ import { activitySchema, ActivityFormData } from '@shared/schema';
 type ActivityData = ActivityFormData;
 
 // Get all activities
-export const getAllActivities = async (_req: Request, res: Response) => {
+export const getAllActivities = async (
+  _req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     if (!isMongoConnected()) {
-      return res.status(503).json({ 
+      res.status(503).json({ 
         message: 'MongoDB is not connected. Activities cannot be retrieved.' 
       });
+
+      return;
     }
 
     const activities = await Activity.find().sort({ createdAt: -1 });
-    return res.status(200).json(activities);
+    res.status(200).json(activities);
+
+    return;
   } catch (error) {
     console.error('Error getting activities:', error);
-    return res.status(500).json({ 
+    res.status(500).json({ 
       message: 'Failed to retrieve activities',
       error: error instanceof Error ? error.message : 'Unknown error'
     });
+
+    return;
   }
 };
 
 // Get activity by ID
-export const getActivityById = async (req: Request, res: Response) => {
+export const getActivityById = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     if (!isMongoConnected()) {
-      return res.status(503).json({ 
+      res.status(503).json({ 
         message: 'MongoDB is not connected. Activity cannot be retrieved.' 
       });
+
+      return;
     }
 
     const { id } = req.params;
     const activity = await Activity.findById(id);
     
     if (!activity) {
-      return res.status(404).json({ message: 'Activity not found' });
+      res.status(404).json({ message: 'Activity not found' });
+
+      return;
     }
     
-    return res.status(200).json(activity);
+    res.status(200).json(activity);
+
+    
+    return;
   } catch (error) {
     console.error('Error getting activity:', error);
-    return res.status(500).json({ 
+    res.status(500).json({ 
       message: 'Failed to retrieve activity', 
       error: error instanceof Error ? error.message : 'Unknown error'
     });
+
+    return;
   }
 };
 
 // Create new activity
-export const createActivity = async (req: Request, res: Response) => {
+export const createActivity = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     if (!isMongoConnected()) {
-      return res.status(503).json({ 
+      res.status(503).json({ 
         message: 'MongoDB is not connected. Activity cannot be created.' 
       });
+
+      return;
     }
 
     // Validate request body
@@ -73,32 +99,45 @@ export const createActivity = async (req: Request, res: Response) => {
       createdBy
     });
     
-    return res.status(201).json(activity);
+    res.status(201).json(activity);
+
+    
+    return;
   } catch (error) {
     console.error('Error creating activity:', error);
     
     // Handle validation errors
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ 
+      res.status(400).json({ 
         message: 'Validation error', 
         errors: error.errors 
       });
+
+      return;
     }
     
-    return res.status(500).json({ 
+    res.status(500).json({ 
       message: 'Failed to create activity', 
       error: error instanceof Error ? error.message : 'Unknown error'
     });
+
+    
+    return;
   }
 };
 
 // Update activity
-export const updateActivity = async (req: Request, res: Response) => {
+export const updateActivity = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     if (!isMongoConnected()) {
-      return res.status(503).json({ 
+      res.status(503).json({ 
         message: 'MongoDB is not connected. Activity cannot be updated.' 
       });
+
+      return;
     }
 
     const { id } = req.params;
@@ -114,61 +153,88 @@ export const updateActivity = async (req: Request, res: Response) => {
     );
     
     if (!updatedActivity) {
-      return res.status(404).json({ message: 'Activity not found' });
+      res.status(404).json({ message: 'Activity not found' });
+
+      return;
     }
     
-    return res.status(200).json(updatedActivity);
+    res.status(200).json(updatedActivity);
+
+    
+    return;
   } catch (error) {
     console.error('Error updating activity:', error);
     
     // Handle validation errors
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ 
+      res.status(400).json({ 
         message: 'Validation error', 
         errors: error.errors 
       });
+
+      return;
     }
     
-    return res.status(500).json({ 
+    res.status(500).json({ 
       message: 'Failed to update activity', 
       error: error instanceof Error ? error.message : 'Unknown error'
     });
+
+    
+    return;
   }
 };
 
 // Delete activity
-export const deleteActivity = async (req: Request, res: Response) => {
+export const deleteActivity = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     if (!isMongoConnected()) {
-      return res.status(503).json({ 
+      res.status(503).json({ 
         message: 'MongoDB is not connected. Activity cannot be deleted.' 
       });
+
+      return;
     }
 
     const { id } = req.params;
     const deletedActivity = await Activity.findByIdAndDelete(id);
     
     if (!deletedActivity) {
-      return res.status(404).json({ message: 'Activity not found' });
+      res.status(404).json({ message: 'Activity not found' });
+
+      return;
     }
     
-    return res.status(200).json({ message: 'Activity deleted successfully' });
+    res.status(200).json({ message: 'Activity deleted successfully' });
+
+    
+    return;
   } catch (error) {
     console.error('Error deleting activity:', error);
-    return res.status(500).json({ 
+    res.status(500).json({ 
       message: 'Failed to delete activity', 
       error: error instanceof Error ? error.message : 'Unknown error'
     });
+
+    return;
   }
 };
 
 // Get activity analytics (for dashboard)
-export const getActivityAnalytics = async (_req: Request, res: Response) => {
+export const getActivityAnalytics = async (
+  _req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     if (!isMongoConnected()) {
-      return res.status(503).json({ 
+      res.status(503).json({ 
         message: 'MongoDB is not connected. Analytics cannot be retrieved.' 
       });
+
+      return;
     }
 
     // Get total count
@@ -188,16 +254,21 @@ export const getActivityAnalytics = async (_req: Request, res: Response) => {
       .limit(5)
       .select('title price createdAt');
     
-    return res.status(200).json({
+    res.status(200).json({
       totalCount,
       priceRanges,
       recentActivities
     });
+
+    
+    return;
   } catch (error) {
     console.error('Error getting analytics:', error);
-    return res.status(500).json({ 
+    res.status(500).json({ 
       message: 'Failed to retrieve analytics', 
       error: error instanceof Error ? error.message : 'Unknown error'
     });
+
+    return;
   }
 };
