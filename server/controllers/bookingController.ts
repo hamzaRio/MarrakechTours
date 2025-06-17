@@ -17,7 +17,10 @@ const bookingSchema = z.object({
 type BookingData = z.infer<typeof bookingSchema>;
 
 // Controller methods
-export const createBooking = async (req: Request, res: Response) => {
+export const createBooking = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     // Validate the request body
     const validatedData = bookingSchema.parse(req.body);
@@ -31,11 +34,13 @@ export const createBooking = async (req: Request, res: Response) => {
     
     // If there isn't enough capacity, return an error
     if (!capacityCheck.hasCapacity) {
-      return res.status(400).json({ 
+      res.status(400).json({ 
         message: "Not enough capacity for this booking", 
         details: capacityCheck.message,
         remainingSpots: capacityCheck.remainingSpots || 0
       });
+
+      return;
     }
     
     // Create a new booking document
@@ -105,42 +110,61 @@ export const createBooking = async (req: Request, res: Response) => {
     
     // Return the saved booking
     res.status(201).json(savedBooking);
+    return;
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ message: error.errors });
+      res.status(400).json({ message: error.errors });
+
+      return;
     }
     console.error('Error creating booking:', error);
     res.status(500).json({ message: 'Failed to create booking' });
+    return;
   }
 };
 
-export const getAllBookings = async (_req: Request, res: Response) => {
+export const getAllBookings = async (
+  _req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     const bookings = await Booking.find().sort({ createdAt: -1 });
     res.json(bookings);
+    return;
   } catch (error) {
     console.error('Error fetching bookings:', error);
     res.status(500).json({ message: 'Failed to fetch bookings' });
+    return;
   }
 };
 
-export const getBookingById = async (req: Request, res: Response) => {
+export const getBookingById = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     const bookingId = req.params.id;
     const booking = await Booking.findById(bookingId);
     
     if (!booking) {
-      return res.status(404).json({ message: 'Booking not found' });
+      res.status(404).json({ message: 'Booking not found' });
+
+      return;
     }
-    
+
     res.json(booking);
+    return;
   } catch (error) {
     console.error('Error fetching booking:', error);
     res.status(500).json({ message: 'Failed to fetch booking' });
+    return;
   }
 };
 
-export const updateBooking = async (req: Request, res: Response) => {
+export const updateBooking = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     const bookingId = req.params.id;
     const validatedData = bookingSchema.partial().parse(req.body);
@@ -152,30 +176,41 @@ export const updateBooking = async (req: Request, res: Response) => {
     );
     
     if (!updatedBooking) {
-      return res.status(404).json({ message: 'Booking not found' });
+      res.status(404).json({ message: 'Booking not found' });
+
+      return;
     }
-    
+
     res.json(updatedBooking);
+    return;
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ message: error.errors });
+      res.status(400).json({ message: error.errors });
+
+      return;
     }
     console.error('Error updating booking:', error);
     res.status(500).json({ message: 'Failed to update booking' });
+    return;
   }
 };
 
 // Update booking status
-export const updateBookingStatus = async (req: Request, res: Response) => {
+export const updateBookingStatus = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     const bookingId = req.params.id;
     const { status } = req.body;
     
     // Validate status value
     if (!['pending', 'confirmed', 'cancelled'].includes(status)) {
-      return res.status(400).json({ 
-        message: 'Invalid status value. Must be one of: pending, confirmed, cancelled' 
+      res.status(400).json({
+        message: 'Invalid status value. Must be one of: pending, confirmed, cancelled'
       });
+
+      return;
     }
     
     // Update the booking status
@@ -186,7 +221,9 @@ export const updateBookingStatus = async (req: Request, res: Response) => {
     );
     
     if (!updatedBooking) {
-      return res.status(404).json({ message: 'Booking not found' });
+      res.status(404).json({ message: 'Booking not found' });
+
+      return;
     }
     
     // If using in-memory storage as fallback, also update there
@@ -200,29 +237,38 @@ export const updateBookingStatus = async (req: Request, res: Response) => {
       console.warn('Failed to update status in memory storage:', storageError);
     }
     
-    res.json({ 
-      success: true, 
-      message: `Booking status updated to ${status}`, 
-      booking: updatedBooking 
+    res.json({
+      success: true,
+      message: `Booking status updated to ${status}`,
+      booking: updatedBooking
     });
+    return;
   } catch (error) {
     console.error('Error updating booking status:', error);
     res.status(500).json({ message: 'Failed to update booking status' });
+    return;
   }
 };
 
-export const deleteBooking = async (req: Request, res: Response) => {
+export const deleteBooking = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     const bookingId = req.params.id;
     const deletedBooking = await Booking.findByIdAndDelete(bookingId);
     
     if (!deletedBooking) {
-      return res.status(404).json({ message: 'Booking not found' });
+      res.status(404).json({ message: 'Booking not found' });
+
+      return;
     }
-    
+
     res.json({ message: 'Booking deleted successfully' });
+    return;
   } catch (error) {
     console.error('Error deleting booking:', error);
     res.status(500).json({ message: 'Failed to delete booking' });
+    return;
   }
 };

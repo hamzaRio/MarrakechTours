@@ -71,7 +71,11 @@ export interface ActivityWithImageUrl {
   description: string;
   price: number;
   image: string;
+  durationHours?: number;
+  includesFood?: boolean;
+  includesTransportation?: boolean;
   maxGroupSize?: number;
+  priceType?: 'fixed' | 'per_person';
   imageUrl?: string;
 }
 

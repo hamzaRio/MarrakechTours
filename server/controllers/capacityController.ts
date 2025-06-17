@@ -4,22 +4,27 @@ import { checkActivityCapacity, getRemainingCapacity } from '../utils/capacityMa
 /**
  * Get the capacity information for an activity on a specific date
  */
-export const getActivityCapacity = async (req: Request, res: Response) => {
+export const getActivityCapacity = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     const { activityId, date } = req.params;
     
     if (!activityId || !date) {
-      return res.status(400).json({ 
-        message: "Activity ID and date are required" 
+      res.status(400).json({
+        message: "Activity ID and date are required",
       });
+      return;
     }
     
     // Parse the date
     const parsedDate = new Date(date);
     if (isNaN(parsedDate.getTime())) {
-      return res.status(400).json({ 
-        message: "Invalid date format" 
+      res.status(400).json({
+        message: "Invalid date format",
       });
+      return;
     }
     
     // Get capacity information
@@ -32,33 +37,39 @@ export const getActivityCapacity = async (req: Request, res: Response) => {
       remainingSpots: capacityInfo.remainingSpots,
       maxGroupSize: capacityInfo.maxGroupSize
     });
-    
+    return;
   } catch (error) {
     console.error('Error fetching capacity information:', error);
     res.status(500).json({ message: 'Failed to fetch capacity information' });
+    return;
   }
 };
 
 /**
  * Get the capacity information for multiple activities on a specific date
  */
-export const getDateCapacity = async (req: Request, res: Response) => {
+export const getDateCapacity = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     const { date } = req.params;
     const { activityIds } = req.query;
     
     if (!date) {
-      return res.status(400).json({ 
-        message: "Date is required" 
+      res.status(400).json({
+        message: "Date is required",
       });
+      return;
     }
     
     // Parse the date
     const parsedDate = new Date(date);
     if (isNaN(parsedDate.getTime())) {
-      return res.status(400).json({ 
-        message: "Invalid date format" 
+      res.status(400).json({
+        message: "Invalid date format",
       });
+      return;
     }
     
     // Handle getting capacity for specific activities or all activities
@@ -82,9 +93,10 @@ export const getDateCapacity = async (req: Request, res: Response) => {
     const capacityResults = await Promise.all(capacityPromises);
     
     res.json(capacityResults);
-    
+    return;
   } catch (error) {
     console.error('Error fetching capacity information:', error);
     res.status(500).json({ message: 'Failed to fetch capacity information' });
+    return;
   }
 };
