@@ -94,7 +94,7 @@ export class MemStorage implements IStorage {
         price: 1100,
         image: "/attached_assets/montgolfiere-marrakech.jpg",
         featured: true,
-        available: false,
+        available: true,
         maxGroupSize: 8,
       },
       {
