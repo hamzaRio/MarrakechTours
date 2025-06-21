@@ -105,6 +105,12 @@ We will contact you shortly to confirm all details.`;
 /**
  * Send booking notification to all admins via WhatsApp sequentially
  */
+type MessageResult = {
+  success: boolean;
+  error?: any;
+  type?: string;
+};
+
 export async function sendBookingNotification(booking: {
   fullName: string;
   phoneNumber: string;
@@ -112,11 +118,9 @@ export async function sendBookingNotification(booking: {
   preferredDate: string;
   numberOfPeople: number;
   notes?: string;
-}): Promise<{ success: boolean; results: any[] }> {
-  // Track this booking submission in our stats
+}): Promise<{ success: boolean; results: MessageResult[] }> {
   trackBookingSubmission();
-  
-  // Check if Twilio credentials are available
+
   if (!accountSid || !authToken) {
     log('Twilio credentials not found. WhatsApp notifications disabled.', 'twilio');
     log(`Would have sent WhatsApp notification to ${Object.keys(adminPhones).join(', ')} sequentially:`, 'twilio');
@@ -127,88 +131,65 @@ export async function sendBookingNotification(booking: {
   try {
     const client = twilio(accountSid, authToken);
     const messageBody = formatBookingMessage(booking);
-    
     log('Sending WhatsApp notifications to admins sequentially...', 'twilio');
-    
-    const results = [];
+
+    const results: MessageResult[] = [];
     let anySuccess = false;
-    
-    // Define admin names in correct order for sequential sending
+
     const adminNames = ['nadia', 'ahmed', 'yahia'] as const;
-    
-    // Send messages sequentially with 1 second delay between messages
+
     for (const adminName of adminNames) {
       try {
-        // Send message to current admin
         const result = await sendToAdmin(client, adminPhones[adminName], messageBody);
-        
+
         if (result.success) {
-          // Track success in stats
           trackMessageSuccess(adminName);
-          
           log(`✅ WhatsApp sent to ${adminName}: SUCCESS`, 'twilio');
-          console.log(`✅ WhatsApp sent to ${adminName}: SUCCESS`);
-          
           anySuccess = true;
         } else {
-          // Track failure in stats
           trackMessageFailure(adminName);
-          
           log(`❌ WhatsApp sent to ${adminName}: FAILED - ${result.error}`, 'twilio');
-          console.log(`❌ WhatsApp sent to ${adminName}: FAILED - ${result.error}`);
         }
-        
+
         results.push(result);
-        
-        // Add 1 second delay before sending the next message (except for the last one)
+
         if (adminNames.indexOf(adminName) < adminNames.length - 1) {
           log(`Waiting 1 second before sending next message...`, 'twilio');
           await new Promise(resolve => setTimeout(resolve, 1000));
         }
-        
       } catch (error) {
-        // Handle any unexpected errors during individual send
         trackMessageFailure(adminName);
-        
         log(`❌ WhatsApp sent to ${adminName}: FAILED - ${error}`, 'twilio');
-        console.log(`❌ WhatsApp sent to ${adminName}: FAILED - ${error}`);
-        
         results.push({ success: false, error });
       }
     }
-    
-    // Send confirmation message to client if at least one admin message was sent successfully
+
     if (anySuccess) {
       try {
-        // Add a 2-second delay before sending client confirmation
         log(`Waiting 2 seconds before sending client confirmation...`, 'twilio');
         await new Promise(resolve => setTimeout(resolve, 2000));
-        
+
         const clientResult = await sendClientConfirmation(client, booking);
-        
+
         if (clientResult.success) {
           log(`✅ WhatsApp confirmation sent to client: SUCCESS`, 'twilio');
-          console.log(`✅ WhatsApp confirmation sent to client: SUCCESS`);
         } else {
           log(`❌ WhatsApp confirmation to client: FAILED - ${clientResult.error}`, 'twilio');
-          console.log(`❌ WhatsApp confirmation to client: FAILED - ${clientResult.error}`);
         }
-        
-        // Add client result to results array
+
         results.push(clientResult);
       } catch (error) {
         log(`❌ Error sending client confirmation: ${error}`, 'twilio');
-        console.log(`❌ Error sending client confirmation: ${error}`);
         results.push({ success: false, error, type: 'client_confirmation' });
       }
     }
-    
+
     return { success: anySuccess, results };
-    
   } catch (error) {
     log(`Error sending WhatsApp notifications: ${error}`, 'twilio');
-    return { success: false, results: [{ error }] };
+    return { success: false, results: [{ success: false, error }] };
   }
 }
+
 
 export default sendBookingNotification;
