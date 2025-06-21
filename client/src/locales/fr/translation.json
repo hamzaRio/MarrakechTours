@@ -1,0 +1,330 @@
+{
+  "navigation": {
+    "home": "Accueil",
+    "activities": "Activités",
+    "booking": "Réserver",
+    "about": "À Propos",
+    "contact": "Contact"
+  },
+  "header": {
+    "tagline": "Découvrez la Magie du Maroc",
+    "subTagline": "Excursions et activités inoubliables à Marrakech et ses environs"
+  },
+  "booking": {
+    "title": "Réservez Votre Expérience",
+    "name": "Nom Complet",
+    "phone": "Numéro de Téléphone",
+    "activity": "Sélectionnez une Activité",
+    "selectedActivity": "Activité Sélectionnée",
+    "chooseActivity": "Choisissez une activité",
+    "date": "Date Préférée",
+    "people": "Nombre de Personnes",
+    "cashPaymentOnly": "Paiement en espèces uniquement",
+    "notesPlaceholder": "Des exigences particulières ou des questions?",
+    "notes": "Notes Supplémentaires",
+    "submit": "Réserver Maintenant",
+    "confirmation": "Réservation Confirmée !",
+    "received": "Réservation Reçue",
+    "cancelled": "Réservation Annulée",
+    "pending": "Les détails de votre réservation ont été envoyés à notre équipe via WhatsApp. Vous recevrez un message de confirmation sous peu.",
+    "confirmed": "Réservation Confirmée !",
+    "confirmedMessage": "Votre réservation a été confirmée. Nous avons hâte de vous accueillir !",
+    "cancelledMessage": "Cette réservation a été annulée. Si vous avez des questions, veuillez nous contacter.",
+    "fullName": "Nom Complet *",
+    "phoneNumber": "Numéro de Téléphone *",
+    "preferredDate": "Date Préférée *",
+    "numberOfPeople": "Nombre de Personnes *",
+    "additionalNotes": "Notes Supplémentaires",
+    "yourFullName": "Votre nom complet",
+    "anyRequirements": "Exigences spéciales ou questions ?",
+    "selectPeople": "Sélectionnez le nombre de personnes",
+    "person": "personne",
+    "summary": "Résumé de la Réservation",
+    "availabilityFor": "Disponibilité pour le {{date}}",
+    "paymentMethod": "Moyen de Paiement :",
+    "cashOnArrival": "Paiement en Espèces à l'Arrivée",
+    "cashOnly": "Nous acceptons uniquement les paiements en espèces",
+    "totalPrice": "Prix Total :",
+    "perPerson": "par personne",
+    "bookingConfirmed": "Réservation Confirmée !",
+    "confirmBooking": "Confirmer la Réservation",
+    "teamNotified": "Notre équipe a été notifiée et vous contactera bientôt via WhatsApp.",
+    "bookingFailed": "Échec de la Réservation",
+    "tryAgain": "Un problème est survenu lors du traitement de votre réservation. Veuillez réessayer.",
+    "onlyNSpotsLeft": "Seulement {{count}} places restantes pour cette date. Veuillez sélectionner moins de personnes ou choisir une autre date.",
+    "whatsAppConfirmation": "Vous recevrez une confirmation par WhatsApp de la part de notre équipe (Nadia, Ahmed et Yahia)"
+  },
+  "activities": {
+    "featured": "Activités en Vedette",
+    "subtitle": "Explorez nos expériences marocaines les plus populaires",
+    "all": "Toutes les Activités",
+    "price": "Prix",
+    "duration": "Durée",
+    "hours": "heures",
+    "includes": "Comprend",
+    "food": "Repas",
+    "transportation": "Transport",
+    "people": "personnes",
+    "max": "Maximum :",
+    "loadError": "Impossible de Charger les Activités",
+    "tryAgain": "Nous avons du mal à charger nos activités. Veuillez rafraîchir la page ou réessayer plus tard.",
+    "checkingAvailability": "Vérification de la disponibilité...",
+    "spotsAvailable": "Places disponibles",
+    "fullyBooked": "Complet",
+    "spotAvailable": "place disponible",
+    "spotsAvailableCount": "{{count}} places disponibles",
+    "spotLeft": "Seulement {{count}} place restante !",
+    "spotsLeft": "Seulement {{count}} places restantes !",
+    "full": "Complet",
+    "capacity": {
+      "available": "Disponible",
+      "limited": "Places Limitées",
+      "unavailable": "Complet",
+      "spotsLeft": "{{count}} restantes"
+    },
+    "bookNow": "Réserver",
+    "bookThisTour": "Réserver cette Excursion",
+    "details": "Voir les Détails"
+  },
+  "footer": {
+    "rights": "Tous droits réservés",
+    "address": "123 Jardins Majorelle, Marrakech, Maroc",
+    "contact": "Contactez-nous",
+    "quickLinks": "Liens Rapides",
+    "photoGallery": "Galerie Photos"
+  },
+  "admin": {
+    "login": "Connexion Admin",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "loginButton": "Se Connecter",
+    "enterUsername": "Entrez votre nom d'utilisateur",
+    "enterPassword": "Entrez votre mot de passe",
+    "dashboard": "Tableau de Bord",
+    "activities": "Activités",
+    "bookings": "Réservations",
+    "logout": "Déconnexion",
+    "backToSite": "Retour au Site",
+    "bookingManagement": "Gestion des Réservations",
+    "activityManagement": "Gestion des Activités",
+    "exportCSV": "Exporter en CSV",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "all": "Tous",
+    "analytics": "Analytiques",
+    "status": {
+      "pending": "En Attente",
+      "confirmed": "Confirmée",
+      "cancelled": "Annulée"
+    },
+    "changeStatus": "Changer le statut",
+    "lastLogin": "Dernière connexion"
+  },
+  "language": {
+    "english": "Anglais",
+    "french": "Français",
+    "arabic": "Arabe",
+    "languages": "Langues",
+    "switchLanguage": "Changer de Langue"
+  },
+  "hero": {
+    "title": "Découvrez la Magie du Maroc",
+    "subtitle": "Expériences authentiques du désert et circuits au départ de Marrakech à des prix abordables",
+    "bookButton": "Réservez Votre Aventure"
+  },
+  "errors": {
+    "required": "Ce champ est requis",
+    "invalidPhone": "Numéro de téléphone invalide",
+    "tooLong": "Ce texte est trop long",
+    "invalidNumber": "Veuillez entrer un nombre valide",
+    "invalidDate": "Veuillez sélectionner une date valide",
+    "capacityError": "Seulement {{count}} places restantes pour cette date. Veuillez sélectionner moins de personnes ou choisir une autre date."
+  },
+  "dates": {
+    "today": "Aujourd'hui",
+    "tomorrow": "Demain",
+    "selectDate": "Sélectionner une date",
+    "month": {
+      "january": "Janvier",
+      "february": "Février",
+      "march": "Mars",
+      "april": "Avril",
+      "may": "Mai",
+      "june": "Juin",
+      "july": "Juillet",
+      "august": "Août",
+      "september": "Septembre",
+      "october": "Octobre",
+      "november": "Novembre",
+      "december": "Décembre"
+    },
+    "day": {
+      "monday": "Lundi",
+      "tuesday": "Mardi",
+      "wednesday": "Mercredi",
+      "thursday": "Jeudi",
+      "friday": "Vendredi",
+      "saturday": "Samedi",
+      "sunday": "Dimanche"
+    }
+  },
+  "activities": {
+    "title": "Nos Activités",
+    "subtitle": "Découvrez nos excursions populaires",
+    "viewDetails": "Voir les Détails",
+    "bookNow": "Réserver Maintenant",
+    "price": "Prix",
+    "perPerson": "par personne",
+    "duration": "Durée",
+    "hours": "heures",
+    "days": "jours",
+    "includes": "Inclus",
+    "food": "Repas",
+    "transportation": "Transport",
+    "maxGroupSize": "Taille maximale du groupe",
+    "people": "personnes",
+    "description": "Description",
+    "details": "Détails",
+    "availability": "Disponibilité",
+    "seeAll": "Voir toutes les activités",
+    "featured": "Activités en Vedette",
+    "bookThisTour": "Réserver Cette Excursion",
+    "notFound": "Activité Non Trouvée",
+    "notFoundMessage": "L'activité que vous recherchez n'existe pas ou a été supprimée.",
+    "whatsIncluded": "Ce qui est inclus",
+    "fullDayTour": "Excursion d'une journée",
+    "smallGroups": "Petits groupes",
+    "max": "max",
+    "availableDaily": "Disponible tous les jours",
+    "pickupIncluded": "Prise en charge incluse",
+    "person": "personne",
+    "availabilityForToday": "Disponibilité pour aujourd'hui",
+    "agafay": {
+      "included": {
+        "tour": "Visite guidée professionnelle du désert d'Agafay",
+        "tea": "Thé à la menthe marocain traditionnel avec une famille berbère locale",
+        "camelRide": "Balade à dos de chameau à travers le magnifique désert de pierre",
+        "quadBiking": "Expérience optionnelle de quad (frais supplémentaires)",
+        "dinner": "Dîner berbère authentique sous les étoiles",
+        "transport": "Prise en charge et retour à l'hôtel en véhicule climatisé",
+        "water": "Eau en bouteille tout au long de la visite"
+      }
+    },
+    "essaouira": {
+      "included": {
+        "tour": "Excursion guidée d'une journée complète à Essaouira",
+        "medina": "Exploration du port historique et de la médina classée au patrimoine mondial de l'UNESCO",
+        "market": "Visite du marché aux poissons animé et de la Skala du Port",
+        "freeTime": "Temps libre pour flâner dans les charmantes rues bleues et blanches",
+        "lunch": "Déjeuner optionnel de fruits de mer dans un restaurant local (frais supplémentaires)",
+        "transport": "Prise en charge et retour à l'hôtel en véhicule climatisé",
+        "guide": "Guide professionnel et eau en bouteille tout au long de la visite"
+      }
+    },
+    "balloon": {
+      "included": {
+        "flight": "Vol en montgolfière au lever du soleil au-dessus de Marrakech",
+        "views": "Vues aériennes spectaculaires des montagnes de l'Atlas et du paysage désertique",
+        "breakfast": "Petit-déjeuner berbère traditionnel après l'atterrissage",
+        "certificate": "Certificat de vol commémoratif",
+        "transport": "Transport aller-retour depuis votre hôtel à Marrakech",
+        "pilot": "Pilote professionnel expérimenté et équipe au sol",
+        "safety": "Briefing de sécurité et équipement"
+      }
+    },
+    "ouzoud": {
+      "included": {
+        "tour": "Excursion guidée d'une journée complète aux magnifiques cascades d'Ouzoud",
+        "monkeys": "Possibilité d'observer des macaques de Barbarie sauvages",
+        "boat": "Promenade en bateau à la base des cascades (optionnel, frais supplémentaires)",
+        "hiking": "Expérience de randonnée panoramique avec des points de vue à couper le souffle",
+        "lunch": "Option de déjeuner traditionnel berbère dans un restaurant local (frais supplémentaires)",
+        "transport": "Prise en charge et retour à l'hôtel en véhicule climatisé",
+        "guide": "Guide professionnel et eau en bouteille tout au long de la visite"
+      }
+    },
+    "ourika": {
+      "included": {
+        "tour": "Excursion guidée d'une journée complète dans la magnifique vallée de l'Ourika",
+        "villages": "Visite des villages berbères traditionnels avec artisanat local et aperçus culturels",
+        "walk": "Promenade guidée vers des ruisseaux de montagne rafraîchissants et de petites cascades",
+        "home": "Opportunité de visiter une maison berbère traditionnelle et d'en apprendre sur la vie locale",
+        "garden": "Visite optionnelle d'un jardin aromatique avec herbes et épices (saisonnier)",
+        "transport": "Prise en charge et retour à l'hôtel en véhicule climatisé",
+        "guide": "Guide professionnel et eau en bouteille tout au long de la visite"
+      }
+    },
+    "1": {
+      "title": "Montgolfière (Vol en Ballon)",
+      "description": "Vivez des vues à couper le souffle de Marrakech et des montagnes de l'Atlas depuis une montgolfière au lever du soleil. Flottez paisiblement au-dessus du magnifique paysage marocain alors que le soleil commence à illuminer le désert et les montagnes."
+    },
+    "2": {
+      "title": "Combo Agafay",
+      "description": "Découvrez le désert de pierre d'Agafay avec des balades à dos de chameau, du quad et un authentique dîner berbère sous les étoiles. Découvrez le mode de vie du désert marocain et profitez de vues à couper le souffle sur les montagnes de l'Atlas."
+    },
+    "3": {
+      "title": "Excursion d'une Journée à Essaouira",
+      "description": "Visitez la charmante ville côtière d'Essaouira avec ses bâtiments bord de mer peints en bleu, sa médina historique et ses belles plages. Découvrez l'atmosphère unique de ce site classé au patrimoine mondial de l'UNESCO."
+    },
+    "4": {
+      "title": "Excursion d'une Journée aux Cascades d'Ouzoud",
+      "description": "Explorez les magnifiques cascades d'Ouzoud, l'une des merveilles naturelles les plus spectaculaires du Maroc avec des chutes d'eau en cascade et des paysages verdoyants. Repérez les macaques de Barbarie sauvages et profitez de points de vue à couper le souffle tout au long de cette excursion panoramique d'une journée."
+    },
+    "5": {
+      "title": "Excursion d'une Journée à la Vallée de l'Ourika",
+      "description": "Voyagez à la belle vallée de l'Ourika avec ses ruisseaux cristallins, les montagnes de l'Atlas enneigées et les villages berbères authentiques. Découvrez la culture locale, profitez de vues panoramiques et connectez-vous avec la nature dans ce paradis verdoyant."
+    }
+  },
+  "about": {
+    "title": "À Propos de Nous",
+    "subtitle": "Votre partenaire de confiance pour découvrir le Maroc",
+    "description": "MarrakechDeserts est une agence locale spécialisée dans les expériences authentiques au Maroc. Notre équipe passionnée est composée de guides locaux experts qui partagent la beauté, la culture et l'hospitalité marocaines avec des voyageurs du monde entier.",
+    "ourValues": "Nos Valeurs",
+    "authenticity": "Authenticité",
+    "authenticityText": "Nous proposons des expériences authentiques qui mettent en valeur la véritable essence du Maroc.",
+    "sustainability": "Durabilité",
+    "sustainabilityText": "Nous nous engageons à protéger les communautés locales et l'environnement dans toutes nos activités.",
+    "excellence": "Excellence",
+    "excellenceText": "Nous nous efforçons de fournir un service de la plus haute qualité à tous nos clients.",
+    "ourTeam": "Notre Équipe",
+    "teamMember1": "Ahmed - Guide en Chef",
+    "teamMember1Bio": "Expert en histoire et culture marocaines avec plus de 10 ans d'expérience.",
+    "teamMember2": "Nadia - Directrice des Opérations",
+    "teamMember2Bio": "Organisatrice exceptionnelle assurant que chaque voyage se déroule parfaitement.",
+    "teamMember3": "Yahia - Spécialiste des Aventures",
+    "teamMember3Bio": "Passionné de plein air et expert en activités d'aventure dans le désert et les montagnes."
+  },
+  "photos": {
+    "title": "Galerie de Photos",
+    "subtitle": "Explorez la beauté du Maroc à travers notre collection de photos",
+    "backToHome": "Retour à l'Accueil"
+  },
+  "contact": {
+    "title": "Contactez-Nous",
+    "subtitle": "Nous sommes là pour répondre à toutes vos questions",
+    "name": "Votre Nom",
+    "email": "Votre Email",
+    "message": "Votre Message",
+    "send": "Envoyer",
+    "address": "Adresse",
+    "phone": "Téléphone",
+    "email": "Email",
+    "addressDetails": "123 Rue Principale, Marrakech, Maroc",
+    "callUs": "Appelez-nous",
+    "emailUs": "Envoyez-nous un email",
+    "formSuccess": "Message envoyé avec succès !",
+    "formError": "Une erreur s'est produite. Veuillez réessayer."
+  },
+  "capacity": {
+    "available": "{{count}} places disponibles",
+    "available_plural": "{{count}} places disponibles",
+    "limited": "Seulement {{count}} place restante !",
+    "limited_plural": "Seulement {{count}} places restantes !",
+    "full": "Complet",
+    "spaces": "places",
+    "left": "restantes"
+  },
+  "booking": {
+    "notesPlaceholder": "Questions spéciales ou besoins particuliers"
+  }
+}
