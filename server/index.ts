@@ -14,7 +14,7 @@ process.on('unhandledRejection', (err) => {
 process.on('uncaughtException', (err) => {
   log(`Uncaught Exception: ${(err as Error).message}`, 'server');
 });
-
+import express from 'express';
 (async () => {
   const app = await createApp();
   const server = createServer(app);
@@ -22,7 +22,7 @@ process.on('uncaughtException', (err) => {
   if (process.env.NODE_ENV !== 'production') {
     console.log('Running in development mode');
   } else {
-    import express from 'express';
+    
     app.use(express.static('client/dist'));
   }
 
